@@ -1,12 +1,21 @@
-import { Button } from "@workspace/ui/components/button"
+import React from "react";
+import { Navbar } from "@workspace/ui/blocks/layout/navbar";
+import ModeSwitcherBtn from "@/src/components/buttons/mode-switcher-btn";
+import DashboardButton from "@/src/components/buttons/dashboard-btn";
 
+//snp rfc
 export default function Page() {
   return (
-    <div className="flex items-center justify-center min-h-svh">
-      <div className="flex flex-col items-center justify-center gap-4">
-        <h1 className="text-2xl font-bold">Hello World</h1>
-        <Button size="sm">Button</Button>
-      </div>
+    <div>
+      <Navbar
+        end={
+          <>
+            <DashboardButton user={{}} isLoading={false} />{" "}
+            <ModeSwitcherBtn />{" "}
+          </>
+        }
+      />
+      Hello
     </div>
-  )
+  );
 }
