@@ -1,3 +1,5 @@
+"use client";
+import { useCommonTranslations } from "@/messages/common";
 import React from "react";
 
 export default function Page({
@@ -5,7 +7,8 @@ export default function Page({
 }: {
   params: Promise<{ workspaceId: string }>;
 }) {
+  const { statusTranslations } = useCommonTranslations();
   const { workspaceId } = React.use(params);
   //here I will fetch organization by id
-  return <div>{workspaceId}</div>;
+  return <div>{statusTranslations("success")}</div>;
 }

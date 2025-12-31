@@ -1,0 +1,55 @@
+{
+  "common": {
+    "msgs": {
+      "added": "The {thing} has been added successfully",
+      "updated": "The {thing} has been updated successfully",
+      "removed": "The {thing} has been removed successfully",
+      "saved": "The {thing} has been saved successfully",
+      "deleted": "The {thing} has been deleted successfully",
+      "sent": "The {thing} has been sent successfully"
+    },
+    "alertMsgs": {
+      "unknownError": "An unknown error occurred. Please try again later."
+    },
+    "actions": {
+      "save": "Save",
+      "add": "Add",
+      "update": "Update",
+      "send": "Send",
+      "delete": "Delete",
+      "confirm": "Confirm",
+      "cancel": "Cancel",
+      "edit": "Edit",
+      "search": "Search",
+      "submit": "Submit",
+      "reset": "Reset"
+    },
+    "entities": {
+      "role": "Role",
+      "item": "Item",
+      "invoice": "Invoice",
+      "user": "User",
+      "product": "Product",
+      "category": "Category"
+    },
+    "placeholders": {
+      "loading": "Loading...",
+      "search": "Search...",
+      "select": "Select...",
+      "typeHere": "Type here..."
+    },
+    "status": {
+      "success": "Success",
+      "error": "Error",
+      "warning": "Warning",
+      "info": "Information",
+      "loading": "Loading"
+    },
+    "validation": {
+      "required": "This field is required",
+      "invalidEmail": "Please enter a valid email address",
+      "minLength": "Must be at least {{min}} characters",
+      "maxLength": "Must be less than {{max}} characters"
+    }
+  }
+}
