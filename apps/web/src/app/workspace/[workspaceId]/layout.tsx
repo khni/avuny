@@ -8,7 +8,7 @@ import { getLocale } from "next-intl/server";
 import {
   userPreferencesContext,
   useUserPreferencesContext,
-} from "@/src/providers/UserPreferences";
+} from "@workspace/ui/providers/UserPreferencesContext";
 import LangaugeSwitcherBtn from "@/src/components/buttons/langauge-switcher-btn";
 export default function WorkSpaceLayout({
   children,

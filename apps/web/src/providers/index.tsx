@@ -9,7 +9,7 @@ import { CookiesProvider } from "react-cookie";
 import { useState } from "react";
 import { Direction } from "radix-ui";
 import { Toaster } from "@workspace/ui/components/sonner";
-import UserPreferencesContextProvider from "@/src/providers/UserPreferences";
+import UserPreferencesContextProvider from "@workspace/ui/providers/UserPreferencesContext";
 
 export function Providers({
   children,

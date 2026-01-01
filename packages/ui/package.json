@@ -72,6 +72,7 @@
     "./lib/*": "./src/lib/*.ts",
     "./components/*": "./src/components/*.tsx",
     "./hooks/*": "./src/hooks/*.ts",
-    "./blocks/*": "./src/blocks/*.ts"
+    "./blocks/*": "./src/blocks/*.ts",
+    "./providers/*": "./src/providers/*.ts"
   }
 }

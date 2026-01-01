@@ -18,7 +18,6 @@ import {
 } from "@workspace/ui/components/dropdown-menu";
 import { DropdownMenuShortcut } from "@workspace/ui/components/dropdown-menu";
 
-import { se } from "date-fns/locale";
 import { renderLogo } from "@workspace/ui/blocks/layout/render-logo";
 
 // Reusable & Context-Agnostic Switcher

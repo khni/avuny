@@ -1,7 +1,6 @@
 "use client";
 
 import { ChevronsUpDown, UserIcon } from "lucide-react";
-import React from "react";
 
 import {
   SidebarMenu,
@@ -20,11 +19,11 @@ import {
   UserDropdownMenuProps,
 } from "@workspace/ui/blocks/layout/user-dropdown";
 
-type MenuSection = {
-  enabled?: boolean;
-  label?: string;
-  onClick?: () => void;
-};
+// type MenuSection = {
+//   enabled?: boolean;
+//   label?: string;
+//   onClick?: () => void;
+// };
 
 type NavUserProps = {
   iconOnly?: boolean;

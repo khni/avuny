@@ -1,6 +1,6 @@
 "use client";
 
-import { useUserPreferencesContext } from "@/src/providers/UserPreferences";
+import { useUserPreferencesContext } from "@workspace/ui/providers/UserPreferencesContext";
 import LanguageSwitcher from "@workspace/ui/blocks/settings/langauge-switcher";
 
 export default function LangaugeSwitcherBtn() {

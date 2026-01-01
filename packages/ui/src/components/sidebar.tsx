@@ -630,7 +630,7 @@ function SidebarMenuSkeleton({
         style={
           {
             "--skeleton-width": width,
-          } as any
+          } as Record<`--${string}`, string>
         }
       />
     </div>

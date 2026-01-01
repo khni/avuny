@@ -12,7 +12,7 @@ export interface UserPreferencesContext {
 export const userPreferencesContext = createContext<UserPreferencesContext>({
   locale: "en",
   rtl: false,
-  updateLocale: (locale: Locale) => {},
+  updateLocale: () => {},
 });
 
 export default function UserPreferencesContextProvider({
