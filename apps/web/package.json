@@ -30,6 +30,7 @@
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "@workspace/eslint-config": "workspace:^",
+    "@avuny/db": "workspace:^",
     "@workspace/typescript-config": "workspace:*",
     "eslint": "^9.39.1",
     "typescript": "^5.9.3"

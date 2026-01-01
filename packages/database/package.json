@@ -1,0 +1,32 @@
+{
+  "name": "@avuny/db",
+  "version": "0.0.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./types": "./src/types.ts"
+  },
+  "scripts": {
+    "db:migrate": "prisma migrate dev --skip-generate",
+    "db:generate": "prisma generate",
+    "db:deploy": "prisma migrate deploy",
+    "build": "pnpm db:generate && tsc -p tsconfig.build.json"
+  },
+  "dependencies": {
+    "@prisma/adapter-neon": "^6.19.0",
+    "@prisma/adapter-pg": "^6.19.0",
+    "@prisma/client": "^6.19.0",
+    "@prisma/extension-accelerate": "^2.0.2",
+    "dotenv": "^17.2.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.9",
+    "prisma": "^6.19.0",
+    "typescript": "^5.6.3"
+  }
+}
