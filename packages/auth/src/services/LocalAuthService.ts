@@ -1,7 +1,9 @@
 import { User } from "@avuny/db/types";
-
+import bcrypt from "bcryptjs"
 interface IUserRepository<User> {
   findByIdentifier(identifier: string): Promise<User | null>;
+    create(identifier: string): Promise<User | null>;
+  
 }
 export class LocalAuthService {
   constructor(private userRepository: IUserRepository<User>) {}
@@ -17,5 +19,8 @@ export class LocalAuthService {
         cause: identifier,
       });
     }
+    const hashedPassword = await bcrypt.hash(password,8)
+
+    const user = 
   };
 }
