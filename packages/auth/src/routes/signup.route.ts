@@ -6,7 +6,7 @@ import {
   authResponseTypeSchema,
   localRegisterInputSchema,
 } from "../schemas.js";
-import { authService } from "../services/index.js";
+import { authService } from "../repositories/index.js";
 import { refreshTokenCookieOpts } from "../constants.js";
 export const signupRoute = new OpenAPIHono();
 const successStatus = 201;

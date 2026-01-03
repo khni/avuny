@@ -3,7 +3,7 @@ import { errorMapper } from "@khni/error-handler";
 import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
 import { setCookie } from "hono/cookie";
 import { authResponseTypeSchema, localLoginInputSchema } from "../schemas.js";
-import { authService } from "../services/index.js";
+import { authService } from "../repositories/index.js";
 import { refreshTokenCookieOpts } from "../constants.js";
 export const loginRoute = new OpenAPIHono();
 const route = createRoute({
