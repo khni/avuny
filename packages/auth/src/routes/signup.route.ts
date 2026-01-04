@@ -4,12 +4,21 @@ import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
 import { setCookie } from "hono/cookie";
 import {
   authResponseTypeSchema,
-  localRegisterInputSchema,
+  LocalRegisterInputSchema,
+  LocalRegisterWithTransformInputSchema,
 } from "../schemas.js";
-import { authService } from "../repositories/index.js";
+
 import { refreshTokenCookieOpts } from "../constants.js";
+import { mapErrorsToResponses, resultToHttp } from "../lib/errors.js";
+import { authSignUpErrorMapping } from "../domain/errorsMap.js";
+import { signUp } from "../services/UserService.js";
+import { createErrorResponseSchema } from "../lib/hono/error-schema.js";
+import { AuthSignUpDomainErrorCodes } from "../domain/errors.js";
+import { json } from "zod";
+import { handleResult } from "../lib/hono/handleResult.js";
 export const signupRoute = new OpenAPIHono();
 const successStatus = 201;
+const signUpErrorResponses = mapErrorsToResponses(authSignUpErrorMapping);
 const route = createRoute({
   method: "post",
   path: "/sign-up",
@@ -18,7 +27,7 @@ const route = createRoute({
     body: {
       content: {
         "application/json": {
-          schema: localRegisterInputSchema,
+          schema: LocalRegisterInputSchema,
         },
       },
     },
@@ -32,8 +41,15 @@ const route = createRoute({
         },
       },
     },
-    401: {
-      description: "Invalid credentials",
+    [authSignUpErrorMapping.AUTH_SIGN_UP_USER_EXIST.statusCode]: {
+      description: "User is exist with same identifier",
+      content: {
+        "application/json": {
+          schema: createErrorResponseSchema([
+            AuthSignUpDomainErrorCodes.AUTH_SIGN_UP_USER_EXIST,
+          ]),
+        },
+      },
     },
   },
 });
@@ -41,21 +57,15 @@ const route = createRoute({
 signupRoute.openapi(route, async (c) => {
   const body = c.req.valid("json");
 
-  try {
-    const result: z.infer<typeof authResponseTypeSchema> =
-      await authService.register({ data: body });
+  const bodyWithIndentifierType =
+    LocalRegisterWithTransformInputSchema.parse(body);
 
-    // Extract cookie settings
-    const { cookieName, ...rest } = refreshTokenCookieOpts;
-
-    // Set refresh token cookie
-    setCookie(c, cookieName, result.tokens.refreshToken, rest);
-
-    return c.json(result, successStatus);
-  } catch (error) {
-    if (error instanceof AuthError) {
-      throw errorMapper(error, authErrorMapping);
-    }
-    throw error;
-  }
+  const result = await signUp(bodyWithIndentifierType);
+  const http = resultToHttp(result, authSignUpErrorMapping);
+  return handleResult(c, result);
+  // if (result.success) {
+  //   return c.json(result.data, 201);
+  // } else {
+  //   return c.json({ code: result.error, message: "", success: false }, 409);
+  // }
 });

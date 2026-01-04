@@ -1,16 +1,45 @@
 import { z } from "@hono/zod-openapi";
+import { ZodTypeAny } from "zod";
+
+export const IdentifierWithTransformSchema = z.union([
+  z.e164().transform((val) => ({ type: "phone" as const, value: val })),
+  z.email().transform((val) => ({ type: "email" as const, value: val })),
+]);
+export const IdentifierStringSchema = z.union([z.e164(), z.email()]);
 
 // ─────────────────────────────────────────────
 // localRegisterInputSchema
 // ─────────────────────────────────────────────
-export const localRegisterInputSchema = z
-  .object({
-    email: z.string().openapi({ example: "john@example.com" }),
-    password: z.string().openapi({ example: "P@ssw0rd" }),
-    name: z.string().openapi({ example: "John Doe" }),
-  })
-  .openapi("LocalRegisterInput");
 
+export const createLocalRegisterInputSchema = <TIdentifier extends ZodTypeAny>(
+  identifierSchema: TIdentifier
+) =>
+  z
+    .object({
+      identifier: identifierSchema,
+      password: z.string().openapi({ example: "P@ssw0rd" }),
+      name: z.string().openapi({ example: "John Doe" }),
+    })
+    .openapi("LocalRegisterInput");
+
+export const LocalRegisterWithTransformInputSchema =
+  createLocalRegisterInputSchema(IdentifierWithTransformSchema);
+export const LocalRegisterInputSchema = createLocalRegisterInputSchema(
+  IdentifierStringSchema
+);
+// --- Generated Types ---
+
+/**
+ * Type for LocalRegister with transformed identifiers
+ */
+export type LocalRegisterWithTransformInput = z.infer<
+  typeof LocalRegisterWithTransformInputSchema
+>;
+
+/**
+ * Type for standard LocalRegister with string identifiers
+ */
+export type LocalRegisterInput = z.infer<typeof LocalRegisterInputSchema>;
 // ─────────────────────────────────────────────
 // otpSignUpInputSchema
 // ─────────────────────────────────────────────
@@ -108,9 +137,6 @@ export const userResponseTypeSchema = z
     id: z.string().openapi({ example: "user_123" }),
     name: z.string().openapi({ example: "John Doe" }),
     identifier: z.string().openapi({ example: "john@example.com" }),
-    identifierType: z
-      .union([z.literal("email"), z.literal("phone")])
-      .openapi({ example: "email" }),
   })
   .openapi("UserResponse");
 

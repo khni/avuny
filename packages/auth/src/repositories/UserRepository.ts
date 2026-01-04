@@ -6,13 +6,14 @@ import { OauthProvider, User } from "@avuny/db/types";
 import { FindUserWhere, UserCreateInput } from "../lib/interfaces/types.js";
 
 export class UserRepository implements IUserRepository<User> {
+  constructor(private identifierType: "email" = "email") {}
   async findUnique({ where }: { where: FindUserWhere }): Promise<User | null> {
     if ("id" in where) {
       return prisma.user.findUnique({
         where: { id: where.id },
       });
     }
-    if ("identifier" in where) {
+    if ("identifier" in where && this.identifierType === "email") {
       return prisma.user.findUnique({
         where: { email: where.identifier },
       });
@@ -24,7 +25,7 @@ export class UserRepository implements IUserRepository<User> {
       data: {
         email: data.identifier,
         name: data.name,
-        password: data.password,
+        hashedPassword: data.password,
       },
     });
   }

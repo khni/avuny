@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
-import { Result } from "../result.js";
+import { ok, Result } from "../result.js";
 import crypto from "crypto";
-import { AuthDomainErrorCodesType } from "../../domain/error.js";
+import { AuthDomainErrorCodesType } from "../../domain/errors.js";
 import {
   BaseRefreshToken,
   CreateTokensInput,
@@ -16,11 +16,7 @@ export class TokensService<RefreshToken extends BaseRefreshToken> {
     private accessTokenExpiresIn: ValidTimeString
   ) {}
 
-  issue = async ({
-    userId,
-  }: CreateTokensInput): Promise<
-    Result<{ accessToken: string; refreshToken: string }>
-  > => {
+  issue = async ({ userId }: { userId: string }) => {
     const refreshToken = await this.refreshTokenRepository.create({
       expiresAt: generateExpiredDate(this.refreshTokenExpiresIn),
       userId,
@@ -29,25 +25,23 @@ export class TokensService<RefreshToken extends BaseRefreshToken> {
     });
 
     const accessToken = jwt.sign(
-      { userId, tokenype: "access" },
+      { userId, tokenType: "access" },
       this.accessTokenSecret,
       { expiresIn: this.accessTokenExpiresIn }
     );
-    return {
-      success: true,
-      data: { accessToken, refreshToken: refreshToken.token },
-    };
+
+    return ok({
+      accessToken,
+      refreshToken: refreshToken.token,
+    });
   };
 
-  //not implemented yet
+  // not implemented yet
   private verifyRefreshToken = async ({
     token,
   }: {
     token: string;
   }): Promise<Result<{ refreshToken: string }, AuthDomainErrorCodesType>> => {
-    return {
-      success: true,
-      data: { refreshToken: "" },
-    };
+    return ok({ refreshToken: "" });
   };
 }

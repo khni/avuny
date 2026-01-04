@@ -2,9 +2,17 @@ import { AuthError, authErrorMapping } from "@khni/auth-errors";
 import { errorMapper } from "@khni/error-handler";
 import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
 import { setCookie } from "hono/cookie";
-import { authResponseTypeSchema, localLoginInputSchema } from "../schemas.js";
-import { authService } from "../repositories/index.js";
+import {
+  authResponseTypeSchema,
+  localLoginInputSchema,
+  LocalRegisterInputSchema,
+  LocalRegisterWithTransformInputSchema,
+} from "../schemas.js";
+
 import { refreshTokenCookieOpts } from "../constants.js";
+import { signUp } from "../services/UserService.js";
+import { resultToHttp } from "../lib/errors.js";
+import { authLoginErrorMapping } from "../domain/errorsMap.js";
 export const loginRoute = new OpenAPIHono();
 const route = createRoute({
   method: "post",
@@ -14,7 +22,7 @@ const route = createRoute({
     body: {
       content: {
         "application/json": {
-          schema: localLoginInputSchema,
+          schema: LocalRegisterInputSchema,
         },
       },
     },
@@ -36,10 +44,14 @@ const route = createRoute({
 
 loginRoute.openapi(route, async (c) => {
   const body = c.req.valid("json");
+  const bodyWithIndentifierType =
+    LocalRegisterWithTransformInputSchema.parse(body);
 
   try {
-    const result: z.infer<typeof authResponseTypeSchema> =
-      await authService.login(body);
+    const result = await signUp(bodyWithIndentifierType);
+    const http = resultToHttp(result, authLoginErrorMapping);
+
+    return c.json(http.body, http.status);
 
     // Extract cookie settings
     const { cookieName, ...rest } = refreshTokenCookieOpts;
