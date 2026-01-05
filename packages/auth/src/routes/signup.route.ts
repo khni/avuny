@@ -9,12 +9,13 @@ import {
 import { handleResult } from "../lib/errors.js";
 import { authSignUpErrorMapping } from "../lib/auth/errors/errorsMap.js";
 import { signUp } from "../services/UserService.js";
-import { createErrorResponseSchema } from "../lib/hono/error-schema.js";
+import { createDomainErrorResponseSchema } from "../lib/hono/error-schema.js";
 import { AuthSignUpDomainErrorCodes } from "../lib/auth/errors/errors.js";
 
 import { createResponseSchema } from "../lib/hono/createResponseSchema.js";
 import { refreshTokenCookieOpts } from "../constants.js";
 import { setCookie } from "hono/cookie";
+import { globalErrorResponses } from "../lib/hono/ServerError.js";
 
 export const signupRoute = new OpenAPIHono();
 const successStatus = 201;
@@ -46,12 +47,13 @@ const route = createRoute({
       description: "User is exist with same identifier",
       content: {
         "application/json": {
-          schema: createErrorResponseSchema([
+          schema: createDomainErrorResponseSchema([
             AuthSignUpDomainErrorCodes.AUTH_SIGN_UP_USER_EXIST,
           ]),
         },
       },
     },
+    ...globalErrorResponses,
   },
 });
 

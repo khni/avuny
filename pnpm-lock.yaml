@@ -129,6 +129,9 @@ importers:
       react-dom:
         specifier: ^19.2.1
         version: 19.2.1(react@19.2.1)
+      react-hook-form:
+        specifier: ^7.69.0
+        version: 7.69.0(react@19.2.1)
       zod:
         specifier: ^3.25.76
         version: 3.25.76
@@ -16962,6 +16965,10 @@ snapshots:
   react-hook-form@7.69.0(react@19.1.1):
     dependencies:
       react: 19.1.1
+
+  react-hook-form@7.69.0(react@19.2.1):
+    dependencies:
+      react: 19.2.1
 
   react-is@16.13.1: {}
 

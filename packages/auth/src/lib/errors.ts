@@ -49,6 +49,7 @@ export function resultToErrorResponse<E extends string, S extends number>(
       success: false as const,
       code: error,
       message: meta.responseMessage,
+      type: "domain",
     },
   };
 }

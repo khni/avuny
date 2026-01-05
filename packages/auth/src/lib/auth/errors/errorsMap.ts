@@ -1,6 +1,6 @@
 import { ErrorMeta } from "../../errors.js";
 import {
-  createErrorResponseSchema,
+  createDomainErrorResponseSchema,
   ErrorResponseSchema,
 } from "../../hono/error-schema.js";
 import {
@@ -32,7 +32,7 @@ export const authSignUpErrorMapping = {
 export const authSignUpErrorsMap = {
   [409]: {
     code: AuthSignUpDomainErrorCodes.AUTH_SIGN_UP_USER_EXIST,
-    schema: createErrorResponseSchema([
+    schema: createDomainErrorResponseSchema([
       AuthSignUpDomainErrorCodes.AUTH_SIGN_UP_USER_EXIST,
     ]),
   },
@@ -43,7 +43,7 @@ export const createAuthSignUpErrorsMap = Object.fromEntries(
     meta.statusCode,
     {
       code,
-      schema: createErrorResponseSchema([code]),
+      schema: createDomainErrorResponseSchema([code]),
     },
   ])
 );

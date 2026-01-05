@@ -9,8 +9,9 @@ export const ErrorResponseSchema = z.object({
   message: z.string(),
 });
 
-export const createErrorResponseSchema = (errorCodes: string[]) => {
+export const createDomainErrorResponseSchema = (errorCodes: string[]) => {
   return z.object({
+    type: z.string("domain"),
     success: z.literal(false),
     code: z.enum(errorCodes),
     message: z.string(),

@@ -5,14 +5,17 @@ export default getRequestConfig(async () => {
   const cookieStore = await cookies();
   const locale = cookieStore.get("locale")?.value || "en";
 
-  const [common] = await Promise.all([
+  const [common, auth] = await Promise.all([
     (await import(`../../messages/common/${locale}.json`)).default,
+    (await import(`../features/auth/translations/messages/${locale}.json`))
+      .default,
   ]);
 
   return {
     locale,
     messages: {
       ...common,
+      ...auth,
     },
   };
 });
