@@ -7,12 +7,14 @@ import {
 } from "../schemas.js";
 
 import { handleResult } from "../lib/errors.js";
-import { authSignUpErrorMapping } from "../domain/errorsMap.js";
+import { authSignUpErrorMapping } from "../lib/auth/errors/errorsMap.js";
 import { signUp } from "../services/UserService.js";
 import { createErrorResponseSchema } from "../lib/hono/error-schema.js";
-import { AuthSignUpDomainErrorCodes } from "../domain/errors.js";
+import { AuthSignUpDomainErrorCodes } from "../lib/auth/errors/errors.js";
 
 import { createResponseSchema } from "../lib/hono/createResponseSchema.js";
+import { refreshTokenCookieOpts } from "../constants.js";
+import { setCookie } from "hono/cookie";
 
 export const signupRoute = new OpenAPIHono();
 const successStatus = 201;
@@ -60,7 +62,19 @@ signupRoute.openapi(route, async (c) => {
     LocalRegisterWithTransformInputSchema.parse(body);
 
   const result = await signUp(bodyWithIndentifierType);
-  return handleResult(c, result, authSignUpErrorMapping, successStatus);
+  return handleResult(
+    c,
+    result,
+    authSignUpErrorMapping,
+    successStatus,
+    (data) => {
+      // Extract cookie settings
+      const { cookieName, ...rest } = refreshTokenCookieOpts;
+
+      // Set refresh token cookie
+      setCookie(c, cookieName, data.tokens.refreshToken, rest);
+    }
+  );
   // if (!result.success) {
   //   const err = resultToErrorResponse(result.error, authSignUpErrorMapping);
 

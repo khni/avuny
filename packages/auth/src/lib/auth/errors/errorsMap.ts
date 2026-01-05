@@ -1,8 +1,8 @@
-import { ErrorMeta } from "../lib/errors.js";
+import { ErrorMeta } from "../../errors.js";
 import {
   createErrorResponseSchema,
   ErrorResponseSchema,
-} from "../lib/hono/error-schema.js";
+} from "../../hono/error-schema.js";
 import {
   AuthLoginDomainErrorCodes,
   AuthLoginDomainErrorCodesType,

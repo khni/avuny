@@ -1,11 +1,11 @@
 import bcrypt from "bcryptjs";
-import { fail, ok, Result } from "../result.js";
+import { fail, ok, Result } from "../../result.js";
 import {
   AuthLoginDomainErrorCodes,
   type AuthLoginDomainErrorCodesType,
   AuthSignUpDomainErrorCodes,
   type AuthSignUpDomainErrorCodesType,
-} from "../../domain/errors.js";
+} from "../errors/errors.js";
 import { UserCreateInput, UserLoginInput } from "../interfaces/types.js";
 import { IUserRepository } from "../interfaces/IUserRepository.js";
 

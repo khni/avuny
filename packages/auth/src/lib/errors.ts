@@ -75,14 +75,17 @@ export function handleResult<
   c: Context,
   result: Result<T, E>,
   errorMap: Record<E, { statusCode: SE; responseMessage: string }>,
-  successStatus: S
+  successStatus: S,
+  onSuccess?: (result: T) => void,
+  onError?: (error: E) => void
 ) {
   if (!result.success) {
     const err = resultToErrorResponse(result.error, errorMap);
-
+    onError?.(result.error);
     // ❗ critical: return directly from c.json
     return c.json(err.body, err.status);
   }
+  onSuccess?.(result.data);
 
   const ok = resultToSuccessResponse(result.data, successStatus);
   return c.json(ok.body, ok.status);

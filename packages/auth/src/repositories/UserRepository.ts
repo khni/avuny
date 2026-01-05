@@ -1,9 +1,10 @@
-import z, { email } from "zod";
-import { localRegisterInputSchema } from "../schemas.js";
 import { prisma } from "@avuny/db";
-import { IUserRepository } from "../lib/interfaces/IUserRepository.js";
+import { IUserRepository } from "../lib/auth/interfaces/IUserRepository.js";
 import { OauthProvider, User } from "@avuny/db/types";
-import { FindUserWhere, UserCreateInput } from "../lib/interfaces/types.js";
+import {
+  FindUserWhere,
+  UserCreateInput,
+} from "../lib/auth/interfaces/types.js";
 
 export class UserRepository implements IUserRepository<User> {
   constructor(private identifierType: "email" = "email") {}

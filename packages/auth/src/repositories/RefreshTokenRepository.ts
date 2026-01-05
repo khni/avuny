@@ -2,7 +2,7 @@ import { RefreshToken } from "@avuny/db/types";
 import {
   CreateTokensInput,
   IRefreshTokenRepository,
-} from "../lib/interfaces/IRefreshTokenRepository.js";
+} from "../lib/auth/interfaces/IRefreshTokenRepository.js";
 import { prisma } from "@avuny/db";
 
 export class RefreshTokenRepository implements IRefreshTokenRepository<RefreshToken> {
