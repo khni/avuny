@@ -1,33 +1,91 @@
 import { z } from "zod";
 import { Result } from "./result.js";
-import { ContentfulStatusCode } from "hono/utils/http-status";
+import {
+  ClientErrorStatusCode,
+  ContentfulStatusCode,
+} from "hono/utils/http-status";
+import { Context } from "hono";
 
 export type ErrorMeta = {
-  statusCode: number;
+  statusCode: ClientErrorStatusCode;
   responseMessage: string;
 };
 
-export function resultToHttp<T, E extends string>(
+export function resultToResponse<T, E extends string>(
   result: Result<T, E>,
   errorMap: Record<E, ErrorMeta>,
-  successStatusCode = 200 as const
-): {
-  status: ContentfulStatusCode;
-  body: T | { message: string };
-} {
+  successStatusCode = 200
+) {
   if (!result.success) {
-    const error = errorMap[result.error];
+    const errorCode = result.error;
+    //
+    const error = errorMap[errorCode];
 
     return {
       status: error.statusCode as ContentfulStatusCode,
-      body: { message: error.responseMessage },
+      body: {
+        success: false as const,
+        code: errorCode,
+        message: error.responseMessage,
+      },
     };
   }
 
   return {
     status: successStatusCode as ContentfulStatusCode,
-    body: result.data,
+    body: { success: true as const, data: result.data },
   };
+}
+
+export function resultToErrorResponse<E extends string, S extends number>(
+  error: E,
+  errorMap: Record<E, { statusCode: S; responseMessage: string }>
+) {
+  const meta = errorMap[error];
+
+  return {
+    status: meta.statusCode,
+    body: {
+      success: false as const,
+      code: error,
+      message: meta.responseMessage,
+    },
+  };
+}
+
+export function resultToSuccessResponse<T, S extends number>(
+  data: T,
+  status: S
+) {
+  return {
+    status,
+    body: {
+      success: true as const,
+      data,
+    },
+  };
+}
+
+export function handleResult<
+  T,
+  E extends string,
+  S extends ContentfulStatusCode,
+  SE extends ClientErrorStatusCode,
+>(
+  c: Context,
+  result: Result<T, E>,
+  errorMap: Record<E, { statusCode: SE; responseMessage: string }>,
+  successStatus: S
+) {
+  if (!result.success) {
+    const err = resultToErrorResponse(result.error, errorMap);
+
+    // ❗ critical: return directly from c.json
+    return c.json(err.body, err.status);
+  }
+
+  const ok = resultToSuccessResponse(result.data, successStatus);
+  return c.json(ok.body, ok.status);
 }
 
 const ErrorResponseSchema = z.object({

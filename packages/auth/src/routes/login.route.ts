@@ -11,7 +11,7 @@ import {
 
 import { refreshTokenCookieOpts } from "../constants.js";
 import { signUp } from "../services/UserService.js";
-import { resultToHttp } from "../lib/errors.js";
+import { resultToResponse } from "../lib/errors.js";
 import { authLoginErrorMapping } from "../domain/errorsMap.js";
 export const loginRoute = new OpenAPIHono();
 const route = createRoute({
@@ -49,7 +49,7 @@ loginRoute.openapi(route, async (c) => {
 
   try {
     const result = await signUp(bodyWithIndentifierType);
-    const http = resultToHttp(result, authLoginErrorMapping);
+    const http = resultToResponse(result, authLoginErrorMapping);
 
     return c.json(http.body, http.status);
 

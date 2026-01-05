@@ -1,24 +1,23 @@
-import { AuthError, authErrorMapping } from "@khni/auth-errors";
-import { errorMapper } from "@khni/error-handler";
 import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
-import { setCookie } from "hono/cookie";
+
 import {
   authResponseTypeSchema,
   LocalRegisterInputSchema,
   LocalRegisterWithTransformInputSchema,
 } from "../schemas.js";
 
-import { refreshTokenCookieOpts } from "../constants.js";
-import { mapErrorsToResponses, resultToHttp } from "../lib/errors.js";
+import { handleResult } from "../lib/errors.js";
 import { authSignUpErrorMapping } from "../domain/errorsMap.js";
 import { signUp } from "../services/UserService.js";
 import { createErrorResponseSchema } from "../lib/hono/error-schema.js";
 import { AuthSignUpDomainErrorCodes } from "../domain/errors.js";
-import { json } from "zod";
-import { handleResult } from "../lib/hono/handleResult.js";
+
+import { createResponseSchema } from "../lib/hono/createResponseSchema.js";
+
 export const signupRoute = new OpenAPIHono();
 const successStatus = 201;
-const signUpErrorResponses = mapErrorsToResponses(authSignUpErrorMapping);
+const userExistsError = authSignUpErrorMapping.AUTH_SIGN_UP_USER_EXIST;
+
 const route = createRoute({
   method: "post",
   path: "/sign-up",
@@ -34,14 +33,14 @@ const route = createRoute({
   },
   responses: {
     [successStatus]: {
-      description: "User logged in successfully",
+      description: "User Signed up in successfully",
       content: {
         "application/json": {
-          schema: authResponseTypeSchema,
+          schema: createResponseSchema(authResponseTypeSchema),
         },
       },
     },
-    [authSignUpErrorMapping.AUTH_SIGN_UP_USER_EXIST.statusCode]: {
+    [userExistsError.statusCode]: {
       description: "User is exist with same identifier",
       content: {
         "application/json": {
@@ -61,11 +60,13 @@ signupRoute.openapi(route, async (c) => {
     LocalRegisterWithTransformInputSchema.parse(body);
 
   const result = await signUp(bodyWithIndentifierType);
-  const http = resultToHttp(result, authSignUpErrorMapping);
-  return handleResult(c, result);
-  // if (result.success) {
-  //   return c.json(result.data, 201);
-  // } else {
-  //   return c.json({ code: result.error, message: "", success: false }, 409);
+  return handleResult(c, result, authSignUpErrorMapping, successStatus);
+  // if (!result.success) {
+  //   const err = resultToErrorResponse(result.error, authSignUpErrorMapping);
+
+  //   return c.json(err.body, err.status);
   // }
+
+  // const ok = resultToSuccessResponse(result.data, 201);
+  // return c.json(ok.body, ok.status);
 });
