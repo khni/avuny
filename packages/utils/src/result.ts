@@ -1,5 +1,3 @@
-// lib/result.ts
-
 export type Ok<T> = {
   success: true;
   data: T;

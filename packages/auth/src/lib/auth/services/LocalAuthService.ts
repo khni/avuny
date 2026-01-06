@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import { fail, ok, Result } from "../../result.js";
+
 import {
   AuthLoginDomainErrorCodes,
   type AuthLoginDomainErrorCodesType,
@@ -8,6 +8,7 @@ import {
 } from "../errors/errors.js";
 import { UserCreateInput, UserLoginInput } from "../interfaces/types.js";
 import { IUserRepository } from "../interfaces/IUserRepository.js";
+import { fail, ok, Result } from "@avuny/utils";
 
 export class LocalAuthService<User extends { hashedPassword?: string | null }> {
   constructor(private userRepository: IUserRepository<User>) {}

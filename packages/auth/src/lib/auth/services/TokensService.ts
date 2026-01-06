@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { ok, Result } from "../../result.js";
+
 import crypto from "crypto";
 import { AuthDomainErrorCodesType } from "../errors/errors.js";
 import {
@@ -7,6 +7,7 @@ import {
   IRefreshTokenRepository,
 } from "../interfaces/IRefreshTokenRepository.js";
 import { generateExpiredDate, ValidTimeString } from "@khni/utils";
+import { ok, Result } from "@avuny/utils";
 export class TokensService<RefreshToken extends BaseRefreshToken> {
   constructor(
     private refreshTokenRepository: IRefreshTokenRepository<RefreshToken>,

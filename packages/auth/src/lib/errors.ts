@@ -1,10 +1,11 @@
 import { z } from "zod";
-import { Result } from "./result.js";
+
 import {
   ClientErrorStatusCode,
   ContentfulStatusCode,
 } from "hono/utils/http-status";
 import { Context } from "hono";
+import { Result } from "@avuny/utils";
 
 export type ErrorMeta = {
   statusCode: ClientErrorStatusCode;

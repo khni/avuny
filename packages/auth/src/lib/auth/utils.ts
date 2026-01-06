@@ -1,4 +1,4 @@
-import { ok } from "../result.js";
+import { ok } from "@avuny/utils";
 
 // Define the minimum requirements for the input data
 interface MinimalUserData {

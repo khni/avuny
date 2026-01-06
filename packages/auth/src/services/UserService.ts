@@ -1,4 +1,3 @@
-import { ok } from "../lib/result.js";
 import { LocalAuthService } from "../lib/auth/services/LocalAuthService.js";
 import { TokensService } from "../lib/auth/services/TokensService.js";
 import { RefreshTokenRepository } from "../repositories/RefreshTokenRepository.js";
