@@ -1,8 +1,5 @@
 import { ErrorMeta } from "@avuny/utils";
-import {
-  createDomainErrorResponseSchema,
-  ErrorResponseSchema,
-} from "../../hono/error-schema.js";
+
 import {
   AuthLoginDomainErrorCodes,
   AuthLoginDomainErrorCodesType,
@@ -28,22 +25,3 @@ export const authSignUpErrorMapping = {
     responseMessage: "User already exists",
   },
 } satisfies Record<AuthSignUpDomainErrorCodesType, ErrorMeta>;
-
-export const authSignUpErrorsMap = {
-  [409]: {
-    code: AuthSignUpDomainErrorCodes.AUTH_SIGN_UP_USER_EXIST,
-    schema: createDomainErrorResponseSchema([
-      AuthSignUpDomainErrorCodes.AUTH_SIGN_UP_USER_EXIST,
-    ]),
-  },
-};
-
-export const createAuthSignUpErrorsMap = Object.fromEntries(
-  Object.entries(authSignUpErrorMapping).map(([code, meta]) => [
-    meta.statusCode,
-    {
-      code,
-      schema: createDomainErrorResponseSchema([code]),
-    },
-  ])
-);

@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "@avuny/zod";
 
 export const ServerErrorSchema = z.object({
   success: z.literal(false),

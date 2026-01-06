@@ -1,7 +1,8 @@
 import { z } from "zod";
 import { createRoute } from "@hono/zod-openapi";
-import { globalErrorResponses } from "./ServerError.js";
+
 import { StatusCode } from "hono/utils/http-status";
+import { globalErrorResponses } from "@avuny/utils";
 
 /* ======================================================
  * HTTP STATUS (OPTIONAL BUT RECOMMENDED)
