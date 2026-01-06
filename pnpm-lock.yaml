@@ -236,6 +236,9 @@ importers:
       '@avuny/db':
         specifier: workspace:*
         version: link:../database
+      '@avuny/hono':
+        specifier: workspace:*
+        version: link:../hono
       '@avuny/utils':
         specifier: workspace:*
         version: link:../utils
@@ -376,6 +379,43 @@ importers:
       typescript-eslint:
         specifier: ^8.39.0
         version: 8.39.0(eslint@9.32.0(jiti@2.6.1))(typescript@5.9.2)
+
+  packages/hono:
+    dependencies:
+      '@avuny/utils':
+        specifier: workspace:*
+        version: link:../utils
+      '@avuny/zod':
+        specifier: workspace:*
+        version: link:../zod
+      '@hono/zod-openapi':
+        specifier: ^1.1.5
+        version: 1.2.0(hono@4.11.3)(zod@4.3.4)
+    devDependencies:
+      '@changesets/cli':
+        specifier: ^2.29.7
+        version: 2.29.8(@types/node@22.19.3)
+      '@microsoft/api-documenter':
+        specifier: ^7.26.29
+        version: 7.28.2(@types/node@22.19.3)
+      '@microsoft/api-extractor':
+        specifier: ^7.52.8
+        version: 7.55.2(@types/node@22.19.3)
+      '@vitest/coverage-v8':
+        specifier: 3.2.4
+        version: 3.2.4(vitest@3.2.4)
+      '@vitest/ui':
+        specifier: ^3.2.3
+        version: 3.2.4(vitest@3.2.4)
+      eslint:
+        specifier: ^9.28.0
+        version: 9.39.1(jiti@2.6.1)
+      typescript:
+        specifier: ~5.8.3
+        version: 5.8.3
+      vitest:
+        specifier: ^3.2.3
+        version: 3.2.4(@types/node@22.19.3)(@vitest/ui@3.2.4)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2)
 
   packages/typescript-config: {}
 

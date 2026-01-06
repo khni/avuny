@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "@avuny/zod";
 import { createRoute } from "@hono/zod-openapi";
 
 import { StatusCode } from "hono/utils/http-status";

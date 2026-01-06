@@ -11,7 +11,6 @@ import {
   globalErrorResponses,
 } from "@avuny/utils";
 
-import { handleResult } from "../lib/hono/handleResult.js";
 import { authSignUpErrorMapping } from "../lib/auth/errors/errorsMap.js";
 import { signUp } from "../services/UserService.js";
 
@@ -19,6 +18,7 @@ import { AuthSignUpDomainErrorCodes } from "../lib/auth/errors/errors.js";
 
 import { refreshTokenCookieOpts } from "../constants.js";
 import { setCookie } from "hono/cookie";
+import { handleResult } from "@avuny/hono";
 
 export const signupRoute = new OpenAPIHono();
 const successStatus = 201;

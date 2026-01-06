@@ -1,5 +1,4 @@
-import { z } from "zod";
-
+import { z } from "@avuny/zod";
 import {
   ClientErrorStatusCode,
   ContentfulStatusCode,

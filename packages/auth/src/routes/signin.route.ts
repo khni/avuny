@@ -1,12 +1,12 @@
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { AuthLoginDomainErrorCodes } from "../lib/auth/errors/errors.js";
 import { authLoginErrorMapping } from "../lib/auth/errors/errorsMap.js";
-import { createApi, response } from "../lib/hono/createApi.js";
+import { createApi, response, handleResult } from "@avuny/hono";
 
 import { authResponseTypeSchema, localLoginInputSchema } from "../schemas.js";
 import { refreshTokenCookieOpts } from "../constants.js";
 import { setCookie } from "hono/cookie";
-import { handleResult } from "../lib/hono/handleResult.js";
+
 import { signIn } from "../services/UserService.js";
 import {
   createResponseSchema,
