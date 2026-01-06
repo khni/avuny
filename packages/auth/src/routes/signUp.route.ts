@@ -68,8 +68,8 @@ signupRoute.openapi(route, async (c) => {
   return handleResult(
     c,
     result,
-    authSignUpErrorMapping,
     successStatus,
+    authSignUpErrorMapping,
     (data) => {
       const { cookieName, ...rest } = refreshTokenCookieOpts;
       setCookie(c, cookieName, data.tokens.refreshToken, rest);

@@ -45,7 +45,7 @@ const route = createApi({
 signinRoute.openapi(route, async (c) => {
   const body = c.req.valid("json");
   const result = await signIn(body);
-  return handleResult(c, result, authLoginErrorMapping, 200, (data) => {
+  return handleResult(c, result, 200, authLoginErrorMapping, (data) => {
     const { cookieName, ...rest } = refreshTokenCookieOpts;
     setCookie(c, cookieName, data.tokens.refreshToken, rest);
   });

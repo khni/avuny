@@ -12,10 +12,18 @@ export const AuthSignUpDomainErrorCodes = {
 export type AuthSignUpDomainErrorCodesType =
   (typeof AuthSignUpDomainErrorCodes)[keyof typeof AuthSignUpDomainErrorCodes];
 
+export const AuthenticatedErrorCodes = {
+  UNAUTHENTICATED: "UNAUTHENTICATED",
+} as const;
+export type AuthenticatedCodesType =
+  (typeof AuthenticatedErrorCodes)[keyof typeof AuthenticatedErrorCodes];
+
 export const AuthDomainErrorCodes = {
   ...AuthLoginDomainErrorCodes,
   ...AuthSignUpDomainErrorCodes,
+  ...AuthenticatedErrorCodes,
 } as const;
 export type AuthDomainErrorCodesType =
   | AuthLoginDomainErrorCodesType
-  | AuthSignUpDomainErrorCodesType;
+  | AuthSignUpDomainErrorCodesType
+  | AuthenticatedCodesType;

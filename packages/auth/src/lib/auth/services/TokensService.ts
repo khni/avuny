@@ -1,14 +1,23 @@
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 
 import crypto from "crypto";
-import { AuthDomainErrorCodesType } from "../errors/errors.js";
+import {
+  AuthDomainErrorCodesType,
+  AuthenticatedErrorCodes,
+} from "../errors/errors.js";
 import {
   BaseRefreshToken,
   IRefreshTokenRepository,
 } from "../interfaces/IRefreshTokenRepository.js";
 import { generateExpiredDate, ValidTimeString } from "@khni/utils";
-import { ok, Result } from "@avuny/utils";
+import { fail, ok, Result } from "@avuny/utils";
+
+interface AccessTokenPayload extends JwtPayload {
+  userId: string;
+  tokenType: string;
+}
 export class TokensService<RefreshToken extends BaseRefreshToken> {
+  private jwtTokenType = "access";
   constructor(
     private refreshTokenRepository: IRefreshTokenRepository<RefreshToken>,
     private refreshTokenExpiresIn: ValidTimeString,
@@ -23,17 +32,33 @@ export class TokensService<RefreshToken extends BaseRefreshToken> {
       token: crypto.randomBytes(64).toString("hex"),
       revokedAt: null,
     });
+    const payload: AccessTokenPayload = {
+      userId,
+      tokenType: this.jwtTokenType,
+    };
 
-    const accessToken = jwt.sign(
-      { userId, tokenType: "access" },
-      this.accessTokenSecret,
-      { expiresIn: this.accessTokenExpiresIn }
-    );
+    const accessToken = jwt.sign(payload, this.accessTokenSecret, {
+      expiresIn: this.accessTokenExpiresIn,
+    });
 
     return ok({
       accessToken,
       refreshToken: refreshToken.token,
     });
+  };
+
+  verifyAccessToken = (accessToken: string) => {
+    let payLoad: AccessTokenPayload;
+    try {
+      payLoad = jwt.verify(
+        accessToken,
+        this.accessTokenSecret
+      ) as AccessTokenPayload;
+    } catch (error) {
+      return fail(AuthenticatedErrorCodes.UNAUTHENTICATED);
+    }
+
+    return ok({ userId: payLoad.userId, tokenType: payLoad.tokenType });
   };
 
   // not implemented yet

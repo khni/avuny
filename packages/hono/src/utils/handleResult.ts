@@ -18,8 +18,8 @@ export function handleResult<
 >(
   c: Context,
   result: Result<T, E>,
-  errorMap: Record<E, { statusCode: SE; responseMessage: string }>,
   successStatus: S,
+  errorMap: Record<E, { statusCode: SE; responseMessage: string }>,
   onSuccess?: (result: T) => void,
   onError?: (error: E) => void
 ) {
