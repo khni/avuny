@@ -10,15 +10,22 @@ import { useState } from "react";
 import { Direction } from "radix-ui";
 import { Toaster } from "@workspace/ui/components/sonner";
 import UserPreferencesContextProvider from "@workspace/ui/providers/UserPreferencesContext";
+import { setZodLocale } from "@avuny/zod";
 
 export function Providers({
   children,
   dir,
+  locale,
 }: {
   children: React.ReactNode;
   dir: "rtl" | "ltr";
+  locale?: string;
 }) {
   const [client] = useState(new QueryClient());
+  if (locale && (locale === "en" || locale === "ar")) {
+    setZodLocale(locale);
+  }
+
   return (
     <NextThemesProvider
       attribute="class"

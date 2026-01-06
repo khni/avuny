@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@avuny/api": "workspace:*",
+    "@avuny/zod": "workspace:*",
     "@tanstack/react-query": "^5.90.16",
     "@workspace/ui": "workspace:*",
     "cookie": "^1.1.1",
@@ -25,7 +26,7 @@
     "react-cookie": "^8.0.1",
     "react-dom": "^19.2.1",
     "react-hook-form": "^7.69.0",
-    "zod": "^3.25.76"
+    "zod": "^4.0.5"
   },
   "devDependencies": {
     "@avuny/db": "workspace:^",

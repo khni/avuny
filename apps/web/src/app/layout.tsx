@@ -45,7 +45,7 @@ export default async function RootLayout({
       <body
         className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased `}
       >
-        <Providers dir={dir}>
+        <Providers dir={dir} locale={locale}>
           <LocaleProvider>{children}</LocaleProvider>
         </Providers>
       </body>

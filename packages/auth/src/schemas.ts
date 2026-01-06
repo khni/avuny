@@ -1,5 +1,4 @@
-import { z } from "@hono/zod-openapi";
-import { ZodTypeAny } from "zod";
+import { z } from "@avuny/zod";
 
 export const IdentifierWithTransformSchema = z.union([
   z.e164().transform((val) => ({ type: "phone" as const, value: val })),
@@ -11,14 +10,14 @@ export const IdentifierStringSchema = z.union([z.e164(), z.email()]);
 // localRegisterInputSchema
 // ─────────────────────────────────────────────
 
-export const createLocalRegisterInputSchema = <TIdentifier extends ZodTypeAny>(
+export const createLocalRegisterInputSchema = <TIdentifier extends z._ZodType>(
   identifierSchema: TIdentifier
 ) =>
   z
     .object({
       identifier: identifierSchema,
-      password: z.string().openapi({ example: "P@ssw0rd" }),
-      name: z.string().openapi({ example: "John Doe" }),
+      password: z.string().openapi({ example: "P@ssw0rd" }).min(8).max(20),
+      name: z.string().min(1).openapi({ example: "John Doe" }),
     })
     .openapi("LocalRegisterInput");
 
@@ -59,6 +58,8 @@ export const localLoginInputSchema = z
     password: z.string().openapi({ example: "P@ssw0rd" }),
   })
   .openapi("LocalLoginInput");
+
+export type LocalLoginInput = z.infer<typeof localLoginInputSchema>;
 
 // ─────────────────────────────────────────────
 // resetForgettenPasswordInputSchema

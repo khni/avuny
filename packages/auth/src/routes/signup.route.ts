@@ -59,10 +59,8 @@ const route = createRoute({
 
 signupRoute.openapi(route, async (c) => {
   const body = c.req.valid("json");
-
   const bodyWithIndentifierType =
     LocalRegisterWithTransformInputSchema.parse(body);
-
   const result = await signUp(bodyWithIndentifierType);
   return handleResult(
     c,
@@ -70,19 +68,8 @@ signupRoute.openapi(route, async (c) => {
     authSignUpErrorMapping,
     successStatus,
     (data) => {
-      // Extract cookie settings
       const { cookieName, ...rest } = refreshTokenCookieOpts;
-
-      // Set refresh token cookie
       setCookie(c, cookieName, data.tokens.refreshToken, rest);
     }
   );
-  // if (!result.success) {
-  //   const err = resultToErrorResponse(result.error, authSignUpErrorMapping);
-
-  //   return c.json(err.body, err.status);
-  // }
-
-  // const ok = resultToSuccessResponse(result.data, 201);
-  // return c.json(ok.body, ok.status);
 });

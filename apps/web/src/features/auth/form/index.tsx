@@ -5,24 +5,13 @@ import { useForm } from "react-hook-form";
 import z from "zod";
 import { useAuthTranslations } from "@/src/features/auth/translations/hooks/useAuthTrans";
 import { useSignUp } from "@/src/api";
-import { LocalRegisterInputSchema as schema } from "@avuny/api";
-import {
-  Alert,
-  AlertTitle,
-  AlertDescription,
-} from "@workspace/ui/components/alert";
-import { ErrorAlert } from "@workspace/ui/blocks/form/ErrorAlert-v2";
-export const localRegisterInputSchema = z.object({
-  identifier: z.string(),
-  password: z.string(),
-  name: z.string(),
-});
+import { LocalRegisterInputSchema as schema } from "@avuny/api/schemas";
 
 export const SignUpForm = () => {
   const { authLabels, authErrorTranslations } = useAuthTranslations();
 
-  const form = useForm<z.infer<typeof localRegisterInputSchema>>({
-    resolver: zodResolver(localRegisterInputSchema),
+  const form = useForm<z.infer<typeof schema>>({
+    resolver: zodResolver(schema),
   });
   const { mutate, isPending, error } = useSignUp();
 
