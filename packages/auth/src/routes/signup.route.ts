@@ -6,7 +6,7 @@ import {
   LocalRegisterWithTransformInputSchema,
 } from "../schemas.js";
 
-import { handleResult } from "../lib/errors.js";
+import { handleResult } from "../lib/hono/handleResult.js";
 import { authSignUpErrorMapping } from "../lib/auth/errors/errorsMap.js";
 import { signUp } from "../services/UserService.js";
 import { createDomainErrorResponseSchema } from "../lib/hono/error-schema.js";

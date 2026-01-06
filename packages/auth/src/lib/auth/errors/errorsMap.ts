@@ -1,4 +1,4 @@
-import { ErrorMeta } from "../../errors.js";
+import { ErrorMeta } from "@avuny/utils";
 import {
   createDomainErrorResponseSchema,
   ErrorResponseSchema,

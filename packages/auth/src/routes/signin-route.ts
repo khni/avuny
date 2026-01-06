@@ -7,7 +7,7 @@ import { createDomainErrorResponseSchema } from "../lib/hono/error-schema.js";
 import { authResponseTypeSchema, localLoginInputSchema } from "../schemas.js";
 import { refreshTokenCookieOpts } from "../constants.js";
 import { setCookie } from "hono/cookie";
-import { handleResult } from "../lib/errors.js";
+import { handleResult } from "../lib/hono/handleResult.js";
 import { signIn } from "../services/UserService.js";
 
 export const signinRoute = new OpenAPIHono();
