@@ -8,7 +8,8 @@ import { useSignUp } from "@/src/api";
 import { LocalRegisterInputSchema as schema } from "@avuny/api/schemas";
 
 export const SignUpForm = () => {
-  const { authLabels, authErrorTranslations } = useAuthTranslations();
+  const { authLabels, authErrorTranslations, authHeaderTranslations } =
+    useAuthTranslations();
 
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
@@ -20,6 +21,7 @@ export const SignUpForm = () => {
       <CustomForm
         error={error}
         errorMap={authErrorTranslations}
+        cardTitle={authHeaderTranslations("signUp")}
         fields={[
           {
             key: "name",
@@ -54,7 +56,7 @@ export const SignUpForm = () => {
 
             spans: {
               base: 4,
-              md: 2,
+              md: 4,
             },
           },
         ]}
