@@ -28,7 +28,7 @@ export default function DynamicGrid<
       {items.map((item) => (
         <div
           key={item.key}
-          className={`${item.className} ${buildFullSpanClasses(item.spans)} p-4 rounded text-center`}
+          className={`${item.className} ${buildFullSpanClasses(item.spans)} rounded text-center`}
         >
           {contentMapper(item.content)}
         </div>
