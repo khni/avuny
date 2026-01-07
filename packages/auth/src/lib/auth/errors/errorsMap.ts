@@ -8,10 +8,7 @@ import {
   AuthSignUpDomainErrorCodes,
   AuthSignUpDomainErrorCodesType,
 } from "./errors.js";
-import {
-  ClientErrorStatusCode,
-  ContentfulStatusCode,
-} from "hono/utils/http-status";
+import { ClientErrorStatusCode } from "hono/utils/http-status";
 
 export const authLoginErrorMapping = {
   [AuthLoginDomainErrorCodes.AUTH_LOGIN_INCORRECT_CREDENTIALS]: {
@@ -23,24 +20,18 @@ export const authLoginErrorMapping = {
     statusCode: 400,
     responseMessage: "User password is not set",
   },
-} satisfies Record<
-  AuthLoginDomainErrorCodesType,
-  {
-    statusCode: ClientErrorStatusCode;
-    responseMessage: string;
-  }
->;
+} as const satisfies Record<AuthLoginDomainErrorCodesType, ErrorMeta>;
 
 export const authSignUpErrorMapping = {
   [AuthSignUpDomainErrorCodes.AUTH_SIGN_UP_USER_EXIST]: {
     statusCode: 409,
     responseMessage: "User already exists",
   },
-} satisfies Record<AuthSignUpDomainErrorCodesType, ErrorMeta>;
+} as const satisfies Record<AuthSignUpDomainErrorCodesType, ErrorMeta>;
 
 export const authenticatedErrorMapping = {
   [AuthenticatedErrorCodes.UNAUTHENTICATED]: {
     statusCode: 401,
     responseMessage: "Unauthenticated",
   },
-} satisfies Record<AuthenticatedCodesType, ErrorMeta>;
+} as const satisfies Record<AuthenticatedCodesType, ErrorMeta>;

@@ -4,6 +4,9 @@
   "private": true,
   "scripts": {
     "build": "turbo build",
+    "clean:build": "find . \\( -name '.turbo' -o -name 'dist' -o -name 'build' \\) -type d -prune -exec rm -rf '{}' + && find . \\( -name '*.tsbuildinfo' -o -name 'tsconfig.build.tsbuildinfo' \\) -type f -delete",
+    "clean:packages": "find . -name 'node_modules' -type d -prune -exec rm -rf '{}' + && rm -f pnpm-lock.yaml",
+    "clean:all": "pnpm run clean:build && pnpm run clean:packages",
     "dev": "turbo dev",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
