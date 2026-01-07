@@ -2,6 +2,8 @@
   "auth": {
     "errors": {
       "SERVER_ERROR": "حطأ في النظام. برجاء المحاولة لاحقا.",
+      "AUTH_LOGIN_INCORRECT_CREDENTIALS": "البريد الإلكتروني أو كلمة المرور غير صحيحة.",
+      "AUTH_LOGIN_USER_PASSWORD_NOT_SET": "لم يتم تعيين كلمة مرور لهذا الحساب.",
       "AUTH_USED_EMAIL": "هذا البريد الإلكتروني مسجل بالفعل.",
       "AUTH_USED_IDENTIFIER": "هذا البريد الإلكتروني مستخدم بالفعل.",
       "AUTH_SIGN_UP_USER_EXIST": "هذا البريد الإلكتروني مستخدم بالفعل.",
@@ -42,6 +44,10 @@
       "signUp": "إنشاء حساب",
       "forgotPassword": "نسيت كلمة المرور",
       "resetPassword": "إعادة تعيين كلمة المرور"
+    },
+    "msgs": {
+      "orAlreadyHaveAnAccountSignIn": "أو لديك حساب بالفعل؟  ",
+      "orHaveNotAnAccountSignUp": "أو ليس لديك حساب؟  "
     }
   }
 }

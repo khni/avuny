@@ -6,7 +6,8 @@
       "removed": "تمت إزالة {thing} بنجاح",
       "saved": "تم حفظ {thing} بنجاح",
       "deleted": "تم حذف {thing} بنجاح",
-      "sent": "تم إرسال {thing} بنجاح"
+      "sent": "تم إرسال {thing} بنجاح",
+      "welcome": "مرحبا {thing}!"
     },
     "alertMsgs": {
       "unknownError": "حدث خطأ غير معروف. يرجى المحاولة مرة أخرى لاحقًا."
@@ -25,6 +26,7 @@
       "reset": "إعادة تعيين"
     },
     "entities": {
+      "account": "الحساب",
       "role": "الدور",
       "item": "الصنف",
       "invoice": "الفاتورة",

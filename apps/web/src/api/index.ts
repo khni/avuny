@@ -5,16 +5,31 @@
  * OpenAPI spec version: 1.0.0
  */
 import {
-  useMutation
+  useMutation,
+  useQuery
 } from '@tanstack/react-query';
 import type {
   MutationFunction,
+  QueryFunction,
+  QueryKey,
   UseMutationOptions,
-  UseMutationResult
+  UseMutationResult,
+  UseQueryOptions,
+  UseQueryResult
 } from '@tanstack/react-query';
 
 import type {
+  IsAuthenticated200,
+  IsAuthenticated401,
+  IsAuthenticated500,
+  LocalLoginInput,
   LocalRegisterInput,
+  Login200,
+  Login400,
+  Login401,
+  Login500,
+  Logout500,
+  LogoutBody,
   SignUp201,
   SignUp409,
   SignUp500
@@ -26,6 +41,65 @@ type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
 
 
+export const login = (
+    localLoginInput: LocalLoginInput,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<Login200>(
+      {url: `/api/auth//login`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: localLoginInput, signal
+    },
+      options);
+    }
+  
+
+
+export const getLoginMutationOptions = <TError = ErrorType<Login400 | Login401 | Login500>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof login>>, TError,{data: LocalLoginInput}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof login>>, TError,{data: LocalLoginInput}, TContext> => {
+
+const mutationKey = ['login'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof login>>, {data: LocalLoginInput}> = (props) => {
+          const {data} = props ?? {};
+
+          return  login(data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type LoginMutationResult = NonNullable<Awaited<ReturnType<typeof login>>>
+    export type LoginMutationBody = LocalLoginInput
+    export type LoginMutationError = ErrorType<Login400 | Login401 | Login500>
+
+    export const useLogin = <TError = ErrorType<Login400 | Login401 | Login500>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof login>>, TError,{data: LocalLoginInput}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof login>>,
+        TError,
+        {data: LocalLoginInput},
+        TContext
+      > => {
+
+      const mutationOptions = getLoginMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
 export const signUp = (
     localRegisterInput: LocalRegisterInput,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
@@ -81,6 +155,128 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       > => {
 
       const mutationOptions = getSignUpMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const isAuthenticated = (
+    
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<IsAuthenticated200>(
+      {url: `/api/auth//is-authenticated`, method: 'GET', signal
+    },
+      options);
+    }
+  
+
+
+
+export const getIsAuthenticatedQueryKey = () => {
+    return [
+    `/api/auth//is-authenticated`
+    ] as const;
+    }
+
+    
+export const getIsAuthenticatedQueryOptions = <TData = Awaited<ReturnType<typeof isAuthenticated>>, TError = ErrorType<IsAuthenticated401 | IsAuthenticated500>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof isAuthenticated>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getIsAuthenticatedQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof isAuthenticated>>> = ({ signal }) => isAuthenticated(requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof isAuthenticated>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type IsAuthenticatedQueryResult = NonNullable<Awaited<ReturnType<typeof isAuthenticated>>>
+export type IsAuthenticatedQueryError = ErrorType<IsAuthenticated401 | IsAuthenticated500>
+
+
+
+export function useIsAuthenticated<TData = Awaited<ReturnType<typeof isAuthenticated>>, TError = ErrorType<IsAuthenticated401 | IsAuthenticated500>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof isAuthenticated>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getIsAuthenticatedQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+export const logout = (
+    logoutBody: LogoutBody,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<string>(
+      {url: `/api/auth//logout`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: logoutBody, signal
+    },
+      options);
+    }
+  
+
+
+export const getLogoutMutationOptions = <TError = ErrorType<Logout500>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof logout>>, TError,{data: LogoutBody}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof logout>>, TError,{data: LogoutBody}, TContext> => {
+
+const mutationKey = ['logout'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof logout>>, {data: LogoutBody}> = (props) => {
+          const {data} = props ?? {};
+
+          return  logout(data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type LogoutMutationResult = NonNullable<Awaited<ReturnType<typeof logout>>>
+    export type LogoutMutationBody = LogoutBody
+    export type LogoutMutationError = ErrorType<Logout500>
+
+    export const useLogout = <TError = ErrorType<Logout500>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof logout>>, TError,{data: LogoutBody}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof logout>>,
+        TError,
+        {data: LogoutBody},
+        TContext
+      > => {
+
+      const mutationOptions = getLogoutMutationOptions(options);
 
       return useMutation(mutationOptions);
     }

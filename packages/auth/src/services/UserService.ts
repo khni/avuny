@@ -83,3 +83,7 @@ export const getUser = async (id: string) => {
 
   return ok({ id: user.id, identifier: user.email, name: user.name });
 };
+
+export const logout = async (token: string) => {
+  return await tokensService.deleteRefreshToken(token);
+};

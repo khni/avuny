@@ -10,6 +10,9 @@ import {
   useUserPreferencesContext,
 } from "@workspace/ui/providers/UserPreferencesContext";
 import LangaugeSwitcherBtn from "@/src/components/buttons/langauge-switcher-btn";
+import { useIsAuthenticated } from "@/src/api";
+import UserButton from "@/src/components/buttons/user-btn";
+import { useLogoutHandler } from "@/src/features/auth/logout/useLogoutHook";
 export default function WorkSpaceLayout({
   children,
   params,
@@ -19,14 +22,19 @@ export default function WorkSpaceLayout({
 }) {
   const { locale, rtl } = useUserPreferencesContext();
   const { workspaceId } = React.use(params);
-
+  const { data, isLoading } = useIsAuthenticated();
   return (
     <CustomLayout
       rtl={rtl}
       start={<HomeButton />}
       end={
         <>
-          <ModeSwitcherBtn /> <LangaugeSwitcherBtn />
+          <ModeSwitcherBtn /> <LangaugeSwitcherBtn />{" "}
+          <UserButton
+            useLogoutHandler={useLogoutHandler}
+            isLoading={isLoading}
+            user={data?.data}
+          />
         </>
       }
     >

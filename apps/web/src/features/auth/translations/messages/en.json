@@ -2,6 +2,8 @@
   "auth": {
     "errors": {
       "SERVER_ERROR": "Server Error, Please Try again later",
+      "AUTH_LOGIN_INCORRECT_CREDENTIALS": "Incorrect email or password.",
+      "AUTH_LOGIN_USER_PASSWORD_NOT_SET": "Password is not set for this account.",
       "AUTH_USED_EMAIL": "This email is already registered.",
       "AUTH_SIGN_UP_USER_EXIST": "This Email is already in use.",
       "AUTH_USED_IDENTIFIER": "This Email is already in use.",
@@ -41,6 +43,10 @@
       "signUp": "Sign Up",
       "forgotPassword": "Forgot Password",
       "resetPassword": "Reset Password"
+    },
+    "msgs": {
+      "orAlreadyHaveAnAccountSignIn": "Or already have an account? ",
+      "orHaveNotAnAccountSignUp": "Or don’t have an account? "
     }
   }
 }

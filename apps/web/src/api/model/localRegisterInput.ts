@@ -8,6 +8,11 @@ import type { LocalRegisterInputIdentifier } from './localRegisterInputIdentifie
 
 export interface LocalRegisterInput {
   identifier: LocalRegisterInputIdentifier;
+  /**
+   * @minLength 8
+   * @maxLength 20
+   */
   password: string;
+  /** @minLength 1 */
   name: string;
 }

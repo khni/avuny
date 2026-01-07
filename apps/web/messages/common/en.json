@@ -6,7 +6,8 @@
       "removed": "The {thing} has been removed successfully",
       "saved": "The {thing} has been saved successfully",
       "deleted": "The {thing} has been deleted successfully",
-      "sent": "The {thing} has been sent successfully"
+      "sent": "The {thing} has been sent successfully",
+      "welcome": "Welcome {thing}!"
     },
     "alertMsgs": {
       "unknownError": "An unknown error occurred. Please try again later."
@@ -26,6 +27,7 @@
     },
     "entities": {
       "role": "Role",
+      "account": "Account",
       "item": "Item",
       "invoice": "Invoice",
       "user": "User",

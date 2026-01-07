@@ -13,4 +13,5 @@ export interface IRefreshTokenRepository<
   RefreshToken extends BaseRefreshToken,
 > {
   create(data: CreateTokensInput & { token: string }): Promise<RefreshToken>;
+  delete(token: string): Promise<any>;
 }

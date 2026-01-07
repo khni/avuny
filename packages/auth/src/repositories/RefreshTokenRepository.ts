@@ -11,4 +11,12 @@ export class RefreshTokenRepository implements IRefreshTokenRepository<RefreshTo
   ): Promise<RefreshToken> {
     return await prisma.refreshToken.create({ data });
   }
+
+  async delete(token: string) {
+    return await prisma.refreshToken.delete({
+      where: {
+        token,
+      },
+    });
+  }
 }

@@ -61,6 +61,10 @@ export class TokensService<RefreshToken extends BaseRefreshToken> {
     return ok({ userId: payLoad.userId, tokenType: payLoad.tokenType });
   };
 
+  deleteRefreshToken = async (token: string) => {
+    return await this.refreshTokenRepository.delete(token);
+  };
+
   // not implemented yet
   private verifyRefreshToken = async ({
     token,
