@@ -22,7 +22,12 @@ export default function WorkSpaceLayout({
 }) {
   const { locale, rtl } = useUserPreferencesContext();
   const { workspaceId } = React.use(params);
-  const { data, isLoading } = useIsAuthenticated();
+  const { data, isLoading } = useIsAuthenticated({
+    query: {
+      queryKey: ["getAuthenticatedUser"],
+      retry: 1,
+    },
+  });
   return (
     <CustomLayout
       rtl={rtl}

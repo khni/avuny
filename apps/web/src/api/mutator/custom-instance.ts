@@ -1,5 +1,6 @@
 // custom-instance.ts
 
+import { TokenRefresh200 } from "@/src/api/model";
 import Axios, { AxiosError, AxiosRequestConfig } from "axios";
 
 const baseURL = process.env.NEXT_PUBLIC_BASEURL;
@@ -8,6 +9,12 @@ if (!baseURL) {
     "BASEURL is not defined in .env file. It should be defined as NEXT_PUBLIC_BASEURL"
   );
 }
+
+const refreshTokenApi = `${baseURL}/api/auth/token/refresh`;
+
+const statusCodeToRefreshToken = 401;
+const errorCodeToRefreshToken = "UNAUTHENTICATED";
+const serverErrorCodeToRefreshToken = "SERVER_ERROR";
 
 let isRefreshing = false;
 let failedQueue: {
@@ -40,6 +47,7 @@ AXIOS_INSTANCE.interceptors.request.use((config: any) => {
 
   if (!hasBearerAlready) {
     const token = localStorage.getItem("accessToken");
+
     if (token) {
       config.headers = {
         ...config.headers,
@@ -54,25 +62,26 @@ AXIOS_INSTANCE.interceptors.request.use((config: any) => {
 // Response interceptor: refresh logic
 AXIOS_INSTANCE.interceptors.response.use(
   (response) => response,
-  async (error: AxiosError) => {
+  async (error: any) => {
     const originalRequest = error.config as AxiosRequestConfig & {
       _retry?: boolean;
     };
 
-    if (error.response?.status === 401) {
+    console.log("@@@@@@ Error from custom instance", error.response.data);
+
+    if (error.response?.data.status === statusCodeToRefreshToken) {
       // const errData = error.response.data as ErrorResponse<AuthErrorCodesType>;
-      const errData: any = error.response.data;
+      const errData: any = error.response.data.body;
+      console.log(errData, "ErrorData");
       // 🔹 Case 1: Wrong login credentials — do not refresh
       // if (errData?.code === "INCORRECT_CREDENTIALS") {
       //   return Promise.reject(error);
       // }
 
-      // 🔹 Case 2: Token expired or invalid — try refresh
+      // 🔹 Case 2: Token expired or invalid  — try refresh otherwise don't refresh (for example incorrect credentials
       if (
-        errData.errorType === "Server" &&
-        (errData?.error.code === "INVALID_ACCESS_TOKEN" ||
-          errData?.error.code === "EXPIRED_ACCESS_TOKEN" ||
-          errData?.error.code === "MISSING_ACCESS_TOKEN") &&
+        (errData.code === serverErrorCodeToRefreshToken ||
+          errData.code === errorCodeToRefreshToken) &&
         !originalRequest._retry
       ) {
         if (isRefreshing) {
@@ -97,12 +106,14 @@ AXIOS_INSTANCE.interceptors.response.use(
         try {
           // call refresh token API
           const { data } = await Axios.post(
-            `${baseURL}/token/refresh`,
+            refreshTokenApi,
             {},
             { withCredentials: true }
           );
 
-          const newToken = data.accessToken;
+          console.log(data, "data from refreshtoken");
+
+          const newToken = data.data.accessToken;
           localStorage.setItem("accessToken", newToken);
 
           AXIOS_INSTANCE.defaults.headers.common["Authorization"] =

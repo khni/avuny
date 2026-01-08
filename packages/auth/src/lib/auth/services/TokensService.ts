@@ -16,6 +16,7 @@ interface AccessTokenPayload extends JwtPayload {
   userId: string;
   tokenType: string;
 }
+
 export class TokensService<RefreshToken extends BaseRefreshToken> {
   private jwtTokenType = "access";
   constructor(
@@ -65,12 +66,34 @@ export class TokensService<RefreshToken extends BaseRefreshToken> {
     return await this.refreshTokenRepository.delete(token);
   };
 
-  // not implemented yet
-  private verifyRefreshToken = async ({
+  // Add this to unauthorised  error co "REFRESH_TOKEN_INVALID",
+  //with mapping to status 401
+  verifyRefreshToken = async ({
     token,
+    findUniqueUser,
   }: {
     token: string;
-  }): Promise<Result<{ refreshToken: string }, AuthDomainErrorCodesType>> => {
-    return ok({ refreshToken: "" });
+    findUniqueUser?: (args: { where: { id: string } }) => Promise<unknown>;
+  }) => {
+    // implementation
+
+    const refreshToken = await this.refreshTokenRepository.findUnique({
+      where: { token },
+    });
+
+    if (
+      !refreshToken ||
+      refreshToken.expiresAt < new Date() ||
+      refreshToken.revokedAt
+    ) {
+      return fail(AuthenticatedErrorCodes.AUTH_REFRESH_TOKEN_INVALID);
+    }
+
+    const user = await findUniqueUser?.({ where: { id: refreshToken.userId } });
+    if (findUniqueUser && !user) {
+      return fail(AuthenticatedErrorCodes.AUTH_REFRESH_TOKEN_INVALID);
+    }
+    console.log("@@@REFRESHTOKEN ROCORD", refreshToken);
+    return ok({ userId: refreshToken.userId });
   };
 }

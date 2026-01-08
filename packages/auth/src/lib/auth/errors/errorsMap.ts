@@ -34,4 +34,8 @@ export const authenticatedErrorMapping = {
     statusCode: 401,
     responseMessage: "Unauthenticated",
   },
+  [AuthenticatedErrorCodes.AUTH_REFRESH_TOKEN_INVALID]: {
+    statusCode: 401,
+    responseMessage: "Invalid refresh token",
+  },
 } as const satisfies Record<AuthenticatedCodesType, ErrorMeta>;

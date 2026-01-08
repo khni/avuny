@@ -14,4 +14,5 @@ export interface IRefreshTokenRepository<
 > {
   create(data: CreateTokensInput & { token: string }): Promise<RefreshToken>;
   delete(token: string): Promise<any>;
+  findUnique(args: { where: { token: string } }): Promise<RefreshToken | null>;
 }

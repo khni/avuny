@@ -12,7 +12,8 @@ export const isAuthenticatedMiddleware: MiddlewareHandler = async (c, next) => {
   const result = isAuthenticated(token);
   if (!result.success) {
     return c.json(
-      resultToErrorResponse(result.error, authenticatedErrorMapping)
+      resultToErrorResponse(result.error, authenticatedErrorMapping),
+      401
     );
   }
 

@@ -9,7 +9,12 @@ import { redirect, useRouter } from "next/navigation";
 import React, { ReactNode } from "react";
 
 export default function Layout({ children }: { children: ReactNode }) {
-  const { data, isLoading } = useIsAuthenticated();
+  const { data, isLoading } = useIsAuthenticated({
+    query: {
+      queryKey: ["getAuthenticatedUser"],
+      retry: 1,
+    },
+  });
   if (isLoading) {
     return <LoadingPage />;
   }

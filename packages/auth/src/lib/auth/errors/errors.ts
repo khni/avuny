@@ -14,6 +14,7 @@ export type AuthSignUpDomainErrorCodesType =
 
 export const AuthenticatedErrorCodes = {
   UNAUTHENTICATED: "UNAUTHENTICATED",
+  AUTH_REFRESH_TOKEN_INVALID: "AUTH_REFRESH_TOKEN_INVALID",
 } as const;
 export type AuthenticatedCodesType =
   (typeof AuthenticatedErrorCodes)[keyof typeof AuthenticatedErrorCodes];

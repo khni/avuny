@@ -6,6 +6,23 @@ import {
 import { prisma } from "@avuny/db";
 
 export class RefreshTokenRepository implements IRefreshTokenRepository<RefreshToken> {
+  async findUnique({
+    where,
+  }: {
+    where: { token: string };
+  }): Promise<{
+    token: string;
+    revokedAt: Date | null;
+    userId: string;
+    id: string;
+    userAgent: string | null;
+    ipAddress: string | null;
+    expiresAt: Date;
+    createdAt: Date;
+    updatedAt: Date;
+  } | null> {
+    return await prisma.refreshToken.findUnique({ where });
+  }
   async create(
     data: CreateTokensInput & { token: string }
   ): Promise<RefreshToken> {

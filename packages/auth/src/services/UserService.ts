@@ -87,3 +87,18 @@ export const getUser = async (id: string) => {
 export const logout = async (token: string) => {
   return await tokensService.deleteRefreshToken(token);
 };
+
+export const refreshToken = async ({ token }: { token?: string }) => {
+  if (!token) {
+    return fail(AuthenticatedErrorCodes.AUTH_REFRESH_TOKEN_INVALID);
+  }
+  const result = await tokensService.verifyRefreshToken({
+    token,
+  });
+
+  if (!result.success) {
+    return result;
+  }
+
+  return await tokensService.issue({ userId: result.data.userId });
+};

@@ -30,6 +30,10 @@ import type {
   Login500,
   Logout500,
   LogoutBody,
+  RefreshToken200,
+  RefreshToken401,
+  RefreshToken500,
+  RefreshTokenBody,
   SignUp201,
   SignUp409,
   SignUp500
@@ -277,6 +281,65 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       > => {
 
       const mutationOptions = getLogoutMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const refreshToken = (
+    refreshTokenBody: RefreshTokenBody,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<RefreshToken200>(
+      {url: `/api/auth//token/refresh`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: refreshTokenBody, signal
+    },
+      options);
+    }
+  
+
+
+export const getRefreshTokenMutationOptions = <TError = ErrorType<RefreshToken401 | RefreshToken500>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof refreshToken>>, TError,{data: RefreshTokenBody}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof refreshToken>>, TError,{data: RefreshTokenBody}, TContext> => {
+
+const mutationKey = ['refreshToken'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof refreshToken>>, {data: RefreshTokenBody}> = (props) => {
+          const {data} = props ?? {};
+
+          return  refreshToken(data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type RefreshTokenMutationResult = NonNullable<Awaited<ReturnType<typeof refreshToken>>>
+    export type RefreshTokenMutationBody = RefreshTokenBody
+    export type RefreshTokenMutationError = ErrorType<RefreshToken401 | RefreshToken500>
+
+    export const useRefreshToken = <TError = ErrorType<RefreshToken401 | RefreshToken500>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof refreshToken>>, TError,{data: RefreshTokenBody}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof refreshToken>>,
+        TError,
+        {data: RefreshTokenBody},
+        TContext
+      > => {
+
+      const mutationOptions = getRefreshTokenMutationOptions(options);
 
       return useMutation(mutationOptions);
     }

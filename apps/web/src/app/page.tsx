@@ -9,7 +9,12 @@ import { useLogoutHandler } from "@/src/features/auth/logout/useLogoutHook";
 
 //snp rfc
 export default function Page() {
-  const { data, isLoading } = useIsAuthenticated();
+  const { data, isLoading } = useIsAuthenticated({
+    query: {
+      queryKey: ["getAuthenticatedUser"],
+      retry: 1,
+    },
+  });
   return (
     <div>
       <Navbar
