@@ -10,6 +10,15 @@ import {
 import { mapAuthResponse } from "../lib/auth/utils.js";
 import { fail, ok } from "@avuny/utils";
 import { AuthenticatedErrorCodes } from "../lib/auth/errors/errors.js";
+import { SocialAuthLogin } from "../lib/auth/social-auth/services/SocialLogin.js";
+import { SocialAuthContext } from "../lib/auth/social-auth/services/SocialAuthContext.js";
+import { GoogleSocialAuthStrategy } from "../lib/auth/social-auth/services/GoogleAuthStrategy.js";
+import {
+  Provider,
+  SocialUserResult,
+} from "../lib/auth/social-auth/interfaces/ISocialAuthProvider.js";
+import { User } from "@avuny/db";
+
 const jwtSecret = process.env.JWT_SECRET;
 if (!jwtSecret) {
   throw new Error("jwtSecret is not defined in .env file");
@@ -22,6 +31,46 @@ const tokensService = new TokensService(
   "15d",
   jwtSecret,
   "5m"
+);
+const socialAuthContext = new SocialAuthContext([
+  new GoogleSocialAuthStrategy({
+    clientId: process.env.GOOGLE_CLIENT_ID!,
+    clientSecret: process.env.GOOGLE_SECRET!,
+    redirectUri: process.env.GOOGLE_REDIRECT_URI!,
+  }),
+]);
+const handleSocialUser = async (user: SocialUserResult) => {
+  let _user = await userRepository.findUnique({
+    where: {
+      identifier: user.email,
+    },
+  });
+  let socialUser: User;
+  if (!_user) {
+    socialUser = await userRepository.create({
+      data: {
+        identifier: user.email,
+        oauthId: user.id,
+        oauthProvider: user.provider,
+        name: user.name,
+      },
+    });
+  } else {
+    socialUser = await userRepository.update({
+      where: {
+        identifier: user.email,
+      },
+      data: {
+        oauthId: user.id,
+        oauthProvider: user.provider,
+      },
+    });
+  }
+  return socialUser;
+};
+export const socialAuth = new SocialAuthLogin(
+  socialAuthContext,
+  handleSocialUser
 );
 export const signUp = async ({
   identifier,
@@ -101,4 +150,13 @@ export const refreshToken = async ({ token }: { token?: string }) => {
   }
 
   return await tokensService.issue({ userId: result.data.userId });
+};
+
+export const socialSignIn = async (code: string, provider: Provider) => {
+  const user = await socialAuth.execute(code, provider);
+  const tokensResult = await tokensService.issue({
+    userId: user.id,
+  });
+
+  return mapAuthResponse({ data: user }, tokensResult);
 };

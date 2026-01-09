@@ -8,8 +8,8 @@ enum OtpType {
 
 enum OauthProvider {
   NONE
-  FACEBOOK
-  GOOGLE
+  facebook
+  google
 }
 
 // ========= MODELS =========
