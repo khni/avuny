@@ -26,29 +26,27 @@ model Otp {
 }
 
 model User {
-  id       String  @id @default(uuid())
+  id             String  @id @default(uuid())
   hashedPassword String?
 
   // Relations
-  email       String @unique
-  name         String
-  avatarUrl    String?
-  contactEmail String? // for notifications, can differ from login email
+  email         String         @unique
+  name          String
+  avatarUrl     String?
+  contactEmail  String? // for notifications, can differ from login email
   refreshTokens RefreshToken[]
- 
+
   // Audit & Timestamps
   lastLoginAt DateTime?
-  isVerified Boolean        @default(false)
+  isVerified  Boolean   @default(false)
 
-  oauthProvider                OauthProvider?         @default(NONE)
-  oauthId                      String?
+  oauthProvider OauthProvider? @default(NONE)
+  oauthId       String?
 
   isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt()
 }
-
-
 
 model RefreshToken {
   id        String    @id @default(uuid())

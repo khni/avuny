@@ -1,0 +1,52 @@
+{
+  "name": "@avuny/region",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "private": true,
+  "author": {
+    "name": "Khaled Eleskandrany",
+    "email": "khaledeskandrany@gmail.com"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./schemas": "./src/schemas.ts"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint .",
+    "build": "tsc -p tsconfig.build.json",
+    "dev": "tsc -p tsconfig.build.json --watch --preserveWatchOutput",
+    "api:docs": "api-documenter markdown -i temp -o docs",
+    "api:extract": "api-extractor run --local",
+    "seed": "node seed/index.js"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.29.7",
+    "@microsoft/api-documenter": "^7.26.29",
+    "@microsoft/api-extractor": "^7.52.8",
+    "@vitest/coverage-v8": "3.2.4",
+    "@vitest/ui": "^3.2.3",
+    "eslint": "^9.28.0",
+    "typescript": "~5.8.3",
+    "vitest": "^3.2.3",
+    "zod": "^4.0.5"
+  },
+  "dependencies": {
+    "@avuny/db": "workspace:*",
+    "@avuny/hono": "workspace:*",
+    "@avuny/utils": "workspace:*",
+    "@avuny/zod": "workspace:*",
+    "@hono/swagger-ui": "^0.5.2",
+    "@hono/zod-openapi": "^1.2.0",
+    "axios": "^1.13.2",
+    "hono": "^4.10.7"
+  }
+}

@@ -5,9 +5,9 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  output   = "../src/generated/prisma"
+  output     = "../src/generated/prisma"
   provider   = "prisma-client" // ESM-first
-  engineType = "client"        // No rust engines
+  engineType = "client" // No rust engines
 }
 
 datasource db {
