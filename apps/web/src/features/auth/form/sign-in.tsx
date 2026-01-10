@@ -8,6 +8,10 @@ import { useLogin } from "@/src/api";
 import { localLoginInputSchema as schema } from "@avuny/api/schemas";
 import { useAuthSuccessHandler } from "@/src/features/auth/form/hooks/useAuthSuccessHandler";
 import Link from "next/link";
+import { GoogleOAuthURLStrategy } from "@workspace/ui/lib/social-login/url/GoogleOAuthURLStrategy";
+import { OAuthContext } from "@workspace/ui/lib/social-login/url/OAuthContext";
+import { SocialButtons } from "@workspace/ui/blocks/buttons/social-buttons";
+import { FacebookOAuthURLStrategy } from "@workspace/ui/lib/social-login/url/FacebookOAuthURLStrategy";
 
 export const SignInForm = () => {
   const {
@@ -26,6 +30,22 @@ export const SignInForm = () => {
       onSuccess: (data) => onSuccess(data),
     },
   });
+  //social buttons urls
+  const googleStrategy = new GoogleOAuthURLStrategy(
+    process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!,
+    process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI!
+  );
+  const context = new OAuthContext(googleStrategy);
+
+  const googleUrl = context.buildAuthURL();
+
+  const fbStrategy = new FacebookOAuthURLStrategy(
+    process.env.NEXT_PUBLIC_FACEBOOK_APP_ID!,
+    process.env.NEXT_PUBLIC_FACEBOOK_REDIRECT_URI!
+  );
+  context.setStrategy(fbStrategy);
+
+  const fbUrl = context.buildAuthURL();
 
   return (
     <>
@@ -63,6 +83,9 @@ export const SignInForm = () => {
         form={form}
         api={{ onSubmit: (data) => mutate({ data }), isLoading: isPending }}
       >
+        <SocialButtons
+          providers={{ google: { url: googleUrl }, facebook: { url: fbUrl } }}
+        />
         <p className="text-sm text-muted-foreground text-center">
           {authMsgsTranslations("orHaveNotAnAccountSignUp")}
           <Link

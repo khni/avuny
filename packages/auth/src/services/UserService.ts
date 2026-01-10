@@ -18,6 +18,7 @@ import {
   SocialUserResult,
 } from "../lib/auth/social-auth/interfaces/ISocialAuthProvider.js";
 import { User } from "@avuny/db";
+import { FacebookSocialAuthStrategy } from "../lib/auth/social-auth/services/FacebookAuthStrategy.js";
 
 const jwtSecret = process.env.JWT_SECRET;
 if (!jwtSecret) {
@@ -32,11 +33,17 @@ const tokensService = new TokensService(
   jwtSecret,
   "5m"
 );
+
 const socialAuthContext = new SocialAuthContext([
   new GoogleSocialAuthStrategy({
     clientId: process.env.GOOGLE_CLIENT_ID!,
     clientSecret: process.env.GOOGLE_SECRET!,
     redirectUri: process.env.GOOGLE_REDIRECT_URI!,
+  }),
+  new FacebookSocialAuthStrategy({
+    appId: process.env.FACEBOOK_APP_ID!,
+    appSecret: process.env.FACEBOOK_SECRET!,
+    redirectUri: process.env.FACEBOOK_REDIRECT_URI!,
   }),
 ]);
 const handleSocialUser = async (user: SocialUserResult) => {

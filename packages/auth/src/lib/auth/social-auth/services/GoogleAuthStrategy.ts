@@ -9,7 +9,9 @@ import {
 } from "../interfaces/ISocialAuthProvider.js";
 
 export class GoogleSocialAuthStrategy implements SocialAuthProvider {
-  constructor(private googleAuthConfig: GoogleAuthConfig) {}
+  constructor(private googleAuthConfig: GoogleAuthConfig) {
+    console.log(" GOOGLE_REDIRECT_URI:", googleAuthConfig.redirectUri);
+  }
   provider: Provider = "google";
 
   async getTokens(code: string): Promise<SocialTokensResult> {

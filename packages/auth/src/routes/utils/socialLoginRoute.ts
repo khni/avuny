@@ -38,6 +38,7 @@ export const socialLoginRoute = (provider: Provider) => {
 
   socialRoute.openapi(route, async (c) => {
     const { code } = c.req.valid("query");
+    console.log("code, ", code, provider);
     const result = await socialSignIn(code, provider);
     const { cookieName, ...rest } = refreshTokenCookieOpts;
     setCookie(c, cookieName, result.data.tokens.refreshToken, rest);

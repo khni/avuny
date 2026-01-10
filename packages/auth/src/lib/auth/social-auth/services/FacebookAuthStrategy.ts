@@ -18,6 +18,7 @@ export class FacebookSocialAuthStrategy implements SocialAuthProvider {
       redirect_uri: this.facebookAuthConfig.redirectUri,
       code,
     });
+    console.log("Facebook getTokens params:", params.toString());
 
     const res = await axios.get(
       "https://graph.facebook.com/v6.0/oauth/access_token",
