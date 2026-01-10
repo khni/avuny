@@ -18,27 +18,28 @@ const route = createApi({
   method: "post",
   operationId: "login",
   path: "/login",
+  tags: ["auth"],
   bodySchema: localLoginInputSchema,
   responses: [
-    response(
-      200,
-      "Auth Response",
-      createResponseSchema(authResponseTypeSchema)
-    ),
-    response(
-      authLoginErrorMapping.AUTH_LOGIN_INCORRECT_CREDENTIALS.statusCode,
-      "Incorrect Credentials",
-      createDomainErrorResponseSchema([
+    response({
+      status: 200,
+      description: "Auth Response",
+      schema: createResponseSchema(authResponseTypeSchema),
+    }),
+    response({
+      status: authLoginErrorMapping.AUTH_LOGIN_INCORRECT_CREDENTIALS.statusCode,
+      description: "Incorrect Credentials",
+      schema: createDomainErrorResponseSchema([
         AuthLoginDomainErrorCodes.AUTH_LOGIN_INCORRECT_CREDENTIALS,
-      ])
-    ),
-    response(
-      authLoginErrorMapping.AUTH_LOGIN_USER_PASSWORD_NOT_SET.statusCode,
-      "Incorrect Credentials",
-      createDomainErrorResponseSchema([
+      ]),
+    }),
+    response({
+      status: authLoginErrorMapping.AUTH_LOGIN_USER_PASSWORD_NOT_SET.statusCode,
+      description: "User Password Not Set",
+      schema: createDomainErrorResponseSchema([
         AuthLoginDomainErrorCodes.AUTH_LOGIN_USER_PASSWORD_NOT_SET,
-      ])
-    ),
+      ]),
+    }),
   ],
 });
 

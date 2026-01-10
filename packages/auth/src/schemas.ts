@@ -160,3 +160,7 @@ export const authResponseTypeSchema = z
     tokens: authTokensResponseTypeSchema,
   })
   .openapi("AuthResponse");
+
+export const SocialLoginParamsSchema = z.object({
+  code: z.string(),
+});

@@ -33,11 +33,15 @@ export type ApiResponse<
   schema: Schema;
 };
 
-export const response = <Status extends StatusCode, Schema extends z._ZodType>(
-  status: Status,
-  description: string,
-  schema: Schema
-): ApiResponse<Status, Schema> => ({
+export const response = <Status extends StatusCode, Schema extends z._ZodType>({
+  description,
+  schema,
+  status,
+}: {
+  status: Status;
+  description: string;
+  schema: Schema;
+}): ApiResponse<Status, Schema> => ({
   status,
   description,
   schema,
@@ -160,6 +164,7 @@ type CreateApiArgs<
   querySchema?: Query;
 
   responses: Responses;
+  tags?: string[];
 };
 
 /* ======================================================
@@ -182,13 +187,14 @@ export const createApi = <
     paramsSchema,
     querySchema,
     responses,
+    tags,
   } = args;
 
   return createRoute({
     method,
     path,
     operationId,
-
+    tags,
     request: {
       ...(bodySchema
         ? {

@@ -20,22 +20,24 @@ const route = createApi({
   method: "post",
   operationId: "refreshToken",
   path: "/token/refresh",
+  tags: ["auth"],
   bodySchema: z.object({
     token: z.string().optional(),
   }),
   responses: [
-    response(
-      200,
-      "return new refreshToken and accessToken if refreshToken is valid",
-      createResponseSchema(authTokensResponseTypeSchema)
-    ),
-    response(
-      401,
-      "Token is missing or invalid, user is required to login",
-      createDomainErrorResponseSchema([
+    response({
+      status: 200,
+      description:
+        "return new refreshToken and accessToken if refreshToken is valid",
+      schema: createResponseSchema(authTokensResponseTypeSchema),
+    }),
+    response({
+      status: 401,
+      description: "Token is missing or invalid, user is required to login",
+      schema: createDomainErrorResponseSchema([
         AuthenticatedErrorCodes.AUTH_REFRESH_TOKEN_INVALID,
-      ])
-    ),
+      ]),
+    }),
   ],
 });
 

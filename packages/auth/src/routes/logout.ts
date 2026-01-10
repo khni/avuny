@@ -12,15 +12,16 @@ const route = createApi({
   method: "post",
   path: "/logout",
   operationId: "logout",
+  tags: ["auth"],
   bodySchema: z.object({
     refreshToken: z.string().optional(),
   }),
   responses: [
-    response(
-      200,
-      "logout user by delete refresh token in the database",
-      z.string()
-    ),
+    response({
+      status: 200,
+      description: "logout user by delete refresh token in the database",
+      schema: z.string(),
+    }),
   ],
 });
 

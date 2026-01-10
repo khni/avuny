@@ -15,17 +15,20 @@ const route = createApi({
   method: "get",
   operationId: "isAuthenticated",
   path: "/is-authenticated",
+  tags: ["auth"],
   responses: [
-    response(
-      200,
-      "User is authenticated",
-      createResponseSchema(userResponseTypeSchema)
-    ),
-    response(
-      401,
-      "Token is missing or invalid, user is required to login",
-      createDomainErrorResponseSchema([AuthenticatedErrorCodes.UNAUTHENTICATED])
-    ),
+    response({
+      status: 200,
+      description: "User is authenticated",
+      schema: createResponseSchema(userResponseTypeSchema),
+    }),
+    response({
+      status: 401,
+      description: "Token is missing or invalid, user is required to login",
+      schema: createDomainErrorResponseSchema([
+        AuthenticatedErrorCodes.UNAUTHENTICATED,
+      ]),
+    }),
   ],
 });
 

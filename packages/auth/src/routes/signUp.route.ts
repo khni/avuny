@@ -28,6 +28,7 @@ const route = createRoute({
   method: "post",
   path: "/sign-up",
   operationId: "signUp",
+  tags: ["auth"],
   request: {
     body: {
       content: {
