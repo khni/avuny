@@ -175,6 +175,9 @@ importers:
       '@avuny/auth':
         specifier: workspace:*
         version: link:../auth
+      '@avuny/region':
+        specifier: workspace:*
+        version: link:../region
       '@hono/swagger-ui':
         specifier: ^0.5.2
         version: 0.5.3(hono@4.11.3)
@@ -336,6 +339,9 @@ importers:
       dotenv:
         specifier: ^17.2.3
         version: 17.2.3
+      zod:
+        specifier: ^4.0.5
+        version: 4.3.5
     devDependencies:
       '@types/node':
         specifier: ^20.19.9

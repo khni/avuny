@@ -46,6 +46,7 @@
     "@khni/error-handler": "^2.1.1",
     "@khni/utils": "^1.0.0",
     "@avuny/auth": "workspace:*",
+    "@avuny/region": "workspace:*",
     "axios": "^1.13.2",
     "bcrypt": "^6.0.0",
     "hono": "^4.10.7",
