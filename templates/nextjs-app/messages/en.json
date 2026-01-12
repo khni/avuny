@@ -1,0 +1,85 @@
+{
+  "search": "Search...",
+  "loading": "Loading...",
+  "name": "Name",
+  "description": "Description",
+  "noResult": "No Result Found",
+  "select": "Select",
+  "addedSuccess": "Added successfully",
+  "updatedSuccess": "Updated successfully",
+  "date": "Date",
+
+  "save": "Save",
+  "saved": "has been Saved successfully",
+
+  "add": "Add",
+  "added": "has been added successfully",
+
+  "create": "Create",
+  "created": "has been created successfully",
+
+  "update": "Update",
+  "updated": "has been Updated successfully",
+
+  "send": "Send",
+  "sent": "has been sent successfully",
+
+  "delete": "Delete",
+  "deleted": "has been deleted successfully",
+
+  "emptyList": "List is Empty",
+
+  "all": "All",
+
+  "success": "Success",
+
+  "confirm": "Confirm",
+
+  "home": "Home",
+  "phone": "Phone",
+  "address": "Address",
+
+  "no": "No",
+  "yes": "Yes",
+
+  "cancel": "Cancel",
+
+  "signIn": "Sign In",
+  "signUp": "Sign Up",
+
+  "login": "Log In",
+  "registration": "registration",
+
+  "signInFormCardTitle": "Sign In",
+  "signInFormCardDescription": "Access your account",
+  "successLoginToastTitle": "Success",
+  "successLoginToastDescription": "You have successfully logged in. Redirecting to the Dashboard.",
+
+  "successSendingOtpToastTitle": "OTP successfully has been sent",
+  "successSendingOtpDescription": "OTP successfully has been sent, Please Check your Email",
+  "sendingOtpFormTitle": "Enter Your Email Address",
+  "sendingOtpFormDescription": "Provide your email address, and we will send you a One-Time Password (OTP) to verify your email.",
+  "signUpTitle": "Create an Account",
+  "signUpDescription": "Join us today",
+
+  "verifyOtpFormCardTitle": "One-Time Password",
+  "verifyOtpFormCardDescription": "Enter the one-time password sent to your email",
+
+  "emailLabel": "Email Address",
+  "passwordLabel": "Password",
+  "confirmPasswordLabel": "Confirm Password",
+  "firstNameLabel": "First Name",
+  "lastNameLabel": "Last Name",
+  "submitButton": "Submit",
+  "verifyButton": "Verify",
+  "registerButton": "Register",
+  "otpToastTitle": "OTP Sent",
+  "otpToastDescription": "Please check your email for the one-time password.",
+
+  "googleSignInButton": "Sign in with Google",
+  "facebookSignInButton": "Sign in with Facebook",
+  "logout": "Logout",
+
+  "logoutSuccess": "You logged out",
+  "logoutFailed": "Failed to logout"
+}

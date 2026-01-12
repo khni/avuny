@@ -1,0 +1,83 @@
+{
+  "search": "بحث...",
+  "loading": "جاري التحميل...",
+  "name": "الاسم",
+  "description": "الوصف",
+  "noResult": "لم يتم العثور على نتائج",
+  "select": "أختر",
+  "save": "حفظ",
+  "saved": "تم الحفظ بنجاح",
+  "addedSuccess": "تمت الإضافة بنجاح",
+  "updatedSuccess": "تم التحديث بنجاح",
+  "date": "التاريخ",
+
+  "add": "إضافة",
+  "added": "تمت الإضافة بنجاح",
+
+  "create": "إنشاء",
+  "created": "تم الإنشاء بنجاح",
+
+  "update": "تحديث",
+  "updated": "تم التحديث بنجاح",
+
+  "send": "إرسال",
+  "sent": "تم الإرسال بنجاح",
+
+  "delete": "حذف",
+  "deleted": "تم الحذف بنجاح",
+
+  "emptyList": "القائمة فارغة",
+
+  "all": "الكل",
+  "success": "نجاح",
+
+  "confirm": "قبول",
+
+  "home": "الصفحة الرئيسية",
+  "phone": "رقم الهاتف",
+  "address": "العنوان",
+  "no": "لا",
+  "yes": "نعم",
+
+  "cancel": "إلغاء",
+
+  "signIn": "تسجيل الدخول",
+  "signUp": "إنشاء حساب",
+  "login": "تسجيل الدخول",
+  "registration": "إنشاء حساب جديد",
+
+  "signInFormCardTitle": "تسجيل الدخول",
+  "signInFormCardDescription": "تسجيل الدخول الي حسابك",
+  "successLoginToastTitle": "نجاح",
+  "successLoginToastDescription": "تم تسجيل الدخول بنجاح. جارٍ إعادة التوجيه إلى لوحة التحكم.",
+
+  "successSendingOtpToastTitle": "كلمة السر تم أرسالها بنجاح",
+  "successSendingOtpDescription": "تم إرسال كلمة المرور التي تستخدم لمرة واحدة بنجاح ، برجاء تفحص بريدك الالكتروني",
+  "sendingOtpFormTitle": "ادخل عنوان بريدك الإلكتروني",
+  "sendingOtpFormDescription": "قم بإدخال عنوان بريدك الإلكتروني وسنرسل لك كلمة مرور لمرة واحدة (OTP) للتحقق من بريدك الإلكتروني.",
+
+  "verifyOtpFormCardTitle": "كلمة مرور لمرة واحدة (OTP)",
+  "verifyOtpFormCardDescription": "أدخل كلمة المرور لمرة واحدة (OTP) المرسلة إلى بريدك الإلكتروني",
+  "verifyOtpToastTitle": "تم إرسال رمز التحقق",
+  "verifyOtpToastDescription": "يرجى التحقق من بريدك الإلكتروني للحصول على كلمة المرور لمرة واحدة.",
+
+  "signUpTitle": "إنشاء حساب",
+  "signUpDescription": "انضم إلينا اليوم",
+
+  "emailLabel": "عنوان البريد الإلكتروني",
+  "passwordLabel": "كلمة المرور",
+  "confirmPasswordLabel": "تأكيد كلمة المرور",
+  "firstNameLabel": "الاسم الأول",
+  "lastNameLabel": "اسم العائلة",
+  "submitButton": "إرسال",
+  "verifyButton": "تحقق",
+  "registerButton": "تسجيل",
+
+  "googleSignInButton": "تسجيل الدخول عبر جوجل",
+  "facebookSignInButton": "تسجيل الدخول عبر فيسبوك",
+
+  "logout": "تسجيل الخروج",
+
+  "logoutSuccess": "لقد سجلت الخروج",
+  "logoutFailed": "فشل في تسجيل الخروج"
+}

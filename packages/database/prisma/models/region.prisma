@@ -84,7 +84,7 @@ model Country {
 
   TimeZone TimeZone[]
 
-  City City[]
+  city City[]
 }
 
 model State {
@@ -100,9 +100,10 @@ model State {
   countryId  String
   country    Country @relation(fields: [countryId], references: [id])
   cities     City[]
-  //organization Organization[]
+ 
 
   @@unique([name, countryId])
+  organizations Organization[]
 }
 
 model City {

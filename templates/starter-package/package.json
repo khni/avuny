@@ -1,0 +1,40 @@
+{
+	"name": "starter-tenplate",
+	"private": true,
+	"version": "0.1.0",
+	"type": "module",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"exports": {
+		".": {
+			"import": "./dist/index.js",
+			"types": "./dist/index.d.ts"
+		}
+	},
+	"scripts": {
+		"test": "vitest run",
+		"test:watch": "vitest",
+		"test:ui": "vitest --ui",
+		"test:coverage": "vitest run --coverage",
+		"lint": "eslint .",
+		"build": "tsc -p tsconfig.build.json",
+		"dev": "tsc -p tsconfig.build.json --watch --preserveWatchOutput",
+		"api:docs": "api-documenter markdown -i temp -o docs",
+		"api:extract": "api-extractor run --local"
+	},
+	"devDependencies": {
+		"@microsoft/api-documenter": "^7.26.29",
+		"@microsoft/api-extractor": "^7.52.8",
+		"@types/jsonwebtoken": "^9.0.10",
+		"@vitest/ui": "^3.2.3",
+		"eslint": "^9.28.0",
+		"typescript": "~5.8.3",
+		"vitest": "^3.2.3"
+	},
+	"dependencies": {
+		"@types/bcrypt": "^5.0.2",
+		"bcrypt": "^6.0.0",
+		"jsonwebtoken": "^9.0.2",
+		"zod": "^4.0.5"
+	}
+}
