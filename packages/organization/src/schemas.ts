@@ -14,18 +14,16 @@ export const organizationSchema = z.object({
   createdAt: z.coerce.date(),
   updatedAt: z.coerce.date(),
 });
-export const createOrganizationSchema = organizationSchema.omit({
+export const createOrganizationBodySchema = organizationSchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,
+  ownerId: true,
 });
-export const updateOrganizationSchema = createOrganizationSchema
-  .omit({ ownerId: true })
-  .partial();
+export const updateOrganizationBodySchema =
+  createOrganizationBodySchema.partial();
 
-export const organizationWhereUniqueSchema = z.object({
-  id: z.uuid(),
-});
+export const getOrganizationByIdSchema = organizationSchema.pick({ id: true });
 
 export const organizationQuerySchema = z.object({
   skip: z.number().min(0).optional(),
@@ -38,9 +36,13 @@ export const organizationQuerySchema = z.object({
     .optional(),
 });
 export type Organization = z.infer<typeof organizationSchema>;
-export type CreateOrganizationInput = z.infer<typeof createOrganizationSchema>;
-export type UpdateOrganizationInput = z.infer<typeof updateOrganizationSchema>;
+export type CreateOrganizationInput = z.infer<
+  typeof createOrganizationBodySchema
+>;
+export type UpdateOrganizationInput = z.infer<
+  typeof updateOrganizationBodySchema
+>;
 export type OrganizationWhereUniqueInput = z.infer<
-  typeof organizationWhereUniqueSchema
+  typeof getOrganizationByIdSchema
 >;
 export type OrganizationQueryInput = z.infer<typeof organizationQuerySchema>;

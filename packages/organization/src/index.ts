@@ -1,1 +1,1 @@
-console.log('starter-package')
+export * from "./routes/index.js";

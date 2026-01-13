@@ -182,6 +182,9 @@ importers:
       '@avuny/auth':
         specifier: workspace:*
         version: link:../auth
+      '@avuny/organization':
+        specifier: workspace:*
+        version: link:../organization
       '@avuny/region':
         specifier: workspace:*
         version: link:../region
@@ -441,6 +444,9 @@ importers:
 
   packages/organization:
     dependencies:
+      '@avuny/auth':
+        specifier: workspace:*
+        version: link:../auth
       '@avuny/db':
         specifier: workspace:*
         version: link:../database

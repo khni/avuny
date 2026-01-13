@@ -8,7 +8,7 @@ import { authenticatedErrorMapping } from "../lib/auth/errors/errorsMap.js";
 export const isAuthenticatedMiddleware: MiddlewareHandler = async (c, next) => {
   const authHeader = c.req.header("authorization");
   const token = authHeader?.startsWith("Bearer ") ? authHeader.slice(7) : null;
-
+  console.log(authHeader, "token");
   const result = isAuthenticated(token);
   if (!result.success) {
     return c.json(
