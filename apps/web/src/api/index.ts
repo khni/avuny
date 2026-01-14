@@ -19,6 +19,16 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
+  CreateOrganization201,
+  CreateOrganization403,
+  CreateOrganization409,
+  CreateOrganizationBody,
+  GetApiRegionCountries200Item,
+  GetApiRegionStates200Item,
+  GetApiRegionStates500,
+  GetApiRegionStatesParams,
+  GetOrganizationById200,
+  GetOrganizationById500,
   IsAuthenticated200,
   IsAuthenticated401,
   IsAuthenticated500,
@@ -30,13 +40,20 @@ import type {
   Login500,
   Logout500,
   LogoutBody,
+  OrganizationList200,
+  OrganizationList500,
   RefreshToken200,
   RefreshToken401,
   RefreshToken500,
   RefreshTokenBody,
   SignUp201,
   SignUp409,
-  SignUp500
+  SignUp500,
+  SocialLoginfacebookParams,
+  SocialLogingoogleParams,
+  UpdateOrganization200,
+  UpdateOrganization409,
+  UpdateOrganizationBody
 } from './model';
 
 import { customInstance } from './mutator/custom-instance';
@@ -52,7 +69,7 @@ export const login = (
       
       
       return customInstance<Login200>(
-      {url: `/api/auth//login`, method: 'POST',
+      {url: `/api/auth/login`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: localLoginInput, signal
     },
@@ -111,7 +128,7 @@ export const signUp = (
       
       
       return customInstance<SignUp201>(
-      {url: `/api/auth//sign-up`, method: 'POST',
+      {url: `/api/auth/sign-up`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: localRegisterInput, signal
     },
@@ -163,69 +180,6 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       return useMutation(mutationOptions);
     }
     
-export const isAuthenticated = (
-    
- options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
-) => {
-      
-      
-      return customInstance<IsAuthenticated200>(
-      {url: `/api/auth//is-authenticated`, method: 'GET', signal
-    },
-      options);
-    }
-  
-
-
-
-export const getIsAuthenticatedQueryKey = () => {
-    return [
-    `/api/auth//is-authenticated`
-    ] as const;
-    }
-
-    
-export const getIsAuthenticatedQueryOptions = <TData = Awaited<ReturnType<typeof isAuthenticated>>, TError = ErrorType<IsAuthenticated401 | IsAuthenticated500>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof isAuthenticated>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
-) => {
-
-const {query: queryOptions, request: requestOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getIsAuthenticatedQueryKey();
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof isAuthenticated>>> = ({ signal }) => isAuthenticated(requestOptions, signal);
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof isAuthenticated>>, TError, TData> & { queryKey: QueryKey }
-}
-
-export type IsAuthenticatedQueryResult = NonNullable<Awaited<ReturnType<typeof isAuthenticated>>>
-export type IsAuthenticatedQueryError = ErrorType<IsAuthenticated401 | IsAuthenticated500>
-
-
-
-export function useIsAuthenticated<TData = Awaited<ReturnType<typeof isAuthenticated>>, TError = ErrorType<IsAuthenticated401 | IsAuthenticated500>>(
-  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof isAuthenticated>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
-  
- ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
-
-  const queryOptions = getIsAuthenticatedQueryOptions(options)
-
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
-
-
-
-
 export const logout = (
     logoutBody: LogoutBody,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
@@ -233,7 +187,7 @@ export const logout = (
       
       
       return customInstance<string>(
-      {url: `/api/auth//logout`, method: 'POST',
+      {url: `/api/auth/logout`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: logoutBody, signal
     },
@@ -292,7 +246,7 @@ export const refreshToken = (
       
       
       return customInstance<RefreshToken200>(
-      {url: `/api/auth//token/refresh`, method: 'POST',
+      {url: `/api/auth/token/refresh`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: refreshTokenBody, signal
     },
@@ -343,3 +297,561 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
       return useMutation(mutationOptions);
     }
+    
+export const socialLogingoogle = (
+    params: SocialLogingoogleParams,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<unknown>(
+      {url: `/api/auth/google`, method: 'GET',
+        params, signal
+    },
+      options);
+    }
+  
+
+
+
+export const getSocialLogingoogleQueryKey = (params?: SocialLogingoogleParams,) => {
+    return [
+    `/api/auth/google`, ...(params ? [params]: [])
+    ] as const;
+    }
+
+    
+export const getSocialLogingoogleQueryOptions = <TData = Awaited<ReturnType<typeof socialLogingoogle>>, TError = ErrorType<void>>(params: SocialLogingoogleParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof socialLogingoogle>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getSocialLogingoogleQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof socialLogingoogle>>> = ({ signal }) => socialLogingoogle(params, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof socialLogingoogle>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type SocialLogingoogleQueryResult = NonNullable<Awaited<ReturnType<typeof socialLogingoogle>>>
+export type SocialLogingoogleQueryError = ErrorType<void>
+
+
+
+export function useSocialLogingoogle<TData = Awaited<ReturnType<typeof socialLogingoogle>>, TError = ErrorType<void>>(
+ params: SocialLogingoogleParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof socialLogingoogle>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getSocialLogingoogleQueryOptions(params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+export const socialLoginfacebook = (
+    params: SocialLoginfacebookParams,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<unknown>(
+      {url: `/api/auth/facebook`, method: 'GET',
+        params, signal
+    },
+      options);
+    }
+  
+
+
+
+export const getSocialLoginfacebookQueryKey = (params?: SocialLoginfacebookParams,) => {
+    return [
+    `/api/auth/facebook`, ...(params ? [params]: [])
+    ] as const;
+    }
+
+    
+export const getSocialLoginfacebookQueryOptions = <TData = Awaited<ReturnType<typeof socialLoginfacebook>>, TError = ErrorType<void>>(params: SocialLoginfacebookParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof socialLoginfacebook>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getSocialLoginfacebookQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof socialLoginfacebook>>> = ({ signal }) => socialLoginfacebook(params, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof socialLoginfacebook>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type SocialLoginfacebookQueryResult = NonNullable<Awaited<ReturnType<typeof socialLoginfacebook>>>
+export type SocialLoginfacebookQueryError = ErrorType<void>
+
+
+
+export function useSocialLoginfacebook<TData = Awaited<ReturnType<typeof socialLoginfacebook>>, TError = ErrorType<void>>(
+ params: SocialLoginfacebookParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof socialLoginfacebook>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getSocialLoginfacebookQueryOptions(params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+export const isAuthenticated = (
+    
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<IsAuthenticated200>(
+      {url: `/api/auth/is-authenticated`, method: 'GET', signal
+    },
+      options);
+    }
+  
+
+
+
+export const getIsAuthenticatedQueryKey = () => {
+    return [
+    `/api/auth/is-authenticated`
+    ] as const;
+    }
+
+    
+export const getIsAuthenticatedQueryOptions = <TData = Awaited<ReturnType<typeof isAuthenticated>>, TError = ErrorType<IsAuthenticated401 | IsAuthenticated500>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof isAuthenticated>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getIsAuthenticatedQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof isAuthenticated>>> = ({ signal }) => isAuthenticated(requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof isAuthenticated>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type IsAuthenticatedQueryResult = NonNullable<Awaited<ReturnType<typeof isAuthenticated>>>
+export type IsAuthenticatedQueryError = ErrorType<IsAuthenticated401 | IsAuthenticated500>
+
+
+
+export function useIsAuthenticated<TData = Awaited<ReturnType<typeof isAuthenticated>>, TError = ErrorType<IsAuthenticated401 | IsAuthenticated500>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof isAuthenticated>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getIsAuthenticatedQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+export const createOrganization = (
+    createOrganizationBody: CreateOrganizationBody,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<CreateOrganization201>(
+      {url: `/api/organizations`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: createOrganizationBody, signal
+    },
+      options);
+    }
+  
+
+
+export const getCreateOrganizationMutationOptions = <TError = ErrorType<CreateOrganization403 | CreateOrganization409>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createOrganization>>, TError,{data: CreateOrganizationBody}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof createOrganization>>, TError,{data: CreateOrganizationBody}, TContext> => {
+
+const mutationKey = ['createOrganization'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createOrganization>>, {data: CreateOrganizationBody}> = (props) => {
+          const {data} = props ?? {};
+
+          return  createOrganization(data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateOrganizationMutationResult = NonNullable<Awaited<ReturnType<typeof createOrganization>>>
+    export type CreateOrganizationMutationBody = CreateOrganizationBody
+    export type CreateOrganizationMutationError = ErrorType<CreateOrganization403 | CreateOrganization409>
+
+    export const useCreateOrganization = <TError = ErrorType<CreateOrganization403 | CreateOrganization409>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createOrganization>>, TError,{data: CreateOrganizationBody}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof createOrganization>>,
+        TError,
+        {data: CreateOrganizationBody},
+        TContext
+      > => {
+
+      const mutationOptions = getCreateOrganizationMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const organizationList = (
+    
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<OrganizationList200>(
+      {url: `/api/organizations`, method: 'GET', signal
+    },
+      options);
+    }
+  
+
+
+
+export const getOrganizationListQueryKey = () => {
+    return [
+    `/api/organizations`
+    ] as const;
+    }
+
+    
+export const getOrganizationListQueryOptions = <TData = Awaited<ReturnType<typeof organizationList>>, TError = ErrorType<OrganizationList500>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof organizationList>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getOrganizationListQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof organizationList>>> = ({ signal }) => organizationList(requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof organizationList>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type OrganizationListQueryResult = NonNullable<Awaited<ReturnType<typeof organizationList>>>
+export type OrganizationListQueryError = ErrorType<OrganizationList500>
+
+
+
+export function useOrganizationList<TData = Awaited<ReturnType<typeof organizationList>>, TError = ErrorType<OrganizationList500>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof organizationList>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getOrganizationListQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+export const getOrganizationById = (
+    id: string,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<GetOrganizationById200>(
+      {url: `/api/organizations/${id}`, method: 'GET', signal
+    },
+      options);
+    }
+  
+
+
+
+export const getGetOrganizationByIdQueryKey = (id?: string,) => {
+    return [
+    `/api/organizations/${id}`
+    ] as const;
+    }
+
+    
+export const getGetOrganizationByIdQueryOptions = <TData = Awaited<ReturnType<typeof getOrganizationById>>, TError = ErrorType<GetOrganizationById500>>(id: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getOrganizationById>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetOrganizationByIdQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getOrganizationById>>> = ({ signal }) => getOrganizationById(id, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getOrganizationById>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetOrganizationByIdQueryResult = NonNullable<Awaited<ReturnType<typeof getOrganizationById>>>
+export type GetOrganizationByIdQueryError = ErrorType<GetOrganizationById500>
+
+
+
+export function useGetOrganizationById<TData = Awaited<ReturnType<typeof getOrganizationById>>, TError = ErrorType<GetOrganizationById500>>(
+ id: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getOrganizationById>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetOrganizationByIdQueryOptions(id,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+export const updateOrganization = (
+    id: string,
+    updateOrganizationBody: UpdateOrganizationBody,
+ options?: SecondParameter<typeof customInstance>,) => {
+      
+      
+      return customInstance<UpdateOrganization200>(
+      {url: `/api/organizations/${id}`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: updateOrganizationBody
+    },
+      options);
+    }
+  
+
+
+export const getUpdateOrganizationMutationOptions = <TError = ErrorType<UpdateOrganization409>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateOrganization>>, TError,{id: string;data: UpdateOrganizationBody}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateOrganization>>, TError,{id: string;data: UpdateOrganizationBody}, TContext> => {
+
+const mutationKey = ['updateOrganization'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateOrganization>>, {id: string;data: UpdateOrganizationBody}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  updateOrganization(id,data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateOrganizationMutationResult = NonNullable<Awaited<ReturnType<typeof updateOrganization>>>
+    export type UpdateOrganizationMutationBody = UpdateOrganizationBody
+    export type UpdateOrganizationMutationError = ErrorType<UpdateOrganization409>
+
+    export const useUpdateOrganization = <TError = ErrorType<UpdateOrganization409>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateOrganization>>, TError,{id: string;data: UpdateOrganizationBody}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof updateOrganization>>,
+        TError,
+        {id: string;data: UpdateOrganizationBody},
+        TContext
+      > => {
+
+      const mutationOptions = getUpdateOrganizationMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const getApiRegionCountries = (
+    
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<GetApiRegionCountries200Item[]>(
+      {url: `/api/region/countries`, method: 'GET', signal
+    },
+      options);
+    }
+  
+
+
+
+export const getGetApiRegionCountriesQueryKey = () => {
+    return [
+    `/api/region/countries`
+    ] as const;
+    }
+
+    
+export const getGetApiRegionCountriesQueryOptions = <TData = Awaited<ReturnType<typeof getApiRegionCountries>>, TError = ErrorType<unknown>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getApiRegionCountries>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiRegionCountriesQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiRegionCountries>>> = ({ signal }) => getApiRegionCountries(requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiRegionCountries>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetApiRegionCountriesQueryResult = NonNullable<Awaited<ReturnType<typeof getApiRegionCountries>>>
+export type GetApiRegionCountriesQueryError = ErrorType<unknown>
+
+
+
+export function useGetApiRegionCountries<TData = Awaited<ReturnType<typeof getApiRegionCountries>>, TError = ErrorType<unknown>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getApiRegionCountries>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetApiRegionCountriesQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+export const getApiRegionStates = (
+    params: GetApiRegionStatesParams,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<GetApiRegionStates200Item[]>(
+      {url: `/api/region/states`, method: 'GET',
+        params, signal
+    },
+      options);
+    }
+  
+
+
+
+export const getGetApiRegionStatesQueryKey = (params?: GetApiRegionStatesParams,) => {
+    return [
+    `/api/region/states`, ...(params ? [params]: [])
+    ] as const;
+    }
+
+    
+export const getGetApiRegionStatesQueryOptions = <TData = Awaited<ReturnType<typeof getApiRegionStates>>, TError = ErrorType<void | GetApiRegionStates500>>(params: GetApiRegionStatesParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getApiRegionStates>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiRegionStatesQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiRegionStates>>> = ({ signal }) => getApiRegionStates(params, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiRegionStates>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetApiRegionStatesQueryResult = NonNullable<Awaited<ReturnType<typeof getApiRegionStates>>>
+export type GetApiRegionStatesQueryError = ErrorType<void | GetApiRegionStates500>
+
+
+
+export function useGetApiRegionStates<TData = Awaited<ReturnType<typeof getApiRegionStates>>, TError = ErrorType<void | GetApiRegionStates500>>(
+ params: GetApiRegionStatesParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getApiRegionStates>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetApiRegionStatesQueryOptions(params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
