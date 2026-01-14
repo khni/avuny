@@ -8,7 +8,7 @@ import {
 
 type Tx = Prisma.TransactionClient;
 
-export class OrganizationService {
+export class OrganizationQueryService {
   constructor(private readonly db: PrismaClient) {}
 
   private getDB(tx?: Tx) {

@@ -5,12 +5,15 @@ import {
   OrganizationWhereUniqueInput,
   UpdateOrganizationInput,
 } from "./schemas.js";
-import { nameConflict, ok } from "@avuny/utils";
+import { nameConflict, ok, creationLimitExceeded } from "@avuny/utils";
 
 type Tx = Prisma.TransactionClient;
 
 export class OrganizationMutationService {
-  constructor(private readonly db: PrismaClient) {}
+  constructor(
+    private readonly db: PrismaClient,
+    private creationLimit: number = 3
+  ) {}
 
   private getDB(tx?: Tx) {
     return tx ?? this.db;
@@ -38,6 +41,14 @@ export class OrganizationMutationService {
       return nameConflict();
     }
 
+    const organizationListCount = await _db.organization.count({
+      where: {
+        ownerId,
+      },
+    });
+    if (organizationListCount >= this.creationLimit) {
+      return creationLimitExceeded();
+    }
     organization = await _db.organization.create({
       data: {
         ...data,
@@ -57,13 +68,25 @@ export class OrganizationMutationService {
     ownerId: string;
     data: UpdateOrganizationInput;
     tx?: Tx;
-  }): Promise<Organization> {
+  }) {
     const _db = this.getDB(tx);
+    let organization = await _db.organization.findFirst({
+      where: {
+        name: data.name,
+        ownerId: {
+          not: ownerId,
+        },
+      },
+    });
+    if (organization) {
+      return nameConflict();
+    }
 
-    return await _db.organization.update({
+    organization = await _db.organization.update({
       where: { ...where, ownerId },
       data,
     });
+    return ok(organization);
   }
 
   async delete({
