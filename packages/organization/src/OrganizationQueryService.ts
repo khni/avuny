@@ -4,7 +4,7 @@ import {
   type Organization,
   OrganizationWhereUniqueInput,
   UpdateOrganizationInput,
-} from "./schemas.js";
+} from "./types.js";
 
 type Tx = Prisma.TransactionClient;
 

@@ -1,8 +1,5 @@
 import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
-import {
-  updateOrganizationBodySchema,
-  organizationSchema,
-} from "../schemas.js";
+
 import {
   AuthorizationHeaderSchema,
   createDomainErrorResponseSchema,
@@ -16,6 +13,10 @@ import { isAuthenticatedMiddleware } from "@avuny/auth/is-authenticated";
 import { OrganizationMutationService } from "../OrganizationMutationService.js";
 import { prisma } from "@avuny/db";
 import { handleResult } from "@avuny/hono";
+import {
+  organizationSchema,
+  updateOrganizationBodySchema,
+} from "../schemas.js";
 
 export const updateOrganizationRoute = new OpenAPIHono();
 const route = createRoute({

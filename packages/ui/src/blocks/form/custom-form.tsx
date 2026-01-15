@@ -25,6 +25,7 @@ import DynamicFields, {
 } from "@workspace/ui/blocks/form/dynamic-fields";
 import SubmitButton from "@workspace/ui/blocks/form/submit-button";
 import { ErrorAlert } from "@workspace/ui/blocks/form/ErrorAlert";
+import { DynamicGridFields } from "@workspace/ui/blocks/form/fields";
 
 // ------------------
 // Props
@@ -108,11 +109,10 @@ const CustomForm = <T extends FieldValues, E>({
           >
             <>
               {fields ? (
-                <DynamicGrid
-                  items={fields}
-                  contentMapper={(content: any) => (
-                    <DynamicFields fields={[{ ...content, getLabel, form }]} />
-                  )}
+                <DynamicGridFields
+                  form={form}
+                  getLabel={getLabel}
+                  fields={fields}
                 />
               ) : null}
               {children}

@@ -1,0 +1,17 @@
+{
+  "form": {
+    "title": "{action} Organization",
+    "description": "Use this form to {action} an organization. You can modify these details later if needed.",
+    "fields": {
+      "name": "Name",
+      "description": "Description",
+      "industryCategoryId": "Industry Category",
+      "fiscalYearPatternId": "Fiscal Year Pattern",
+      "stateId": "State",
+      "inventoryStartDate": "Inventory Start Date",
+      "ownerId": "Owner",
+      "address": "Address",
+      "zipCode": "ZIP Code"
+    }
+  }
+}
