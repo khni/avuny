@@ -16,6 +16,7 @@ regionRoutes.openapi(
   createRoute({
     method: "get",
     path: "/countries",
+    operationId: "countryList",
     tags: ["Regions"],
     responses: {
       200: {
@@ -41,6 +42,7 @@ regionRoutes.openapi(
   createRoute({
     method: "get",
     path: "/states",
+    operationId: "stateList",
     tags: ["Regions"],
     request: {
       query: StateQuerySchema,

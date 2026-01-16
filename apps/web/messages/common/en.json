@@ -17,6 +17,7 @@
       "unknownError": "An unknown error occurred. Please try again later."
     },
     "actions": {
+      "create": "Create",
       "save": "Save",
       "add": "Add",
       "update": "Update",

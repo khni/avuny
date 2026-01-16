@@ -1,6 +1,7 @@
 import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
 import {
   createOrganizationBodySchema,
+  mutateOrganizationResponseSchema,
   organizationSchema,
 } from "../schemas.js";
 import {
@@ -40,7 +41,7 @@ const route = createRoute({
       description: "Organization have been created successfully",
       content: {
         "application/json": {
-          schema: createResponseSchema(organizationSchema),
+          schema: createResponseSchema(mutateOrganizationResponseSchema),
         },
       },
     },

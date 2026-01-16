@@ -22,8 +22,6 @@ export type CreateOrganizationBody = {
   /** @nullable */
   fiscalYearPatternId?: string | null;
   stateId: string;
-  /** @nullable */
-  inventoryStartDate: string | null;
   /**
    * @minLength 5
    * @maxLength 255
@@ -36,4 +34,5 @@ export type CreateOrganizationBody = {
    * @nullable
    */
   zipCode?: string | null;
+  inventoryStartDate: string;
 };

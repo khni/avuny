@@ -7,6 +7,7 @@ import LangaugeSwitcherBtn from "@/src/components/buttons/langauge-switcher-btn"
 import { useIsAuthenticated } from "@/src/api";
 import UserButton from "@/src/components/buttons/user-btn";
 import { useLogoutHandler } from "@/src/features/auth/logout/useLogoutHook";
+import CreateOrganizationForm from "@/src/features/organization/forms/CreateOrganizationForm";
 
 //snp rfc
 export default function Page() {
@@ -31,7 +32,10 @@ export default function Page() {
           </>
         }
       />
-      Hello
+      <div className="flex-1 flex flex-col gap-4 bg-muted items-center justify-center p-6 md:p-4">
+        {" "}
+        <CreateOrganizationForm />
+      </div>
     </div>
   );
 }

@@ -6,7 +6,10 @@ import {
   resultToSuccessResponse,
 } from "@avuny/utils";
 import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
-import { organizationSchema } from "../schemas.js";
+import {
+  organizationListResponseSchema,
+  organizationSchema,
+} from "../schemas.js";
 import { prisma } from "@avuny/db";
 import { OrganizationQueryService } from "../OrganizationQueryService.js";
 
@@ -25,7 +28,7 @@ const route = createRoute({
       description: "User Organization List retrieved successfully.",
       content: {
         "application/json": {
-          schema: createResponseSchema(organizationSchema.array()),
+          schema: createResponseSchema(organizationListResponseSchema.array()),
         },
       },
     },

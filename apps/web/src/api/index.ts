@@ -19,14 +19,11 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
+  CountryList200Item,
   CreateOrganization201,
   CreateOrganization403,
   CreateOrganization409,
   CreateOrganizationBody,
-  GetApiRegionCountries200Item,
-  GetApiRegionStates200Item,
-  GetApiRegionStates500,
-  GetApiRegionStatesParams,
   GetOrganizationById200,
   GetOrganizationById500,
   IsAuthenticated200,
@@ -51,6 +48,9 @@ import type {
   SignUp500,
   SocialLoginfacebookParams,
   SocialLogingoogleParams,
+  StateList200Item,
+  StateList500,
+  StateListParams,
   UpdateOrganization200,
   UpdateOrganization409,
   UpdateOrganizationBody
@@ -733,13 +733,13 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       return useMutation(mutationOptions);
     }
     
-export const getApiRegionCountries = (
+export const countryList = (
     
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
       
       
-      return customInstance<GetApiRegionCountries200Item[]>(
+      return customInstance<CountryList200Item[]>(
       {url: `/api/region/countries`, method: 'GET', signal
     },
       options);
@@ -748,42 +748,42 @@ export const getApiRegionCountries = (
 
 
 
-export const getGetApiRegionCountriesQueryKey = () => {
+export const getCountryListQueryKey = () => {
     return [
     `/api/region/countries`
     ] as const;
     }
 
     
-export const getGetApiRegionCountriesQueryOptions = <TData = Awaited<ReturnType<typeof getApiRegionCountries>>, TError = ErrorType<unknown>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getApiRegionCountries>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+export const getCountryListQueryOptions = <TData = Awaited<ReturnType<typeof countryList>>, TError = ErrorType<unknown>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof countryList>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetApiRegionCountriesQueryKey();
+  const queryKey =  queryOptions?.queryKey ?? getCountryListQueryKey();
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiRegionCountries>>> = ({ signal }) => getApiRegionCountries(requestOptions, signal);
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof countryList>>> = ({ signal }) => countryList(requestOptions, signal);
 
       
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiRegionCountries>>, TError, TData> & { queryKey: QueryKey }
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof countryList>>, TError, TData> & { queryKey: QueryKey }
 }
 
-export type GetApiRegionCountriesQueryResult = NonNullable<Awaited<ReturnType<typeof getApiRegionCountries>>>
-export type GetApiRegionCountriesQueryError = ErrorType<unknown>
+export type CountryListQueryResult = NonNullable<Awaited<ReturnType<typeof countryList>>>
+export type CountryListQueryError = ErrorType<unknown>
 
 
 
-export function useGetApiRegionCountries<TData = Awaited<ReturnType<typeof getApiRegionCountries>>, TError = ErrorType<unknown>>(
-  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getApiRegionCountries>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+export function useCountryList<TData = Awaited<ReturnType<typeof countryList>>, TError = ErrorType<unknown>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof countryList>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
   
  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
-  const queryOptions = getGetApiRegionCountriesQueryOptions(options)
+  const queryOptions = getCountryListQueryOptions(options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
@@ -796,13 +796,13 @@ export function useGetApiRegionCountries<TData = Awaited<ReturnType<typeof getAp
 
 
 
-export const getApiRegionStates = (
-    params: GetApiRegionStatesParams,
+export const stateList = (
+    params: StateListParams,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
       
       
-      return customInstance<GetApiRegionStates200Item[]>(
+      return customInstance<StateList200Item[]>(
       {url: `/api/region/states`, method: 'GET',
         params, signal
     },
@@ -812,42 +812,42 @@ export const getApiRegionStates = (
 
 
 
-export const getGetApiRegionStatesQueryKey = (params?: GetApiRegionStatesParams,) => {
+export const getStateListQueryKey = (params?: StateListParams,) => {
     return [
     `/api/region/states`, ...(params ? [params]: [])
     ] as const;
     }
 
     
-export const getGetApiRegionStatesQueryOptions = <TData = Awaited<ReturnType<typeof getApiRegionStates>>, TError = ErrorType<void | GetApiRegionStates500>>(params: GetApiRegionStatesParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getApiRegionStates>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+export const getStateListQueryOptions = <TData = Awaited<ReturnType<typeof stateList>>, TError = ErrorType<void | StateList500>>(params: StateListParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof stateList>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetApiRegionStatesQueryKey(params);
+  const queryKey =  queryOptions?.queryKey ?? getStateListQueryKey(params);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiRegionStates>>> = ({ signal }) => getApiRegionStates(params, requestOptions, signal);
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof stateList>>> = ({ signal }) => stateList(params, requestOptions, signal);
 
       
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiRegionStates>>, TError, TData> & { queryKey: QueryKey }
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof stateList>>, TError, TData> & { queryKey: QueryKey }
 }
 
-export type GetApiRegionStatesQueryResult = NonNullable<Awaited<ReturnType<typeof getApiRegionStates>>>
-export type GetApiRegionStatesQueryError = ErrorType<void | GetApiRegionStates500>
+export type StateListQueryResult = NonNullable<Awaited<ReturnType<typeof stateList>>>
+export type StateListQueryError = ErrorType<void | StateList500>
 
 
 
-export function useGetApiRegionStates<TData = Awaited<ReturnType<typeof getApiRegionStates>>, TError = ErrorType<void | GetApiRegionStates500>>(
- params: GetApiRegionStatesParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getApiRegionStates>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+export function useStateList<TData = Awaited<ReturnType<typeof stateList>>, TError = ErrorType<void | StateList500>>(
+ params: StateListParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof stateList>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
   
  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
-  const queryOptions = getGetApiRegionStatesQueryOptions(params,options)
+  const queryOptions = getStateListQueryOptions(params,options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
 

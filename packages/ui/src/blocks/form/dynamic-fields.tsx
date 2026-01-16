@@ -13,6 +13,7 @@ export type BaseDynamicField<T extends FieldValues, E> = {
   name: Path<T>; // optional if we just render a custom component
   form?: UseFormReturn<T>;
   label?: string;
+
   getLabel?: (name: Path<T>) => string;
   errorResponse?: ErrorResponse<E>;
 };
@@ -21,6 +22,7 @@ export type DynamicField<T extends FieldValues, E> =
   | (BaseDynamicField<T, E> & { type: "text" | "password" | "date" | "hidden" })
   | (BaseDynamicField<T, E> & {
       type: "select" | "radio";
+      setValue?: (value: string) => void;
       options: { id: string; name: string | number }[];
     })
   | {
@@ -78,6 +80,7 @@ export const DynamicFields = <
                 label={field.getLabel?.(field.name) || field.label || ""}
                 options={field.options}
                 errorResponse={field.errorResponse}
+                setValue={field.setValue}
               />
             );
 
@@ -90,6 +93,7 @@ export const DynamicFields = <
                 label={field.getLabel?.(field.name) || field.label || ""}
                 options={field.options}
                 errorResponse={field.errorResponse}
+                setValue={field.setValue}
               />
             );
 

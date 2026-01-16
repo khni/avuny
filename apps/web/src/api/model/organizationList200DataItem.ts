@@ -18,28 +18,5 @@ export type OrganizationList200DataItem = {
    * @nullable
    */
   description?: string | null;
-  /** @nullable */
-  industryCategoryId?: string | null;
-  /** @nullable */
-  fiscalYearPatternId?: string | null;
-  stateId: string;
-  /** @nullable */
-  inventoryStartDate: string | null;
-  ownerId: string;
-  /**
-   * @minLength 5
-   * @maxLength 255
-   * @nullable
-   */
-  address?: string | null;
-  /**
-   * @minLength 3
-   * @maxLength 10
-   * @nullable
-   */
-  zipCode?: string | null;
-  /** @nullable */
-  createdAt: string | null;
-  /** @nullable */
-  updatedAt: string | null;
+  updatedAt: string;
 };

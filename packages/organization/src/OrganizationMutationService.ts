@@ -1,9 +1,9 @@
 import { prisma, Prisma, PrismaClient } from "@avuny/db";
 import {
-  CreateOrganizationInput,
+  CreateOrganizationBody,
+  GetOrganizationByIdParams,
+  UpdateOrganizationBody,
   type Organization,
-  OrganizationWhereUniqueInput,
-  UpdateOrganizationInput,
 } from "./types.js";
 import { nameConflict, ok, creationLimitExceeded } from "@avuny/utils";
 
@@ -24,7 +24,7 @@ export class OrganizationMutationService {
     ownerId, // because it will be taken from authenticated user id
     tx,
   }: {
-    data: CreateOrganizationInput;
+    data: CreateOrganizationBody;
     ownerId: string;
     tx?: Tx;
   }) {
@@ -35,6 +35,10 @@ export class OrganizationMutationService {
           name: data.name,
           ownerId: ownerId,
         },
+      },
+      select: {
+        id: true,
+        name: true,
       },
     });
     if (organization) {
@@ -54,6 +58,10 @@ export class OrganizationMutationService {
         ...data,
         ownerId,
       },
+      select: {
+        id: true,
+        name: true,
+      },
     });
     return ok(organization);
   }
@@ -64,9 +72,9 @@ export class OrganizationMutationService {
     ownerId,
     tx,
   }: {
-    where: OrganizationWhereUniqueInput;
+    where: GetOrganizationByIdParams;
     ownerId: string;
-    data: UpdateOrganizationInput;
+    data: UpdateOrganizationBody;
     tx?: Tx;
   }) {
     const _db = this.getDB(tx);
@@ -76,6 +84,10 @@ export class OrganizationMutationService {
         ownerId: {
           not: ownerId,
         },
+      },
+      select: {
+        id: true,
+        name: true,
       },
     });
     if (organization) {
@@ -95,7 +107,7 @@ export class OrganizationMutationService {
     tx,
   }: {
     ownerId: string;
-    where: OrganizationWhereUniqueInput;
+    where: GetOrganizationByIdParams;
     tx?: Tx;
   }): Promise<Organization> {
     const _db = this.getDB(tx);

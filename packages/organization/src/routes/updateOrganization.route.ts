@@ -14,6 +14,7 @@ import { OrganizationMutationService } from "../OrganizationMutationService.js";
 import { prisma } from "@avuny/db";
 import { handleResult } from "@avuny/hono";
 import {
+  mutateOrganizationResponseSchema,
   organizationSchema,
   updateOrganizationBodySchema,
 } from "../schemas.js";
@@ -42,7 +43,7 @@ const route = createRoute({
       description: "Organization have been updated successfully",
       content: {
         "application/json": {
-          schema: createResponseSchema(organizationSchema),
+          schema: createResponseSchema(mutateOrganizationResponseSchema),
         },
       },
     },

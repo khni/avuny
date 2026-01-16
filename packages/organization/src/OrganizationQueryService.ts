@@ -1,9 +1,8 @@
 import { prisma, Prisma, PrismaClient } from "@avuny/db";
 import {
-  CreateOrganizationInput,
-  type Organization,
-  OrganizationWhereUniqueInput,
-  UpdateOrganizationInput,
+  GetOrganizationByIdParams,
+  GetOrganizationByIdResponse,
+  OrganizationListResponse,
 } from "./types.js";
 
 type Tx = Prisma.TransactionClient;
@@ -20,10 +19,10 @@ export class OrganizationQueryService {
     ownerId,
     tx,
   }: {
-    where: OrganizationWhereUniqueInput;
+    where: GetOrganizationByIdParams;
     ownerId: string;
     tx?: Tx;
-  }): Promise<Organization | null> {
+  }): Promise<GetOrganizationByIdResponse | null> {
     const _db = this.getDB(tx);
 
     return _db.organization.findUnique({
@@ -37,12 +36,18 @@ export class OrganizationQueryService {
   }: {
     ownerId: string;
     tx?: Tx;
-  }): Promise<Organization[]> {
+  }): Promise<OrganizationListResponse[]> {
     const _db = this.getDB(tx);
 
     return await _db.organization.findMany({
       where: {
         ownerId,
+      },
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        updatedAt: true,
       },
     });
   }

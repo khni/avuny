@@ -1,5 +1,4 @@
 import { z } from "@avuny/zod";
-
 export const organizationSchema = z.object({
   id: z.uuid(),
   name: z.string().min(2).max(100),
@@ -7,31 +6,42 @@ export const organizationSchema = z.object({
   industryCategoryId: z.string().uuid().nullable().optional(),
   fiscalYearPatternId: z.string().uuid().nullable().optional(),
   stateId: z.uuid(),
-  inventoryStartDate: z.coerce.date(),
+  inventoryStartDate: z.date(),
   ownerId: z.uuid(),
   address: z.string().min(5).max(255).nullable().optional(),
   zipCode: z.string().min(3).max(10).nullable().optional(),
-  createdAt: z.coerce.date(),
-  updatedAt: z.coerce.date(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
 });
-export const createOrganizationBodySchema = organizationSchema.omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-  ownerId: true,
-});
-export const updateOrganizationBodySchema =
-  createOrganizationBodySchema.partial();
+
+// body schemas
+export const mutateOrganizationSchema = organizationSchema
+  .omit({
+    id: true,
+    createdAt: true,
+    updatedAt: true,
+    ownerId: true,
+    inventoryStartDate: true,
+  })
+  .extend({ inventoryStartDate: z.iso.date() });
+export const createOrganizationBodySchema = mutateOrganizationSchema;
+
+// params schema
+export const updateOrganizationBodySchema = mutateOrganizationSchema.partial();
 
 export const getOrganizationByIdSchema = organizationSchema.pick({ id: true });
 
-export const organizationQuerySchema = z.object({
-  skip: z.number().min(0).optional(),
-  take: z.number().min(1).max(100).optional(),
-  orderBy: z
-    .object({
-      name: z.enum(["asc", "desc"]).optional(),
-      createdAt: z.enum(["asc", "desc"]).optional(),
-    })
-    .optional(),
+// Response schemas
+export const mutateOrganizationResponseSchema = organizationSchema.pick({
+  id: true,
+  name: true,
 });
+
+export const organizationListResponseSchema = organizationSchema.pick({
+  id: true,
+  name: true,
+  description: true,
+  updatedAt: true,
+});
+
+export const getOrganizationByIdResponseSchema = organizationSchema;

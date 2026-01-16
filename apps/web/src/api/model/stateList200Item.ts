@@ -5,11 +5,9 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type UpdateOrganization200Data = {
+export type StateList200Item = {
   id: string;
-  /**
-   * @minLength 2
-   * @maxLength 100
-   */
   name: string;
+  /** @nullable */
+  native: string | null;
 };

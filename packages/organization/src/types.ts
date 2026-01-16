@@ -4,17 +4,49 @@ import {
   createOrganizationBodySchema,
   updateOrganizationBodySchema,
   getOrganizationByIdSchema,
-  organizationQuerySchema,
+  getOrganizationByIdResponseSchema,
+  mutateOrganizationResponseSchema,
+  organizationListResponseSchema,
 } from "./schemas.js";
 
+/* =========================
+   Base 127637522
+========================= */
+
 export type Organization = z.infer<typeof organizationSchema>;
-export type CreateOrganizationInput = z.infer<
+
+/* =========================
+   Request Bodies
+========================= */
+
+export type CreateOrganizationBody = z.infer<
   typeof createOrganizationBodySchema
 >;
-export type UpdateOrganizationInput = z.infer<
+
+export type UpdateOrganizationBody = z.infer<
   typeof updateOrganizationBodySchema
 >;
-export type OrganizationWhereUniqueInput = z.infer<
+
+/* =========================
+   Params
+========================= */
+
+export type GetOrganizationByIdParams = z.infer<
   typeof getOrganizationByIdSchema
 >;
-export type OrganizationQueryInput = z.infer<typeof organizationQuerySchema>;
+
+/* =========================
+   Responses
+========================= */
+
+export type MutateOrganizationResponse = z.infer<
+  typeof mutateOrganizationResponseSchema
+>;
+
+export type OrganizationListResponse = z.infer<
+  typeof organizationListResponseSchema
+>;
+
+export type GetOrganizationByIdResponse = z.infer<
+  typeof getOrganizationByIdResponseSchema
+>;

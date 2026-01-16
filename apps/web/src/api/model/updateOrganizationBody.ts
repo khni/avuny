@@ -22,8 +22,6 @@ export type UpdateOrganizationBody = {
   /** @nullable */
   fiscalYearPatternId?: string | null;
   stateId?: string;
-  /** @nullable */
-  inventoryStartDate?: string | null;
   /**
    * @minLength 5
    * @maxLength 255
@@ -36,4 +34,5 @@ export type UpdateOrganizationBody = {
    * @nullable
    */
   zipCode?: string | null;
+  inventoryStartDate?: string;
 };

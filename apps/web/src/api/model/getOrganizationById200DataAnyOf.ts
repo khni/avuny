@@ -23,8 +23,7 @@ export type GetOrganizationById200DataAnyOf = {
   /** @nullable */
   fiscalYearPatternId?: string | null;
   stateId: string;
-  /** @nullable */
-  inventoryStartDate: string | null;
+  inventoryStartDate: string;
   ownerId: string;
   /**
    * @minLength 5
@@ -38,8 +37,6 @@ export type GetOrganizationById200DataAnyOf = {
    * @nullable
    */
   zipCode?: string | null;
-  /** @nullable */
-  createdAt: string | null;
-  /** @nullable */
-  updatedAt: string | null;
+  createdAt: string;
+  updatedAt: string;
 };
