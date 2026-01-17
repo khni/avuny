@@ -15,6 +15,9 @@
         "address": "العنوان",
         "zipCode": "الرمز البريدي"
       }
+    },
+    "headers": {
+      "yourOrganizations": "قائمة مؤسساتك"
     }
   }
 }

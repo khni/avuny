@@ -11,6 +11,7 @@ import { Direction } from "radix-ui";
 import { Toaster } from "@workspace/ui/components/sonner";
 import UserPreferencesContextProvider from "@workspace/ui/providers/UserPreferencesContext";
 import { setZodLocale } from "@avuny/zod";
+import SelectedOrganizationContextProvider from "@/src/providers/selected-org-provider";
 
 export function Providers({
   children,
@@ -36,10 +37,12 @@ export function Providers({
     >
       <CookiesProvider>
         <UserPreferencesContextProvider>
-          <QueryClientProvider client={client}>
-            <Direction.Provider dir={dir}>{children}</Direction.Provider>
-            <Toaster />
-          </QueryClientProvider>
+          <SelectedOrganizationContextProvider>
+            <QueryClientProvider client={client}>
+              <Direction.Provider dir={dir}>{children}</Direction.Provider>
+              <Toaster />
+            </QueryClientProvider>
+          </SelectedOrganizationContextProvider>
         </UserPreferencesContextProvider>
       </CookiesProvider>
     </NextThemesProvider>

@@ -15,6 +15,9 @@
         "address": "Address",
         "zipCode": "ZIP Code"
       }
+    },
+    "headers": {
+      "yourOrganizations": "Your Organizations"
     }
   }
 }

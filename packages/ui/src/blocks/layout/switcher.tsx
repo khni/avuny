@@ -25,7 +25,7 @@ type SwitcherItem = {
   name: string;
   id: string;
   logo?: React.ElementType;
-  description?: string;
+  description?: string | null;
 };
 export function Switcher({
   items,
