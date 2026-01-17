@@ -27,6 +27,9 @@ export default function OrganizationFormDetails<E, S extends string>({
 }: OrganizationFormDetailsProps<E, S>) {
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
+    defaultValues: {
+      inventoryStartDate: new Date().toISOString(),
+    },
   });
   useEffect(() => {
     if (organization) {
@@ -42,11 +45,8 @@ export default function OrganizationFormDetails<E, S extends string>({
     <CustomForm
       form={form}
       getLabel={fieldTranslations}
-      cardTitle={cardTitleTranslation("title", {
-        action: organization
-          ? actionTranslations("edit")
-          : actionTranslations("create"),
-      })}
+      resourceName="organization"
+      actionName={organization ? "update" : "create"}
       fields={[
         {
           key: "name",

@@ -32,8 +32,7 @@ export default function Page() {
           </>
         }
       />
-      <div className="flex-1 flex flex-col gap-4 bg-muted items-center justify-center p-6 md:p-4">
-        {" "}
+      <div className="flex-1  flex flex-col gap-4  items-center justify-center p-6 md:p-4">
         <CreateOrganizationForm />
       </div>
     </div>

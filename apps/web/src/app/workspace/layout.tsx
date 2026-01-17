@@ -18,5 +18,5 @@ export default function Layout({ children }: { children: ReactNode }) {
   if (!data?.success) {
     redirect(ROUTES.auth.index);
   }
-  return <div>{children}</div>;
+  return <div className="flex flex-col h-screen bg-muted">{children}</div>;
 }

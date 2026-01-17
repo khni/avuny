@@ -5,13 +5,17 @@
       "MODULE_CREATION_LIMIT_EXCEEDED": "لقد وصلت إلى الحد الأقصى المسموح به لإنشاء المزين من {thing}  ضمن خطتك الحالية."
     },
     "msgs": {
-      "added": "تمت إضافة {thing} بنجاح",
-      "updated": "تم تحديث {thing} بنجاح",
-      "removed": "تمت إزالة {thing} بنجاح",
-      "saved": "تم حفظ {thing} بنجاح",
-      "deleted": "تم حذف {thing} بنجاح",
-      "sent": "تم إرسال {thing} بنجاح",
-      "welcome": "مرحبا {thing}!"
+      "add": "تمت إضافة {thing} بنجاح",
+      "create": "تم إنشاء {thing} بنجاح",
+      "update": "تم تحديث {thing} بنجاح",
+      "remove": "تمت إزالة {thing} بنجاح",
+      "save": "تم حفظ {thing} بنجاح",
+      "delete": "تم حذف {thing} بنجاح",
+      "send": "تم إرسال {thing} بنجاح",
+      "welcome": "مرحبا {thing}!",
+      "actionThingTitle": "{action} {thing}",
+      "actionThingDescription": "استخدم هذا النموذج من أجل {action} {thing}. يمكنك تعديل هذه التفاصيل لاحقًا إذا لزم الأمر.",
+      "successToastMsg": "تم {action} {thing} بنجاح"
     },
     "alertMsgs": {
       "unknownError": "حدث خطأ غير معروف. يرجى المحاولة مرة أخرى لاحقًا."
@@ -32,6 +36,7 @@
     },
     "entities": {
       "account": "الحساب",
+      "organization": "المؤسسة",
       "role": "الدور",
       "item": "الصنف",
       "invoice": "الفاتورة",

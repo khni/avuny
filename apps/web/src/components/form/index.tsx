@@ -8,9 +8,11 @@ import {
 
 import { useCommonTranslations } from "messages/common/hooks/useCommonTranslations";
 import { FieldValues } from "react-hook-form";
-
+import { toast } from "sonner";
 export type FormProps<T extends FieldValues, E, S extends string> = {
   children?: React.ReactNode;
+  actionName?: "create" | "add" | "update";
+  resourceName?: "organization" | "role" | "item";
 } & Omit<
   CustomFormProps<T, E>,
   "isLoadingText" | "submitButtonText" | "children"
@@ -26,23 +28,49 @@ export const Form = <T extends FieldValues, E, S extends string>({
   cardTitle,
   cardDescription,
   children,
+  actionName,
+  resourceName,
 }: FormProps<T, E, S>) => {
   const {
     placeholderTranslations,
     alertMsgsTranslations,
     statusTranslations,
     actionTranslations,
+    msgTranslations,
+    entityTranslations,
   } = useCommonTranslations();
+  const thing = resourceName ? entityTranslations(resourceName) : "";
+  const action = actionName ? actionTranslations(actionName) : "";
+  const cardTitleFinal =
+    cardTitle ||
+    msgTranslations("actionThingTitle", {
+      action,
+      thing,
+    });
+  const cardDescriptionFinal =
+    cardDescription ||
+    msgTranslations("actionThingDescription", {
+      action,
+      thing,
+    });
+
+  const successToast = msgTranslations(actionName || "save", {
+    thing,
+  });
+
   return (
     <CustomForm
       form={form}
       getLabel={getLabel}
       api={api}
+      onSuccess={(data) => {
+        toast.success(successToast);
+      }}
       fields={fields}
       isLoadingText={placeholderTranslations("loading")}
       submitButtonText={actionTranslations("submit")}
-      cardTitle={cardTitle}
-      cardDescription={cardDescription}
+      cardTitle={cardTitleFinal}
+      cardDescription={cardDescriptionFinal}
     >
       {children}
       <ErrorAlert

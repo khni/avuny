@@ -63,7 +63,11 @@ export class OrganizationMutationService {
         name: true,
       },
     });
-    return ok(organization);
+    return ok(
+      organization,
+      { ownerId, data },
+      "OrganizationMutationService.create"
+    );
   }
 
   async update({

@@ -47,7 +47,7 @@ export interface CustomFormProps<T extends FieldValues, E> {
     | "link";
 
   api: { onSubmit: SubmitHandler<T>; isLoading: boolean };
-
+  onSuccess?: (data: T) => void;
   footerContent?: ReactNode;
   className?: string;
   formClassName?: string;
@@ -74,6 +74,7 @@ const CustomForm = <T extends FieldValues, E>({
   className,
   formClassName = "space-y-6",
   api,
+  onSuccess,
   isLoadingText = "isLoading...",
   getLabel,
 
@@ -92,7 +93,10 @@ const CustomForm = <T extends FieldValues, E>({
     }
   };
   const { isLoading, onSubmit } = api;
-
+  const onSubmitHandler: SubmitHandler<T> = (data) => {
+    onSubmit(data);
+    onSuccess?.(data);
+  };
   return (
     <Card className={className}>
       <CardHeader>
@@ -104,7 +108,7 @@ const CustomForm = <T extends FieldValues, E>({
       <CardContent>
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(onSubmit)}
+            onSubmit={form.handleSubmit(onSubmitHandler)}
             className={formClassName}
           >
             <>

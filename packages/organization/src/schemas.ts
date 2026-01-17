@@ -23,7 +23,7 @@ export const mutateOrganizationSchema = organizationSchema
     ownerId: true,
     inventoryStartDate: true,
   })
-  .extend({ inventoryStartDate: z.iso.date() });
+  .extend({ inventoryStartDate: z.iso.datetime() });
 export const createOrganizationBodySchema = mutateOrganizationSchema;
 
 // params schema
