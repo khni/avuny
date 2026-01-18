@@ -20,6 +20,7 @@ import { useTranslations } from "next-intl";
 import { useSelectedOrganizationContext } from "@/src/providers/selected-org-provider";
 import { ROUTES } from "@/src/features/routes";
 import { useRouter } from "next/navigation";
+import LoadingPage from "@workspace/ui/blocks/loading/loading-page";
 export default function WorkSpaceLayout({
   children,
   params,
@@ -42,6 +43,9 @@ export default function WorkSpaceLayout({
   const organizations = orgData?.data || [];
   const { selectedOrganizationId, setSelectedOrganizationId } =
     useSelectedOrganizationContext();
+  if (isPending) {
+    return <LoadingPage />;
+  }
   return (
     <CustomLayout
       rtl={rtl}
@@ -66,7 +70,7 @@ export default function WorkSpaceLayout({
             setSelectedOrganizationId(id);
           }}
           initialSelectedItem={organizations?.find(
-            (org) => org.id === selectedOrganizationId
+            (org) => org.id === selectedOrganizationId,
           )}
           items={
             organizations?.map((org) => ({

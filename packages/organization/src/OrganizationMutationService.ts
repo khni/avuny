@@ -12,7 +12,7 @@ type Tx = Prisma.TransactionClient;
 export class OrganizationMutationService {
   constructor(
     private readonly db: PrismaClient,
-    private creationLimit: number = 3
+    private creationLimit: number = 3,
   ) {}
 
   private getDB(tx?: Tx) {
@@ -66,7 +66,7 @@ export class OrganizationMutationService {
     return ok(
       organization,
       { ownerId, data },
-      "OrganizationMutationService.create"
+      "OrganizationMutationService.create",
     );
   }
 
