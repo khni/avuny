@@ -47,7 +47,9 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt()
 
-   ownedOrganizations Organization[] @relation("OrganizationOwnership")
+  ownedOrganizations Organization[] @relation("OrganizationOwnership")
+  organizationUsers          OrganizationUser[]
+  createdRoles       Role[]         @relation("RoleCreator")
 }
 
 model RefreshToken {

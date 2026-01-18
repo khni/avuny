@@ -88,22 +88,21 @@ model Country {
 }
 
 model State {
-  id         String  @id @default(uuid())
-  name       String
-  iso2       String?
-  fipsCode   String?
-  type       String?
-  latitude   String?
-  longitude  String?
-  wikiDataId String?
-  native      String?
-  countryId  String
-  country    Country @relation(fields: [countryId], references: [id])
-  cities     City[]
- 
+  id            String         @id @default(uuid())
+  name          String
+  iso2          String?
+  fipsCode      String?
+  type          String?
+  latitude      String?
+  longitude     String?
+  wikiDataId    String?
+  native        String?
+  countryId     String
+  country       Country        @relation(fields: [countryId], references: [id])
+  cities        City[]
+  organizations Organization[]
 
   @@unique([name, countryId])
-  organizations Organization[]
 }
 
 model City {
@@ -114,7 +113,7 @@ model City {
   latitude    String?
   longitude   String?
   wikiDataId  String?
-    native      String?
+  native      String?
   stateId     String
   countryId   String
   state       State   @relation(fields: [stateId], references: [id])

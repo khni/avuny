@@ -6,7 +6,6 @@ model Organization {
   stateId String
   state   State  @relation(fields: [stateId], references: [id])
 
-
   inventoryStartDate DateTime
 
   industryCategoryId String?
@@ -15,17 +14,20 @@ model Organization {
   fiscalYearPatternId String?
   fiscalYearPattern   FiscalYearPattern? @relation(fields: [fiscalYearPatternId], references: [id])
 
-  
-  owner     User       @relation("OrganizationOwnership", fields: [ownerId], references: [id])
-  ownerId   String
+  owner   User   @relation("OrganizationOwnership", fields: [ownerId], references: [id])
+  ownerId String
+
+  organizationUsers OrganizationUser[]
+  roles     Role[]
   // optional fields
   address   String?
   zipCode   String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  @@map("organizations")
+
   @@unique([name, ownerId])
+  @@map("organizations")
 }
 
 model IndustryCategory {
@@ -36,13 +38,14 @@ model IndustryCategory {
 
   @@map("industry_categories")
 }
-model FiscalYearPattern {
-  id         String @id @default(uuid())
-  code       String @unique // APR_MAR
-  label      String        // April – March
 
-  startMonth Int           // 4
-  endMonth   Int           // 3
+model FiscalYearPattern {
+  id    String @id @default(uuid())
+  code  String @unique // APR_MAR
+  label String // April – March
+
+  startMonth Int // 4
+  endMonth   Int // 3
 
   organizations Organization[]
 
