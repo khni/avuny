@@ -5,12 +5,15 @@ import { OpenAPIHono } from "@hono/zod-openapi";
 import { onError } from "./onError.js";
 import { OrganizationRoutes } from "@avuny/organization";
 
+import { PermissionRoutes } from "@avuny/permission";
+
 // import { createHonoErrorHandler } from "@khni/error-handler";
 // const errorHandler = createHonoErrorHandler(console);
 export const app = new OpenAPIHono().basePath("/api");
 app.route("/auth", AuthRoutes);
 app.route("/", OrganizationRoutes);
 app.route("/region", regionRoutes);
+app.route("/", PermissionRoutes);
 
 // app.use(errorHandler);
 app.onError(onError);

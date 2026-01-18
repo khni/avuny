@@ -49,6 +49,7 @@
     "@avuny/auth": "workspace:*",
     "@avuny/region": "workspace:*",
     "@avuny/organization": "workspace:*",
+    "@avuny/permission": "workspace:*",
     "axios": "^1.13.2",
     "bcrypt": "^6.0.0",
     "hono": "^4.10.7",

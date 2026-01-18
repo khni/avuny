@@ -26,6 +26,7 @@ import type {
   CreateOrganizationBody,
   GetOrganizationById200,
   GetOrganizationById500,
+  GetPermissionsMatrix200,
   IsAuthenticated200,
   IsAuthenticated401,
   IsAuthenticated500,
@@ -848,6 +849,69 @@ export function useStateList<TData = Awaited<ReturnType<typeof stateList>>, TErr
  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
   const queryOptions = getStateListQueryOptions(params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+export const getPermissionsMatrix = (
+    
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<GetPermissionsMatrix200>(
+      {url: `/api/permissions/matrix`, method: 'GET', signal
+    },
+      options);
+    }
+  
+
+
+
+export const getGetPermissionsMatrixQueryKey = () => {
+    return [
+    `/api/permissions/matrix`
+    ] as const;
+    }
+
+    
+export const getGetPermissionsMatrixQueryOptions = <TData = Awaited<ReturnType<typeof getPermissionsMatrix>>, TError = ErrorType<unknown>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getPermissionsMatrix>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetPermissionsMatrixQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getPermissionsMatrix>>> = ({ signal }) => getPermissionsMatrix(requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getPermissionsMatrix>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetPermissionsMatrixQueryResult = NonNullable<Awaited<ReturnType<typeof getPermissionsMatrix>>>
+export type GetPermissionsMatrixQueryError = ErrorType<unknown>
+
+
+
+export function useGetPermissionsMatrix<TData = Awaited<ReturnType<typeof getPermissionsMatrix>>, TError = ErrorType<unknown>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getPermissionsMatrix>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetPermissionsMatrixQueryOptions(options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
 

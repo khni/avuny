@@ -185,6 +185,9 @@ importers:
       '@avuny/organization':
         specifier: workspace:*
         version: link:../organization
+      '@avuny/permission':
+        specifier: workspace:*
+        version: link:../permission
       '@avuny/region':
         specifier: workspace:*
         version: link:../region
