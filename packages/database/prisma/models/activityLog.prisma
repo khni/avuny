@@ -1,26 +1,28 @@
 enum ActivityEventType {
-  CREATE
-  UPDATE
-  DELETE
-  RESTORE
-  ARCHIVE
+  create
+  update
+  delete
+  restore
+  archive
 }
 
 enum ActivityActorType {
-  USER
-  SYSTEM
+  user
+  system
 }
+
 enum ResourceType {
-  USER
-  ROLE
-  ORGANIZATION
-  ITEM
-  INVOICE
-  CUSTOMER
-  SUPPLIER
-  PURCHASE_ORDER
-  SALES_ORDER
+  user
+  role
+  organization
+  item
+  invoice
+  customer
+  supplier
+  purchase_order
+  sales_order
 }
+
 
 
 
@@ -35,7 +37,7 @@ model ActivityLog {
   event            ActivityEventType
 
   actorId          String?
-  actorType        ActivityActorType @default(USER)
+  actorType        ActivityActorType @default(user)
 
   resourceSnapshot Json?
   changes          Json?

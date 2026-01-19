@@ -1,37 +1,46 @@
-import { prisma, type Prisma, Tx, DB } from "@avuny/db";
+import { prisma, type Prisma, Tx, DB, PrismaTransaction } from "@avuny/db";
 
-export class ActivityLogRepository {
-  constructor(private readonly db: DB = prisma) {}
+export class RoleRepository extends PrismaTransaction {
+  constructor(private readonly db: DB = prisma) {
+    super();
+  }
 
   private getDB(tx?: Tx): DB {
     return tx ?? this.db;
   }
 
   /** Create activity log */
-  async create(params: { data: Prisma.ActivityLogCreateInput; tx?: Tx }) {
+  async create(params: {
+    data: Prisma.RoleCreateManyInput & {
+      permissions: { permissionId: string }[];
+    };
+
+    tx?: Tx;
+  }) {
     const { data, tx } = params;
+    const { permissions, ...role } = data;
     const db = this.getDB(tx);
 
-    return db.activityLog.create({
+    return db.role.create({
       data,
-      select: { id: true },
+      select: { id: true, name: true },
     });
   }
 
   /** Find activity log by ID */
-  async findById(params: { id: string; tx?: Tx }) {
-    const { id, tx } = params;
+  async findUnique(params: { where: Prisma.RoleWhereUniqueInput; tx?: Tx }) {
+    const { where, tx } = params;
     const db = this.getDB(tx);
 
-    return db.activityLog.findUnique({
-      where: { id },
+    return db.role.findUnique({
+      where,
     });
   }
 
   /** Find many activity logs */
   async findMany(params?: {
-    where?: Prisma.ActivityLogWhereInput;
-    orderBy?: Prisma.ActivityLogOrderByWithRelationInput;
+    where?: Prisma.RoleWhereInput;
+    orderBy?: Prisma.RoleOrderByWithRelationInput;
     skip?: number;
     take?: number;
     tx?: Tx;
@@ -39,55 +48,55 @@ export class ActivityLogRepository {
     const { tx, ...query } = params ?? {};
     const db = this.getDB(tx);
 
-    return db.activityLog.findMany({
+    return db.role.findMany({
       ...query,
     });
   }
 
   /** Update activity log */
   async update(params: {
-    where: Prisma.ActivityLogWhereUniqueInput;
-    data: Prisma.ActivityLogUpdateInput;
+    where: Prisma.RoleWhereUniqueInput;
+    data: Prisma.RoleUpdateInput;
     tx?: Tx;
   }) {
     const { where, data, tx } = params;
     const db = this.getDB(tx);
 
-    return db.activityLog.update({
+    return db.role.update({
       where,
       data,
     });
   }
 
   /** Delete activity log */
-  async delete(params: { where: Prisma.ActivityLogWhereUniqueInput; tx?: Tx }) {
+  async delete(params: { where: Prisma.RoleWhereUniqueInput; tx?: Tx }) {
     const { where, tx } = params;
     const db = this.getDB(tx);
 
-    return db.activityLog.delete({
+    return db.role.delete({
       where,
       select: { id: true },
     });
   }
 
   /** Count activity logs */
-  async count(params?: { where?: Prisma.ActivityLogWhereInput; tx?: Tx }) {
+  async count(params?: { where?: Prisma.RoleWhereInput; tx?: Tx }) {
     const { tx, where } = params ?? {};
     const db = this.getDB(tx);
 
-    return db.activityLog.count({ where });
+    return db.role.count({ where });
   }
 
   /** Create many activity logs */
   async createMany(params: {
-    data: Prisma.ActivityLogCreateManyInput[];
+    data: Prisma.RoleCreateManyInput[];
     skipDuplicates?: boolean;
     tx?: Tx;
   }) {
     const { data, skipDuplicates, tx } = params;
     const db = this.getDB(tx);
 
-    return db.activityLog.createMany({
+    return db.role.createMany({
       data,
       skipDuplicates,
     });

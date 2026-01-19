@@ -12,8 +12,7 @@ model Role {
   description    String?
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   organizationId String
-  createdBy      User         @relation("RoleCreator", fields: [createdById], references: [id])
-  createdById    String
+
 
   // Role metadata
   isSystem Boolean @default(false)

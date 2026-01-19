@@ -49,7 +49,7 @@ model User {
 
   ownedOrganizations Organization[] @relation("OrganizationOwnership")
   organizationUsers          OrganizationUser[]
-  createdRoles       Role[]         @relation("RoleCreator")
+
 }
 
 model RefreshToken {

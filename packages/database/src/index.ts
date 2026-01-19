@@ -6,6 +6,3 @@ export * from "./generated/prisma/models.js";
 export * from "./generated/prisma/enums.js";
 export * from "./generated/prisma/commonInputTypes.js";
 export * from "./core/index.js";
-
-export type Tx = Prisma.TransactionClient;
-export type DB = PrismaClient | Tx;
