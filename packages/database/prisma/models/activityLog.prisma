@@ -1,0 +1,57 @@
+enum ActivityEventType {
+  CREATE
+  UPDATE
+  DELETE
+  RESTORE
+  ARCHIVE
+}
+
+enum ActivityActorType {
+  USER
+  SYSTEM
+}
+enum ResourceType {
+  USER
+  ROLE
+  ORGANIZATION
+  ITEM
+  INVOICE
+  CUSTOMER
+  SUPPLIER
+  PURCHASE_ORDER
+  SALES_ORDER
+}
+
+
+
+
+model ActivityLog {
+  id               String   @id @default(uuid())
+
+  organizationId   String
+  resourceId       String
+  resourceType     ResourceType
+
+  event            ActivityEventType
+
+  actorId          String?
+  actorType        ActivityActorType @default(USER)
+
+  resourceSnapshot Json?
+  changes          Json?
+
+  createdAt        DateTime @default(now())
+
+  // 🔥 Core feed (most important)
+  @@index([organizationId, createdAt], name: "idx_activity_org_created")
+
+  // 🔍 Resource history
+  @@index([organizationId, resourceType, resourceId, createdAt],name: "idx_activity_org_resource")
+
+  // 👤 Actor activity
+  @@index([organizationId, actorId, createdAt],name: "idx_activity_org_actor")
+
+  // 🧾 Event filtering
+  @@index([organizationId, event, createdAt],name: "idx_activity_org_event")
+}
+
