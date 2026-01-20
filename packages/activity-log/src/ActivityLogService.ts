@@ -2,8 +2,9 @@ import { Prisma, ResourceType } from "@avuny/db";
 import { ActivityLogRepository } from "./ActivityLogRepository.js";
 import { Tx } from "@avuny/db";
 import { ActivityActorType, ActivityEventType } from "@avuny/db/types";
+import { IActivityLogService } from "./IActivityLogService.js";
 
-export class ActivityLogService {
+export class ActivityLogService implements IActivityLogService<Tx> {
   constructor(
     private repository: ActivityLogRepository = new ActivityLogRepository(),
   ) {}

@@ -1,5 +1,5 @@
 {
-  "name": "starter-template",
+  "name": "@avuny/core",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -44,12 +44,9 @@
     "zod": "^4.0.5"
   },
   "dependencies": {
-    "@avuny/auth": "workspace:*",
-    "@avuny/db": "workspace:*",
     "@avuny/hono": "workspace:*",
     "@avuny/utils": "workspace:*",
     "@avuny/zod": "workspace:*",
-    "@avuny/core": "workspace:*",
     "@hono/swagger-ui": "^0.5.2",
     "@hono/zod-openapi": "^1.2.0",
     "axios": "^1.13.2",

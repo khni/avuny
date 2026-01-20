@@ -1,6 +1,25 @@
 import { prisma, type Prisma, Tx, DB, PrismaTransaction } from "@avuny/db";
-
-export class RoleRepository extends PrismaTransaction {
+import { IBaseRepository } from "@avuny/core";
+// export type WhereUniqueInput =
+//   | { id: string }
+//   | { organizationId_name: { name: string; organizationId: string } };
+//    IBaseRepository<
+//       Tx,
+//       Role,
+//       Prisma.RoleCreateManyInput & {
+//         permissions: { permissionId: string }[];
+//       },
+//       WhereUniqueInput
+//     >
+// : Promise<
+//     | Fail<"MODULE_NAME_CONFLICT">
+//     | Fail<"MODULE_CREATION_LIMIT_EXCEEDED">
+//     | Ok<Awaited<ReturnType<R["update"]>>>
+//   >
+export class RoleRepository
+  extends PrismaTransaction
+  implements IBaseRepository
+{
   constructor(private readonly db: DB = prisma) {
     super();
   }
@@ -9,7 +28,7 @@ export class RoleRepository extends PrismaTransaction {
     return tx ?? this.db;
   }
 
-  /** Create activity log */
+  /** Create role*/
   async create(params: {
     data: Prisma.RoleCreateManyInput & {
       permissions: { permissionId: string }[];
@@ -23,11 +42,11 @@ export class RoleRepository extends PrismaTransaction {
 
     return db.role.create({
       data,
-      select: { id: true, name: true },
+      select: { id: true, name: true, description: true },
     });
   }
 
-  /** Find activity log by ID */
+  /** Find roleby ID */
   async findUnique(params: { where: Prisma.RoleWhereUniqueInput; tx?: Tx }) {
     const { where, tx } = params;
     const db = this.getDB(tx);
@@ -37,7 +56,7 @@ export class RoleRepository extends PrismaTransaction {
     });
   }
 
-  /** Find many activity logs */
+  /** Find many roles */
   async findMany(params?: {
     where?: Prisma.RoleWhereInput;
     orderBy?: Prisma.RoleOrderByWithRelationInput;
@@ -53,7 +72,7 @@ export class RoleRepository extends PrismaTransaction {
     });
   }
 
-  /** Update activity log */
+  /** Update role*/
   async update(params: {
     where: Prisma.RoleWhereUniqueInput;
     data: Prisma.RoleUpdateInput;
@@ -65,10 +84,11 @@ export class RoleRepository extends PrismaTransaction {
     return db.role.update({
       where,
       data,
+      select: { id: true, name: true, description: true },
     });
   }
 
-  /** Delete activity log */
+  /** Delete role*/
   async delete(params: { where: Prisma.RoleWhereUniqueInput; tx?: Tx }) {
     const { where, tx } = params;
     const db = this.getDB(tx);
@@ -79,7 +99,7 @@ export class RoleRepository extends PrismaTransaction {
     });
   }
 
-  /** Count activity logs */
+  /** Count roles */
   async count(params?: { where?: Prisma.RoleWhereInput; tx?: Tx }) {
     const { tx, where } = params ?? {};
     const db = this.getDB(tx);
@@ -87,7 +107,7 @@ export class RoleRepository extends PrismaTransaction {
     return db.role.count({ where });
   }
 
-  /** Create many activity logs */
+  /** Create many roles */
   async createMany(params: {
     data: Prisma.RoleCreateManyInput[];
     skipDuplicates?: boolean;

@@ -51,6 +51,7 @@
     "@avuny/utils": "workspace:*",
     "@avuny/zod": "workspace:*",
     "@avuny/activity-log": "workspace:*",
+    "@avuny/core": "workspace:*",
     "@hono/swagger-ui": "^0.5.2",
     "@hono/zod-openapi": "^1.2.0",
     "axios": "^1.13.2",

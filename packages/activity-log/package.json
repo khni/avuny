@@ -47,6 +47,7 @@
     "@avuny/auth": "workspace:*",
     "@avuny/db": "workspace:*",
     "@avuny/hono": "workspace:*",
+    "@avuny/core": "workspace:*",
     "@avuny/utils": "workspace:*",
     "@avuny/zod": "workspace:*",
     "@hono/swagger-ui": "^0.5.2",
