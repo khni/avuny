@@ -33,7 +33,6 @@ export class RoleRepository
     data: Prisma.RoleCreateManyInput & {
       permissions: { permissionId: string }[];
     };
-
     tx?: Tx;
   }) {
     const { data, tx } = params;
@@ -41,8 +40,12 @@ export class RoleRepository
     const db = this.getDB(tx);
 
     return db.role.create({
-      data,
-      select: { id: true, name: true, description: true },
+      data: {
+        ...role,
+        // rolePermissions: {
+        //   create: permissions,
+        // },
+      },
     });
   }
 
@@ -57,7 +60,7 @@ export class RoleRepository
   }
 
   /** Find many roles */
-  async findMany(params?: {
+  async findMany(params: {
     where?: Prisma.RoleWhereInput;
     orderBy?: Prisma.RoleOrderByWithRelationInput;
     skip?: number;
@@ -75,15 +78,17 @@ export class RoleRepository
   /** Update role*/
   async update(params: {
     where: Prisma.RoleWhereUniqueInput;
-    data: Prisma.RoleUpdateInput;
+    data: Prisma.RoleUpdateInput & {
+      permissions?: { permissionId: string }[];
+    };
     tx?: Tx;
   }) {
     const { where, data, tx } = params;
     const db = this.getDB(tx);
-
+    const { permissions, ...role } = data;
     return db.role.update({
       where,
-      data,
+      data: { ...role },
       select: { id: true, name: true, description: true },
     });
   }

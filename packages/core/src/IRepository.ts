@@ -26,6 +26,14 @@
 //   createTransaction<T>(callback: (tx: Tx) => Promise<T>): Promise<T>;
 // }
 
+export type FindManyRepoParams<TModel, S, IFilters> = {
+  offset: number;
+  limit: number;
+  orderBy?: Partial<Record<keyof TModel, "asc" | "desc">>;
+  filters?: IFilters;
+  selectFields?: S;
+};
+
 export interface IBaseRepository<
   Tx = unknown,
   TEntity extends { id: string; name: string } = { id: string; name: string },
@@ -36,20 +44,28 @@ export interface IBaseRepository<
     id: string;
     name: string;
   },
-  TCreateUpdateType extends { id: string; name: string } = {
+  TUpdateReturnType extends { id: string; name: string } = {
     id: string;
     name: string;
   },
+  TFindManyReturnType = { id: string }[],
 > {
   create(params: { data: TCreateInput; tx?: Tx }): Promise<TCreateReturnType>;
 
   findUnique(params: { where: TWhereUnique; tx?: Tx }): Promise<TEntity | null>;
+  findMany(params: {
+    where?: TWhere;
+    orderBy?: Partial<Record<keyof TEntity, "asc" | "desc">>;
+    skip?: number;
+    take?: number;
+    tx?: Tx;
+  }): Promise<TFindManyReturnType>;
 
   update(params: {
     data: Partial<TCreateInput>;
     where: TWhereUnique;
     tx?: Tx;
-  }): Promise<TCreateUpdateType>;
+  }): Promise<TUpdateReturnType>;
 
   count(params?: { where?: TWhere; tx?: Tx }): Promise<number>;
 

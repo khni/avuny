@@ -19,6 +19,9 @@ export const mutateRoleSchema = roleSchema
     createdAt: true,
     updatedAt: true,
     organizationId: true,
+    priority: true,
+    isSystem: true,
+    expiresAt: true,
   })
   .extend({
     permissions: z
@@ -40,11 +43,13 @@ export const mutateRoleResponseSchema = roleSchema.pick({
   name: true,
 });
 
-export const roleListResponseSchema = roleSchema.pick({
-  id: true,
-  name: true,
-  description: true,
-  updatedAt: true,
-});
+export const roleListResponseSchema = roleSchema
+  .pick({
+    id: true,
+    name: true,
+    description: true,
+    updatedAt: true,
+  })
+  .array();
 
 export const getRoleByIdResponseSchema = roleSchema;

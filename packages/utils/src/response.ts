@@ -8,20 +8,20 @@ export type ErrorMeta = {
 
 export function resultToResponse<T, E extends string>(
   result: Result<T, E>,
-  errorMap: Record<E, ErrorMeta>,
-  successStatusCode = 200
+  errorMap?: Record<E, ErrorMeta>,
+  successStatusCode = 200,
 ) {
   if (!result.success) {
     const errorCode = result.error;
     //
-    const error = errorMap[errorCode];
+    const error = errorMap?.[errorCode];
 
     return {
-      status: error.statusCode as ContentfulStatusCode,
+      status: error?.statusCode || (successStatusCode as ContentfulStatusCode),
       body: {
         success: false as const,
         code: errorCode,
-        message: error.responseMessage,
+        message: error?.responseMessage,
       },
     };
   }
@@ -34,7 +34,7 @@ export function resultToResponse<T, E extends string>(
 
 export function resultToErrorResponse<E extends string, S extends number>(
   error: E,
-  errorMap: Record<E, { statusCode: S; responseMessage: string }>
+  errorMap: Record<E, { statusCode: S; responseMessage: string }>,
 ) {
   const meta = errorMap[error];
 
@@ -51,7 +51,7 @@ export function resultToErrorResponse<E extends string, S extends number>(
 
 export function resultToSuccessResponse<T, S extends number>(
   data: T,
-  status: S
+  status: S,
 ) {
   return {
     status,

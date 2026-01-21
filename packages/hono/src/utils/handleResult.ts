@@ -21,7 +21,7 @@ export function handleResult<
   successStatus: S,
   errorMap: Record<E, { statusCode: SE; responseMessage: string }>,
   onSuccess?: (result: T) => void,
-  onError?: (error: E) => void
+  onError?: (error: E) => void,
 ) {
   if (!result.success) {
     const err = resultToErrorResponse(result.error, errorMap);

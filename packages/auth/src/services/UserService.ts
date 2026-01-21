@@ -31,7 +31,7 @@ const tokensService = new TokensService(
   new RefreshTokenRepository(),
   "15d",
   jwtSecret,
-  "5m"
+  "10m",
 );
 
 const socialAuthContext = new SocialAuthContext([
@@ -77,7 +77,7 @@ const handleSocialUser = async (user: SocialUserResult) => {
 };
 export const socialAuth = new SocialAuthLogin(
   socialAuthContext,
-  handleSocialUser
+  handleSocialUser,
 );
 export const signUp = async ({
   identifier,

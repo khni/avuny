@@ -33,7 +33,7 @@ export const isAuthenticatedMiddleware: MiddlewareHandler = async (c, next) => {
     id: result.data.userId,
   });
 
-  c.set("organizationId", organizationId);
+  c.set("organizationId", organizationId || ""); //<WIP>
   c.set("requestId", uuidv4());
 
   await next();
