@@ -48,6 +48,7 @@
     "@khni/utils": "^1.0.0",
     "@avuny/auth": "workspace:*",
     "@avuny/region": "workspace:*",
+    "@avuny/role": "workspace:*",
     "@avuny/organization": "workspace:*",
     "@avuny/permission": "workspace:*",
     "axios": "^1.13.2",

@@ -6,6 +6,8 @@ export * from "./schema/createDomainErrorResponseSchema.js";
 export * from "./schema/createResponseSchema.js";
 export * from "./schema/AuthorizationHeaderSchema.js";
 export * from "./schema/getResourceByIdParamsSchema.js";
+export * from "./schema/requestContextSchema.js";
+export * from "./schema/authContextHeaderSchema.js";
 //errors
 export * from "./errors/module.errors.responses.js";
 export * from "./errors/module.errors.map.js";

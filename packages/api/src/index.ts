@@ -6,6 +6,7 @@ import { onError } from "./onError.js";
 import { OrganizationRoutes } from "@avuny/organization";
 
 import { PermissionRoutes } from "@avuny/permission";
+import { RoleRoutes } from "@avuny/role";
 
 // import { createHonoErrorHandler } from "@khni/error-handler";
 // const errorHandler = createHonoErrorHandler(console);
@@ -14,6 +15,7 @@ app.route("/auth", AuthRoutes);
 app.route("/", OrganizationRoutes);
 app.route("/region", regionRoutes);
 app.route("/", PermissionRoutes);
+app.route("/", RoleRoutes);
 
 // app.use(errorHandler);
 app.onError(onError);

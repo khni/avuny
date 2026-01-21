@@ -23,7 +23,13 @@ import type {
   CreateOrganization201,
   CreateOrganization403,
   CreateOrganization409,
+  CreateOrganization500,
   CreateOrganizationBody,
+  CreateRole201,
+  CreateRole403,
+  CreateRole409,
+  CreateRole500,
+  CreateRoleBody,
   GetOrganizationById200,
   GetOrganizationById500,
   GetPermissionsMatrix200,
@@ -506,7 +512,7 @@ export const createOrganization = (
   
 
 
-export const getCreateOrganizationMutationOptions = <TError = ErrorType<CreateOrganization403 | CreateOrganization409>,
+export const getCreateOrganizationMutationOptions = <TError = ErrorType<CreateOrganization403 | CreateOrganization409 | CreateOrganization500>,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createOrganization>>, TError,{data: CreateOrganizationBody}, TContext>, request?: SecondParameter<typeof customInstance>}
 ): UseMutationOptions<Awaited<ReturnType<typeof createOrganization>>, TError,{data: CreateOrganizationBody}, TContext> => {
 
@@ -533,9 +539,9 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
     export type CreateOrganizationMutationResult = NonNullable<Awaited<ReturnType<typeof createOrganization>>>
     export type CreateOrganizationMutationBody = CreateOrganizationBody
-    export type CreateOrganizationMutationError = ErrorType<CreateOrganization403 | CreateOrganization409>
+    export type CreateOrganizationMutationError = ErrorType<CreateOrganization403 | CreateOrganization409 | CreateOrganization500>
 
-    export const useCreateOrganization = <TError = ErrorType<CreateOrganization403 | CreateOrganization409>,
+    export const useCreateOrganization = <TError = ErrorType<CreateOrganization403 | CreateOrganization409 | CreateOrganization500>,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createOrganization>>, TError,{data: CreateOrganizationBody}, TContext>, request?: SecondParameter<typeof customInstance>}
  ): UseMutationResult<
         Awaited<ReturnType<typeof createOrganization>>,
@@ -919,3 +925,66 @@ export function useGetPermissionsMatrix<TData = Awaited<ReturnType<typeof getPer
 
   return query;
 }
+
+
+
+
+
+export const createRole = (
+    createRoleBody: CreateRoleBody,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<CreateRole201>(
+      {url: `/api/role`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: createRoleBody, signal
+    },
+      options);
+    }
+  
+
+
+export const getCreateRoleMutationOptions = <TError = ErrorType<CreateRole403 | CreateRole409 | CreateRole500>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createRole>>, TError,{data: CreateRoleBody}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof createRole>>, TError,{data: CreateRoleBody}, TContext> => {
+
+const mutationKey = ['createRole'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createRole>>, {data: CreateRoleBody}> = (props) => {
+          const {data} = props ?? {};
+
+          return  createRole(data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateRoleMutationResult = NonNullable<Awaited<ReturnType<typeof createRole>>>
+    export type CreateRoleMutationBody = CreateRoleBody
+    export type CreateRoleMutationError = ErrorType<CreateRole403 | CreateRole409 | CreateRole500>
+
+    export const useCreateRole = <TError = ErrorType<CreateRole403 | CreateRole409 | CreateRole500>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createRole>>, TError,{data: CreateRoleBody}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof createRole>>,
+        TError,
+        {data: CreateRoleBody},
+        TContext
+      > => {
+
+      const mutationOptions = getCreateRoleMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }

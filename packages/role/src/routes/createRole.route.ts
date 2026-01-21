@@ -1,52 +1,46 @@
-import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
 import {
-  createOrganizationBodySchema,
-  mutateOrganizationResponseSchema,
-  organizationSchema,
-} from "../schemas.js";
-import {
-  AuthorizationHeaderSchema,
+  authContextHeaderSchema,
   createDomainErrorResponseSchema,
   createResponseSchema,
   globalErrorResponses,
   ModuleErrorCodes,
   ModuleErrorResponseMap,
+  requestContextSchema,
 } from "@avuny/utils";
-import { isAuthenticatedMiddleware } from "@avuny/auth/is-authenticated";
-import { OrganizationMutationService } from "../OrganizationMutationService.js";
-import { prisma } from "@avuny/db";
+import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
+import { createRoleBodySchema, mutateRoleResponseSchema } from "../schemas.js";
+import { RoleMutationService } from "../RoleMutationService.js";
 import { handleResult } from "@avuny/hono";
-import { app } from "./index.js";
+import { isAuthenticatedMiddleware } from "@avuny/auth/is-authenticated";
 
-export const createOrganizationRoute = new OpenAPIHono();
+export const createRoleRoute = new OpenAPIHono();
 const route = createRoute({
+  path: "/role",
   method: "post",
-  path: "/organizations",
-  operationId: "createOrganization",
-  tags: ["organization"],
+  tags: ["role"],
   middleware: [isAuthenticatedMiddleware],
+  operationId: "createRole",
   request: {
-    headers: AuthorizationHeaderSchema,
+    headers: authContextHeaderSchema,
     body: {
       content: {
         "application/json": {
-          schema: createOrganizationBodySchema,
+          schema: createRoleBodySchema,
         },
       },
     },
   },
-
   responses: {
-    [201]: {
-      description: "Organization have been created successfully",
+    201: {
+      description: "Role have been created successfully",
       content: {
         "application/json": {
-          schema: createResponseSchema(mutateOrganizationResponseSchema),
+          schema: createResponseSchema(mutateRoleResponseSchema),
         },
       },
     },
     [ModuleErrorResponseMap.MODULE_NAME_CONFLICT.statusCode]: {
-      description: "Organization name is not unique",
+      description: "Role name is not unique",
       content: {
         "application/json": {
           schema: createDomainErrorResponseSchema([
@@ -56,7 +50,7 @@ const route = createRoute({
       },
     },
     [ModuleErrorResponseMap.MODULE_CREATION_LIMIT_EXCEEDED.statusCode]: {
-      description: "Organization creation limit has been exceeded",
+      description: "Role creation limit has been exceeded",
       content: {
         "application/json": {
           schema: createDomainErrorResponseSchema([
@@ -69,14 +63,20 @@ const route = createRoute({
   },
 });
 
-createOrganizationRoute.openapi(route, async (c) => {
-  const service = new OrganizationMutationService(prisma);
+createRoleRoute.openapi(route, async (c) => {
+  const service = new RoleMutationService();
   const body = c.req.valid("json");
-  const user = c.get("user");
-
+  const userId = c.get("user").id;
+  const requestId = c.get("requestId");
+  const organizationId = c.get("organizationId");
+  const context = requestContextSchema.parse({
+    userId,
+    requestId,
+    organizationId,
+  });
   const result = await service.create({
     data: body,
-    ownerId: user.id,
+    context,
   });
   return handleResult(c, result, 201, ModuleErrorResponseMap);
 });
