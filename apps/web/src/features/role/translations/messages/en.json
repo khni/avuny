@@ -11,6 +11,11 @@
     },
     "headers": {
       "permissions": "Permissions"
+    },
+    "columnHeaders": {
+      "name": "name",
+      "description": "description",
+      "updatedAt": "Last Updated"
     }
   }
 }

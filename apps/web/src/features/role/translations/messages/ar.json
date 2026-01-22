@@ -11,6 +11,11 @@
     },
     "headers": {
       "permissions": "الصلاحيات"
+    },
+    "columnHeaders": {
+      "name": "الاسم",
+      "description": "الوصف",
+      "updatedAt": "آخر تحديث"
     }
   }
 }
