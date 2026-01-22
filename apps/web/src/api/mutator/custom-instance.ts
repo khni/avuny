@@ -2,11 +2,11 @@
 
 import { TokenRefresh200 } from "@/src/api/model";
 import Axios, { AxiosError, AxiosRequestConfig } from "axios";
-
+import Cookies from "js-cookie";
 const baseURL = process.env.NEXT_PUBLIC_BASEURL;
 if (!baseURL) {
   throw new Error(
-    "BASEURL is not defined in .env file. It should be defined as NEXT_PUBLIC_BASEURL"
+    "BASEURL is not defined in .env file. It should be defined as NEXT_PUBLIC_BASEURL",
   );
 }
 
@@ -41,19 +41,23 @@ export const AXIOS_INSTANCE = Axios.create({
 // Request interceptor: add token
 AXIOS_INSTANCE.interceptors.request.use((config: any) => {
   // If Authorization header already exists and starts with 'Bearer', skip attaching anything
+  // 🔐 Attach access token
   const hasBearerAlready =
     typeof config.headers?.Authorization === "string" &&
     config.headers.Authorization.trim().toLowerCase().startsWith("bearer");
 
   if (!hasBearerAlready) {
     const token = localStorage.getItem("accessToken");
-
     if (token) {
-      config.headers = {
-        ...config.headers,
-        Authorization: `Bearer ${token}`,
-      };
+      config.headers.Authorization = `Bearer ${token}`;
     }
+  }
+
+  // 🏢 Attach organization id
+  const organizationId = Cookies.get("selectedOrganizationId");
+
+  if (organizationId) {
+    config.headers["x-organization-id"] = organizationId;
   }
 
   return config;
@@ -108,7 +112,7 @@ AXIOS_INSTANCE.interceptors.response.use(
           const { data } = await Axios.post(
             refreshTokenApi,
             {},
-            { withCredentials: true }
+            { withCredentials: true },
           );
 
           console.log(data, "data from refreshtoken");
@@ -134,13 +138,13 @@ AXIOS_INSTANCE.interceptors.response.use(
     }
 
     return Promise.reject(error);
-  }
+  },
 );
 
 // Your custom wrapper
 export const customInstance = <T>(
   config: AxiosRequestConfig,
-  options?: AxiosRequestConfig
+  options?: AxiosRequestConfig,
 ): Promise<T> => {
   const source = Axios.CancelToken.source();
   const promise = AXIOS_INSTANCE({

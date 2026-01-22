@@ -4,11 +4,11 @@
  * IMS API
  * OpenAPI spec version: 1.0.0
  */
-import type { CreateRoleBodyPermissionsItem } from './createRoleBodyPermissionsItem';
 
-export type CreateRoleBody = {
+export type RoleList200DataListItem = {
+  id: string;
   name: string;
   /** @nullable */
   description: string | null;
-  permissions: CreateRoleBodyPermissionsItem[];
+  updatedAt: string;
 };

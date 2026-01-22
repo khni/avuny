@@ -13,11 +13,12 @@
   },
   "dependencies": {
     "@avuny/api": "workspace:*",
-    "@avuny/zod": "workspace:*",
     "@avuny/utils": "workspace:*",
+    "@avuny/zod": "workspace:*",
     "@tanstack/react-query": "^5.90.16",
     "@workspace/ui": "workspace:*",
     "cookie": "^1.1.1",
+    "js-cookie": "^3.0.5",
     "lucide-react": "^0.475.0",
     "next": "16.0.10",
     "next-intl": "^4.6.1",
@@ -32,6 +33,7 @@
   "devDependencies": {
     "@avuny/db": "workspace:^",
     "@tailwindcss/postcss": "^4.1.17",
+    "@types/js-cookie": "^3.0.6",
     "@types/node": "^20.19.25",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",

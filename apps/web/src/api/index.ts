@@ -33,6 +33,8 @@ import type {
   GetOrganizationById200,
   GetOrganizationById500,
   GetPermissionsMatrix200,
+  GetRoleById200,
+  GetRoleById500,
   IsAuthenticated200,
   IsAuthenticated401,
   IsAuthenticated500,
@@ -50,6 +52,8 @@ import type {
   RefreshToken401,
   RefreshToken500,
   RefreshTokenBody,
+  RoleList200,
+  RoleList500,
   SignUp201,
   SignUp409,
   SignUp500,
@@ -60,7 +64,11 @@ import type {
   StateListParams,
   UpdateOrganization200,
   UpdateOrganization409,
-  UpdateOrganizationBody
+  UpdateOrganizationBody,
+  UpdateRole200,
+  UpdateRole409,
+  UpdateRole500,
+  UpdateRoleBody
 } from './model';
 
 import { customInstance } from './mutator/custom-instance';
@@ -988,3 +996,184 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
       return useMutation(mutationOptions);
     }
+    
+export const roleList = (
+    
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<RoleList200>(
+      {url: `/api/role`, method: 'GET', signal
+    },
+      options);
+    }
+  
+
+
+
+export const getRoleListQueryKey = () => {
+    return [
+    `/api/role`
+    ] as const;
+    }
+
+    
+export const getRoleListQueryOptions = <TData = Awaited<ReturnType<typeof roleList>>, TError = ErrorType<RoleList500>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof roleList>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getRoleListQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof roleList>>> = ({ signal }) => roleList(requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof roleList>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type RoleListQueryResult = NonNullable<Awaited<ReturnType<typeof roleList>>>
+export type RoleListQueryError = ErrorType<RoleList500>
+
+
+
+export function useRoleList<TData = Awaited<ReturnType<typeof roleList>>, TError = ErrorType<RoleList500>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof roleList>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getRoleListQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+export const updateRole = (
+    id: string,
+    updateRoleBody: UpdateRoleBody,
+ options?: SecondParameter<typeof customInstance>,) => {
+      
+      
+      return customInstance<UpdateRole200>(
+      {url: `/api/role/${id}`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: updateRoleBody
+    },
+      options);
+    }
+  
+
+
+export const getUpdateRoleMutationOptions = <TError = ErrorType<UpdateRole409 | UpdateRole500>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateRole>>, TError,{id: string;data: UpdateRoleBody}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateRole>>, TError,{id: string;data: UpdateRoleBody}, TContext> => {
+
+const mutationKey = ['updateRole'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateRole>>, {id: string;data: UpdateRoleBody}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  updateRole(id,data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateRoleMutationResult = NonNullable<Awaited<ReturnType<typeof updateRole>>>
+    export type UpdateRoleMutationBody = UpdateRoleBody
+    export type UpdateRoleMutationError = ErrorType<UpdateRole409 | UpdateRole500>
+
+    export const useUpdateRole = <TError = ErrorType<UpdateRole409 | UpdateRole500>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateRole>>, TError,{id: string;data: UpdateRoleBody}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof updateRole>>,
+        TError,
+        {id: string;data: UpdateRoleBody},
+        TContext
+      > => {
+
+      const mutationOptions = getUpdateRoleMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const getRoleById = (
+    id: string,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<GetRoleById200>(
+      {url: `/api/role/${id}`, method: 'GET', signal
+    },
+      options);
+    }
+  
+
+
+
+export const getGetRoleByIdQueryKey = (id?: string,) => {
+    return [
+    `/api/role/${id}`
+    ] as const;
+    }
+
+    
+export const getGetRoleByIdQueryOptions = <TData = Awaited<ReturnType<typeof getRoleById>>, TError = ErrorType<GetRoleById500>>(id: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getRoleById>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetRoleByIdQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getRoleById>>> = ({ signal }) => getRoleById(id, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getRoleById>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetRoleByIdQueryResult = NonNullable<Awaited<ReturnType<typeof getRoleById>>>
+export type GetRoleByIdQueryError = ErrorType<GetRoleById500>
+
+
+
+export function useGetRoleById<TData = Awaited<ReturnType<typeof getRoleById>>, TError = ErrorType<GetRoleById500>>(
+ id: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getRoleById>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetRoleByIdQueryOptions(id,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}

@@ -32,7 +32,7 @@ export const isAuthenticatedMiddleware: MiddlewareHandler = async (c, next) => {
   c.set("user", {
     id: result.data.userId,
   });
-
+  console.log("orgId", organizationId);
   c.set("organizationId", organizationId || ""); //<WIP>
   c.set("requestId", uuidv4());
 
