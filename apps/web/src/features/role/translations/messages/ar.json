@@ -1,0 +1,16 @@
+{
+  "role": {
+    "form": {
+      "title": "{action} الدور",
+      "description": "استخدم هذا النموذج لـ {action} دور. يمكنك تعديل هذه التفاصيل لاحقًا إذا لزم الأمر.",
+      "fields": {
+        "name": "الاسم",
+        "description": "الوصف",
+        "permissions": "الصلاحيات"
+      }
+    },
+    "headers": {
+      "permissions": "الصلاحيات"
+    }
+  }
+}

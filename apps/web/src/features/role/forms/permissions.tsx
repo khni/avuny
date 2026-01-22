@@ -2,16 +2,21 @@ import React, { useState } from "react";
 import { ItemOptionMatrix } from "@workspace/ui/blocks/item-option-matrix";
 import { useGetPermissionsMatrix } from "@/src/api";
 import LoadingPage from "@workspace/ui/blocks/loading/loading-page";
+import { GetRoleById200DataAnyOf } from "@/src/api/model";
 
-function Permissions() {
+function Permissions({
+  permissions,
+  setPermissions,
+}: {
+  permissions: GetRoleById200DataAnyOf["rolePermissions"];
+  setPermissions: (
+    permissions: GetRoleById200DataAnyOf["rolePermissions"],
+  ) => void;
+}) {
   const { data, isPending } = useGetPermissionsMatrix();
 
   //this will come from rolePermissions
-  const [selectedPermissions, setSelectedPermissions] = useState([
-    { id: "sp1", permissionId: "28c9da49-520c-447b-9608-6b6f92089bc8" },
-    { id: "sp2", permissionId: "5d5fd81f-9f44-4010-896f-b0b8e86f0878" },
-    { id: "sp3", permissionId: "d6d4a9e8-1884-4ace-b975-506130ac63f4" },
-  ]);
+
   if (isPending) {
     return <LoadingPage />;
   }
@@ -27,12 +32,9 @@ function Permissions() {
         resources={data.data.resources}
         actions={data.data.actions}
         permissions={data.data.permissions}
-        selectedPermissions={selectedPermissions}
-        onChange={setSelectedPermissions}
+        selectedPermissions={permissions}
+        onChange={setPermissions}
       />
-      <pre className=" p-3 rounded text-sm">
-        {JSON.stringify(selectedPermissions, null, 2)}
-      </pre>
     </div>
   );
 }

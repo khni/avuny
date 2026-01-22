@@ -52,4 +52,16 @@ export const roleListResponseSchema = roleSchema
   })
   .array();
 
-export const getRoleByIdResponseSchema = roleSchema;
+export const getRoleByIdResponseSchema = roleSchema
+  .pick({
+    id: true,
+    name: true,
+  })
+  .extend({
+    rolePermissions: z.array(
+      z.object({
+        id: z.uuid(),
+        permissionId: z.uuid(),
+      }),
+    ),
+  });

@@ -56,6 +56,16 @@ export class RoleRepository
 
     return db.role.findUnique({
       where,
+      select: {
+        id: true,
+        name: true,
+        rolePermissions: {
+          select: {
+            id: true,
+            permissionId: true,
+          },
+        },
+      },
     });
   }
 

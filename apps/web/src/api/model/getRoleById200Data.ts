@@ -5,6 +5,6 @@
  * OpenAPI spec version: 1.0.0
  */
 import type { GetRoleById200DataAnyOf } from './getRoleById200DataAnyOf';
-import type { GetRoleById200DataAnyOfTwo } from './getRoleById200DataAnyOfTwo';
+import type { GetRoleById200DataAnyOfThree } from './getRoleById200DataAnyOfThree';
 
-export type GetRoleById200Data = GetRoleById200DataAnyOf | GetRoleById200DataAnyOfTwo;
+export type GetRoleById200Data = GetRoleById200DataAnyOf | GetRoleById200DataAnyOfThree;

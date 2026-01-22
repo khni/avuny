@@ -5,7 +5,7 @@ export default getRequestConfig(async () => {
   const cookieStore = await cookies();
   const locale = cookieStore.get("locale")?.value || "en";
 
-  const [common, auth, organization] = await Promise.all([
+  const [common, auth, organization, role] = await Promise.all([
     (await import(`../../messages/common/${locale}.json`)).default,
     (await import(`../features/auth/translations/messages/${locale}.json`))
       .default,
@@ -14,6 +14,8 @@ export default getRequestConfig(async () => {
         `../features/organization/translations/messages/${locale}.json`
       )
     ).default,
+    (await import(`../features/role/translations/messages/${locale}.json`))
+      .default,
   ]);
 
   return {
@@ -22,6 +24,7 @@ export default getRequestConfig(async () => {
       ...common,
       ...auth,
       ...organization,
+      ...role,
     },
   };
 });

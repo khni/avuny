@@ -4,17 +4,10 @@
  * IMS API
  * OpenAPI spec version: 1.0.0
  */
+import type { GetRoleById200DataAnyOfRolePermissionsItem } from './getRoleById200DataAnyOfRolePermissionsItem';
 
 export type GetRoleById200DataAnyOf = {
   id: string;
   name: string;
-  /** @nullable */
-  description: string | null;
-  isSystem: boolean;
-  priority: number;
-  createdAt: string;
-  updatedAt: string;
-  /** @nullable */
-  expiresAt: string | null;
-  organizationId: string;
+  rolePermissions: GetRoleById200DataAnyOfRolePermissionsItem[];
 };
