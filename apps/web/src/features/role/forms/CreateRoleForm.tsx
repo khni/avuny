@@ -3,12 +3,15 @@ import RoleFormDetails from "@/src/features/role/forms/RoleFormDetails";
 import React from "react";
 
 function CreateRoleForm() {
-  const { mutate, isPending, error } = useCreateRole();
+  const { isPending, error, mutateAsync } = useCreateRole();
   return (
     <div>
       <RoleFormDetails
         customForm={{
-          api: { onSubmit: (data) => mutate({ data }), isLoading: isPending },
+          api: {
+            onSubmit: async (data) => await mutateAsync({ data }),
+            isLoading: isPending,
+          },
           error,
         }}
       />

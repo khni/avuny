@@ -93,8 +93,8 @@ const CustomForm = <T extends FieldValues, E>({
     }
   };
   const { isLoading, onSubmit } = api;
-  const onSubmitHandler: SubmitHandler<T> = (data) => {
-    onSubmit(data);
+  const onSubmitHandler: SubmitHandler<T> = async (data) => {
+    await onSubmit(data);
     onSuccess?.(data);
   };
   return (

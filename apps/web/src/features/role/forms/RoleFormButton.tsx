@@ -1,14 +1,32 @@
 import React, { useState } from "react";
 import { Modal } from "@workspace/ui/blocks/modal";
 import { GetRoleById200DataAnyOf } from "@/src/api/model";
-function RoleFormButton(role: GetRoleById200DataAnyOf) {
-  const [isModalOpen, setModalOpen] = useState(false);
-  const setModalClose = () => {
-    setModalOpen(false);
-  };
+import UpdateRoleForm from "@/src/features/role/forms/UpdateRoleForm";
+import CreateRoleForm from "@/src/features/role/forms/CreateRoleForm";
+import ActionButton from "@workspace/ui/blocks/buttons/action-btn";
+import { useCommonTranslations } from "@/messages/common";
+function RoleFormButton({ role }: { role?: GetRoleById200DataAnyOf }) {
+  const [open, setOpen] = useState(false);
+  const { actionTranslations } = useCommonTranslations();
+  const add = actionTranslations("add");
+  const edit = actionTranslations("edit");
   return (
     <div>
-      <Modal></Modal>
+      <Modal
+        trigger={
+          <ActionButton
+            type={role ? "edit" : "add"}
+            onClick={() => {
+              setOpen(true);
+            }}
+            title={role ? edit : add}
+          />
+        }
+        open={open}
+        onOpenChange={setOpen}
+      >
+        {role ? <UpdateRoleForm role={role} /> : <CreateRoleForm />}
+      </Modal>
     </div>
   );
 }

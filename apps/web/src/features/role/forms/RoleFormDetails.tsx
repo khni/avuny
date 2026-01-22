@@ -11,6 +11,10 @@ import { useTranslations } from "next-intl";
 import { useCommonTranslations } from "@/messages/common";
 import { GetRoleById200, GetRoleById200DataAnyOf } from "@/src/api/model";
 import Permissions from "@/src/features/role/forms/permissions";
+import { useGetPermissionsMatrix } from "@/src/api";
+import LoadingPage from "@workspace/ui/blocks/loading/loading-page";
+import { ItemOptionMatrix } from "@workspace/ui/blocks/item-option-matrix";
+import Loading from "@workspace/ui/blocks/loading/loading";
 const schema = createRoleBodySchema;
 export type RoleFormDetailsProps<E, S extends string> = {
   role?: GetRoleById200DataAnyOf;
@@ -37,6 +41,8 @@ export default function RoleFormDetails<E, S extends string>({
       setSelectedPermissions(role.rolePermissions ?? []);
     }
   }, [role, form]);
+  const { data, isPending } = useGetPermissionsMatrix();
+
   const { actionTranslations } = useCommonTranslations();
   const fieldTranslations = useTranslations("role.form.fields");
   const cardTitleTranslation = useTranslations("role.form");
@@ -57,14 +63,21 @@ export default function RoleFormDetails<E, S extends string>({
 
   const originalOnSubmit = customForm.api.onSubmit;
 
+  if (isPending) {
+    return <Loading />;
+  }
+  if (!data) {
+    return "Error";
+  }
+
   return (
     <>
       <CustomForm
         {...customForm}
         api={{
           ...customForm.api,
-          onSubmit: (data, event) =>
-            originalOnSubmit(
+          onSubmit: async (data, event) =>
+            await originalOnSubmit(
               {
                 ...data,
                 permissions: selectedPermissions,
@@ -114,9 +127,12 @@ export default function RoleFormDetails<E, S extends string>({
           },
         ]}
       >
-        <Permissions
-          permissions={selectedPermissions}
-          setPermissions={setPermissions}
+        <ItemOptionMatrix
+          resources={data.data.resources}
+          actions={data.data.actions}
+          permissions={data.data.permissions}
+          selectedPermissions={selectedPermissions}
+          onChange={setPermissions}
         />
       </CustomForm>
     </>
