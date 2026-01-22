@@ -5,6 +5,7 @@ import {
   DialogContent,
   DialogTrigger,
 } from "@workspace/ui/components/dialog";
+import { cn } from "@workspace/ui/lib/utils";
 import { ReactNode } from "react";
 
 interface ModalProps {
@@ -25,7 +26,7 @@ export function Modal({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
-      <DialogContent className={contentClassName}>{children}</DialogContent>
+      <DialogContent className={cn(contentClassName)}>{children}</DialogContent>
     </Dialog>
   );
 }

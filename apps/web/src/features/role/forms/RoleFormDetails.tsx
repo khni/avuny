@@ -10,7 +10,7 @@ import { z } from "@avuny/zod";
 import { useTranslations } from "next-intl";
 import { useCommonTranslations } from "@/messages/common";
 import { GetRoleById200, GetRoleById200DataAnyOf } from "@/src/api/model";
-import Permissions from "@/src/features/role/forms/permissions";
+
 import { useGetPermissionsMatrix } from "@/src/api";
 import LoadingPage from "@workspace/ui/blocks/loading/loading-page";
 import { ItemOptionMatrix } from "@workspace/ui/blocks/item-option-matrix";
@@ -64,7 +64,7 @@ export default function RoleFormDetails<E, S extends string>({
   const originalOnSubmit = customForm.api.onSubmit;
 
   if (isPending) {
-    return <Loading />;
+    return <LoadingPage />;
   }
   if (!data) {
     return "Error";
