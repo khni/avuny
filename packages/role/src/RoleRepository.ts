@@ -42,9 +42,9 @@ export class RoleRepository
     return db.role.create({
       data: {
         ...role,
-        // rolePermissions: {
-        //   create: permissions,
-        // },
+        rolePermissions: {
+          create: permissions,
+        },
       },
     });
   }
@@ -77,7 +77,7 @@ export class RoleRepository
 
   /** Update role*/
   async update(params: {
-    where: Prisma.RoleWhereUniqueInput;
+    where: { id: string };
     data: Prisma.RoleUpdateInput & {
       permissions?: { permissionId: string }[];
     };
@@ -88,7 +88,13 @@ export class RoleRepository
     const { permissions, ...role } = data;
     return db.role.update({
       where,
-      data: { ...role },
+      data: {
+        ...role,
+        rolePermissions: {
+          deleteMany: { roleId: where.id },
+          create: permissions,
+        },
+      },
       select: { id: true, name: true, description: true },
     });
   }
