@@ -11,7 +11,8 @@ function Page() {
       breadCrumbItems={[{ name: "home", href: ROUTES.app.index() }]}
       createResourceButton={<RoleFormButton />}
       dataTable={<RoleDataTable />}
-      resourceName="Role"
+      resourceName="Role List"
+      headerActions={<div>Header Actions</div>}
     />
   );
 }

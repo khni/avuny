@@ -35,37 +35,26 @@ export function CustomBreadCrumb({
   LinkWrapper,
 }: CustomBreadCrumbProps) {
   return (
-    <Breadcrumb className="mb-3">
+    <Breadcrumb className="">
       <BreadcrumbList>
         {items.map((item, index) => (
-          <div key={item.href} className="flex items-center">
-            <BreadcrumbItem>
+          <>
+            <BreadcrumbItem key={item.href}>
               {LinkWrapper ? (
                 <LinkWrapper href={item.href}>
-                  <BreadcrumbLink asChild>
-                    <span className="text-base cursor-pointer">
-                      {item.name}
-                    </span>
-                  </BreadcrumbLink>
+                  <BreadcrumbLink asChild>{item.name}</BreadcrumbLink>
                 </LinkWrapper>
               ) : (
-                <BreadcrumbLink
-                  href={item.href}
-                  className="text-base cursor-pointer"
-                >
-                  {item.name}
-                </BreadcrumbLink>
+                <BreadcrumbLink href={item.href}>{item.name}</BreadcrumbLink>
               )}
             </BreadcrumbItem>
 
-            {index < items.length - 1 && <BreadcrumbSeparator />}
-          </div>
+            <BreadcrumbSeparator />
+          </>
         ))}
 
         <BreadcrumbItem>
-          <BreadcrumbPage>
-            <p className="text-base font-semibold">{pageName}</p>
-          </BreadcrumbPage>
+          <BreadcrumbPage>{pageName}</BreadcrumbPage>
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>
