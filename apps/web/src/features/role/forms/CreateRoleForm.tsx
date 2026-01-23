@@ -2,7 +2,7 @@ import { useCreateRole } from "@/src/api";
 import RoleFormDetails from "@/src/features/role/forms/RoleFormDetails";
 import React from "react";
 
-function CreateRoleForm() {
+export const CreateRoleForm = () => {
   const { isPending, error, mutateAsync } = useCreateRole();
   return (
     <div>
@@ -17,6 +17,4 @@ function CreateRoleForm() {
       />
     </div>
   );
-}
-
-export default CreateRoleForm;
+};

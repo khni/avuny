@@ -3,7 +3,7 @@ import { GetRoleById200DataAnyOf } from "@/src/api/model";
 import RoleFormDetails from "@/src/features/role/forms/RoleFormDetails";
 import React from "react";
 
-function UpdateRoleForm({ role }: { role: GetRoleById200DataAnyOf }) {
+export const UpdateRoleForm = ({ role }: { role: GetRoleById200DataAnyOf }) => {
   const { mutate, isPending, error } = useUpdateRole();
   return (
     <div>
@@ -18,6 +18,4 @@ function UpdateRoleForm({ role }: { role: GetRoleById200DataAnyOf }) {
       />
     </div>
   );
-}
-
-export default UpdateRoleForm;
+};

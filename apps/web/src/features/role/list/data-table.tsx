@@ -2,7 +2,7 @@
 
 import { useRoleList } from "@/src/api";
 import { RoleList200Data } from "@/src/api/model";
-import { RoleColumns } from "@/src/features/role/list/components/columns";
+import { RoleColumns } from "@/src/features/role/list/columns";
 import { DataTable } from "@workspace/ui/blocks/data-table";
 import { useTranslations } from "next-intl";
 export const RoleDataTable = () => {
