@@ -14,7 +14,8 @@ import { GetRoleById200, GetRoleById200DataAnyOf } from "@/src/api/model";
 import { useGetPermissionsMatrix } from "@/src/api";
 import LoadingPage from "@workspace/ui/blocks/loading/loading-page";
 import { ItemOptionMatrix } from "@workspace/ui/blocks/item-option-matrix";
-import Loading from "@workspace/ui/blocks/loading/loading";
+
+import { useQueryClient } from "@tanstack/react-query";
 const schema = createRoleBodySchema;
 export type RoleFormDetailsProps<E, S extends string> = {
   role?: GetRoleById200DataAnyOf;
@@ -25,6 +26,7 @@ export default function RoleFormDetails<E, S extends string>({
   role,
   customForm,
 }: RoleFormDetailsProps<E, S>) {
+  const queryClient = useQueryClient();
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -76,14 +78,18 @@ export default function RoleFormDetails<E, S extends string>({
         {...customForm}
         api={{
           ...customForm.api,
-          onSubmit: async (data, event) =>
+          onSubmit: async (data, event) => {
             await originalOnSubmit(
               {
                 ...data,
                 permissions: selectedPermissions,
               },
               event,
-            ),
+            );
+            queryClient.invalidateQueries({
+              queryKey: ["roleList"],
+            });
+          },
         }}
         form={form}
         getLabel={

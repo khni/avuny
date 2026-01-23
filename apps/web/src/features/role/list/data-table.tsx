@@ -7,7 +7,11 @@ import { DataTable } from "@workspace/ui/blocks/data-table";
 import { useTranslations } from "next-intl";
 export const RoleDataTable = () => {
   const roleColumnHeaderTranslations = useTranslations("role.columnHeaders");
-  const { data, isPending } = useRoleList();
+  const { data, isPending } = useRoleList({
+    query: {
+      queryKey: ["roleList"],
+    },
+  });
   if (!data) {
     return null;
   }

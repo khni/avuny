@@ -12,7 +12,6 @@ function Page() {
       createResourceButton={<RoleFormButton />}
       dataTable={<RoleDataTable />}
       resourceName="Role List"
-      headerActions={<div>Header Actions</div>}
     />
   );
 }
