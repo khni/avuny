@@ -4,5 +4,5 @@ export const cookieConfig = {
   sameSite: "lax" as boolean | "lax" | "none" | "strict" | undefined,
 
   secure: process.env.NODE_ENV === "production", // Only use Secure in production,
-  domain: process.env.NODE_ENV === "production" ? ".juvni.com" : "localhost",
+  domain: process.env.NEXT_PUBLIC_COOKIE_DOMAIN,
 };
