@@ -188,9 +188,6 @@ importers:
       '@avuny/auth':
         specifier: workspace:*
         version: link:../auth
-      '@avuny/core':
-        specifier: workspace:*
-        version: link:../core
       '@avuny/db':
         specifier: workspace:*
         version: link:../database
@@ -413,6 +410,9 @@ importers:
 
   packages/core:
     dependencies:
+      '@avuny/activity-log':
+        specifier: workspace:*
+        version: link:../activity-log
       '@avuny/hono':
         specifier: workspace:*
         version: link:../hono
