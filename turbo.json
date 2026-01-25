@@ -1,12 +1,30 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
+
   "globalEnv": ["DATABASE_URL"],
+
   "tasks": {
+    /**
+     * Prisma client generation (DB package only)
+     */
+    "db:generate": {
+      "outputs": ["src/generated/prisma/**"],
+      "env": ["DATABASE_URL"]
+    },
+
+    /**
+     * Build task
+     */
     "build": {
-      "dependsOn": ["^build"],
+      "dependsOn": ["^build", "db:generate"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": ["dist/**", ".next/**", "!.next/cache/**"],
+      "outputs": [
+        "dist/**",
+        ".next/**",
+        "!.next/cache/**",
+        "src/generated/prisma/**"
+      ],
       "env": [
         "JWT_SECRET",
 
@@ -21,16 +39,32 @@
         "FRONTEND_SOCIAL_REDIRECT"
       ]
     },
+
+    /**
+     * Linting
+     */
     "lint": {
       "dependsOn": ["^lint"]
     },
+
+    /**
+     * Type checking
+     */
     "check-types": {
       "dependsOn": ["^check-types"]
     },
+
+    /**
+     * Dev mode (no cache)
+     */
     "dev": {
       "cache": false,
       "persistent": true
     },
+
+    /**
+     * Clean build (manual / local)
+     */
     "clean:build": {
       "cache": false,
       "persistent": true
