@@ -14,7 +14,7 @@ export type UserButtonProps = {
   user: User | undefined;
   isLoading: boolean;
   useLogoutHandler(): {
-    submit: () => void;
+    submit: () => Promise<void>;
     isPending: boolean;
   };
 };

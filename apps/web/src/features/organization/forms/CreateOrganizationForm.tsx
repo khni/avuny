@@ -19,7 +19,7 @@ function CreateOrganizationForm() {
       },
     },
   );
-  const { mutate, error, isPending } = useCreateOrganization({
+  const { mutateAsync, error, isPending } = useCreateOrganization({
     mutation: {
       onSuccess: (data) => {
         setSelectedOrganizationId(data.data.id);
@@ -35,7 +35,7 @@ function CreateOrganizationForm() {
       customForm={{
         error,
         api: {
-          onSubmit: (data) => mutate({ data }),
+          onSubmit: async (data) => await mutateAsync({ data }),
           isLoading: isPending,
         },
       }}

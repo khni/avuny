@@ -25,7 +25,7 @@ export const SignInForm = () => {
     resolver: zodResolver(schema),
   });
   const onSuccess = useAuthSuccessHandler();
-  const { mutate, isPending, error } = useLogin({
+  const { mutateAsync, isPending, error } = useLogin({
     mutation: {
       onSuccess: (data) => onSuccess(data),
     },
@@ -33,7 +33,7 @@ export const SignInForm = () => {
   //social buttons urls
   const googleStrategy = new GoogleOAuthURLStrategy(
     process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!,
-    process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI!
+    process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI!,
   );
   const context = new OAuthContext(googleStrategy);
 
@@ -41,7 +41,7 @@ export const SignInForm = () => {
 
   const fbStrategy = new FacebookOAuthURLStrategy(
     process.env.NEXT_PUBLIC_FACEBOOK_APP_ID!,
-    process.env.NEXT_PUBLIC_FACEBOOK_REDIRECT_URI!
+    process.env.NEXT_PUBLIC_FACEBOOK_REDIRECT_URI!,
   );
   context.setStrategy(fbStrategy);
 
@@ -81,7 +81,10 @@ export const SignInForm = () => {
         ]}
         getLabel={authLabels}
         form={form}
-        api={{ onSubmit: (data) => mutate({ data }), isLoading: isPending }}
+        api={{
+          onSubmit: async (data) => await mutateAsync({ data }),
+          isLoading: isPending,
+        }}
       >
         <SocialButtons
           providers={{ google: { url: googleUrl }, facebook: { url: fbUrl } }}

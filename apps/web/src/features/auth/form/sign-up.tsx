@@ -21,7 +21,7 @@ export const SignUpForm = () => {
     resolver: zodResolver(schema),
   });
   const onSuccess = useAuthSuccessHandler();
-  const { mutate, isPending, error } = useSignUp({
+  const { mutateAsync, isPending, error } = useSignUp({
     mutation: {
       onSuccess: (data) => onSuccess(data),
     },
@@ -73,7 +73,10 @@ export const SignUpForm = () => {
         ]}
         getLabel={authLabels}
         form={form}
-        api={{ onSubmit: (data) => mutate({ data }), isLoading: isPending }}
+        api={{
+          onSubmit: async (data) => mutateAsync({ data }),
+          isLoading: isPending,
+        }}
       >
         <p className="text-sm text-muted-foreground text-center">
           {authMsgsTranslations("orAlreadyHaveAnAccountSignIn")}

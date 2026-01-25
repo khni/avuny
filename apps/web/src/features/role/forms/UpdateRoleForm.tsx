@@ -4,13 +4,13 @@ import RoleFormDetails from "@/src/features/role/forms/RoleFormDetails";
 import React from "react";
 
 export const UpdateRoleForm = ({ role }: { role: GetRoleById200DataAnyOf }) => {
-  const { mutate, isPending, error } = useUpdateRole();
+  const { mutateAsync, isPending, error } = useUpdateRole();
   return (
     <div>
       <RoleFormDetails
         customForm={{
           api: {
-            onSubmit: (data) => mutate({ data: data, id: role.id }),
+            onSubmit: async (data) => mutateAsync({ data: data, id: role.id }),
             isLoading: isPending,
           },
           error,
