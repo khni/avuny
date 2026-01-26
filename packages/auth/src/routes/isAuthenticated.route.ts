@@ -18,7 +18,7 @@ const route = createApi({
   tags: ["auth"],
   responses: [
     response({
-      status: 200,
+      status: 201,
       description: "User is authenticated",
       schema: createResponseSchema(userResponseTypeSchema),
     }),
@@ -35,8 +35,8 @@ const route = createApi({
 isAutenticatedRoute.use(isAuthenticatedMiddleware);
 isAutenticatedRoute.openapi(route, async (c) => {
   const user = c.get("user");
-  console.log(user, "user");
+
   const result = await getUser(user.id);
 
-  return handleResult(c, result, 200, authenticatedErrorMapping);
+  return handleResult(c, result, 201, authenticatedErrorMapping);
 });

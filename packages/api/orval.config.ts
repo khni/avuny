@@ -1,11 +1,10 @@
 import { defineConfig } from "orval";
 
 const webTarget = "../../apps/web/src/api";
-// const mobileTarget = "../ims-mobile/src/api";
 
 export default defineConfig({
   web: {
-    input: "http://localhost:3000/api/openapi.json",
+    input: "./openapi/openapi.json",
     output: {
       target: `${webTarget}/index.ts`,
       schemas: `${webTarget}/model`,
@@ -13,7 +12,7 @@ export default defineConfig({
       mode: "single",
       override: {
         mutator: {
-          path: `${webTarget}/mutator/custom-instance.ts`,
+          path: `${webTarget}/../mutator/custom-instance.ts`,
           name: "customInstance",
         },
       },

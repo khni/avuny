@@ -10,25 +10,21 @@ import { RoleRoutes } from "@avuny/role";
 
 // import { createHonoErrorHandler } from "@khni/error-handler";
 // const errorHandler = createHonoErrorHandler(console);
+// src/app.ts
+
 export const app = new OpenAPIHono().basePath("/api");
+
 app.route("/auth", AuthRoutes);
 app.route("/", OrganizationRoutes);
 app.route("/region", regionRoutes);
 app.route("/", PermissionRoutes);
 app.route("/", RoleRoutes);
 
-// app.use(errorHandler);
 app.onError(onError);
+
 app.doc("/openapi.json", {
   openapi: "3.0.0",
   info: { title: "IMS API", version: "1.0.0" },
 });
 
 app.get("/docs", swaggerUI({ url: "/api/openapi.json" }));
-
-app.doc("/openapi.json", {
-  openapi: "3.0.0",
-  info: { title: "IMS API", version: "1.0.0" },
-});
-
-app.get("/docs", swaggerUI({ url: "/openapi.json" }));

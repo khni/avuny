@@ -14,10 +14,22 @@
     },
 
     /**
+     * generate openapi in json file
+     */
+    "openapi:generate": {
+      "outputs": ["openapi/openapi.json"]
+    },
+    "api:generate": {
+      "dependsOn": ["openapi:generate"],
+      "inputs": ["openapi/openapi.json", "orval.config.ts"],
+      "outputs": ["../../apps/web/src/api/**"]
+    },
+
+    /**
      * Build task
      */
     "build": {
-      "dependsOn": ["^build", "db:generate"],
+      "dependsOn": ["^build", "db:generate", "api:generate"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [
         "dist/**",
