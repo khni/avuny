@@ -17,7 +17,23 @@
      * generate openapi in json file
      */
     "openapi:generate": {
-      "outputs": ["openapi/openapi.json"]
+      "dependsOn": ["db:generate"],
+      "outputs": ["openapi/openapi.json"],
+      "env": [
+        "DATABASE_URL",
+
+        "JWT_SECRET",
+
+        "GOOGLE_CLIENT_ID",
+        "GOOGLE_SECRET",
+        "GOOGLE_REDIRECT_URI",
+
+        "FACEBOOK_APP_ID",
+        "FACEBOOK_SECRET",
+        "FACEBOOK_REDIRECT_URI",
+
+        "FRONTEND_SOCIAL_REDIRECT"
+      ]
     },
     "api:generate": {
       "dependsOn": ["openapi:generate"],
