@@ -17,7 +17,8 @@ import { OrganizationMutationService } from "../OrganizationMutationService.js";
 import { prisma } from "@avuny/db";
 import { createIntlMiddleware, handleResult } from "@avuny/hono";
 import { app } from "./index.js";
-import { intlMiddleware } from "../middlewares/intlMiddleware.js";
+
+import { OrganizationTrans } from "../intl/translate.js";
 
 export const createOrganizationRoute = new OpenAPIHono();
 const route = createRoute({
@@ -25,7 +26,7 @@ const route = createRoute({
   path: "/organizations",
   operationId: "createOrganization",
   tags: ["organization"],
-  middleware: [isAuthenticatedMiddleware, intlMiddleware],
+  middleware: [isAuthenticatedMiddleware],
   request: {
     headers: AuthorizationHeaderSchema,
     body: {
@@ -72,6 +73,7 @@ const route = createRoute({
 
 createOrganizationRoute.openapi(route, async (c) => {
   const service = new OrganizationMutationService(prisma);
+  const t = new OrganizationTrans("en");
   const body = c.req.valid("json");
   const user = c.get("user");
 
@@ -79,5 +81,13 @@ createOrganizationRoute.openapi(route, async (c) => {
     data: body,
     ownerId: user.id,
   });
-  return handleResult(c, result, 201, ModuleErrorResponseMap);
+  return handleResult(
+    c,
+    result,
+    201,
+    ModuleErrorResponseMap,
+    undefined,
+    undefined,
+    t.errors,
+  );
 });

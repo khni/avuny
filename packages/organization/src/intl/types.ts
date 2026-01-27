@@ -1,3 +1,1 @@
-import { en } from "./translations/en.js";
-
-export type TranslationKeys = keyof typeof en;
+export type Messages = typeof import("./locales/en.json");

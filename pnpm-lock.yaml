@@ -633,6 +633,9 @@ importers:
       '@avuny/hono':
         specifier: workspace:*
         version: link:../hono
+      '@avuny/intl':
+        specifier: workspace:*
+        version: link:../intl
       '@avuny/utils':
         specifier: workspace:*
         version: link:../utils

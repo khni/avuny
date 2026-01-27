@@ -38,7 +38,7 @@ export function ErrorAlert<C>({
 
   if (!code) return null;
 
-  const err = errorMap?.(code) ?? "UNKNOWN_ERROR";
+  const err = errorMap?.(code) ?? error.response?.data?.message;
 
   return (
     <Alert variant="destructive">

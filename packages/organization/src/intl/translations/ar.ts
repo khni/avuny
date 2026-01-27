@@ -1,7 +1,0 @@
-export const ar = {
-  errors: {
-    MODULE_NAME_CONFLICT: "الاسم مستخدم بالفعل",
-    MODULE_CREATION_LIMIT_EXCEEDED:
-      "لقد وصلت إلى الحد الأقصى المسموح به لإنشاء المزين من المنظمات  ضمن خطتك الحالية.",
-  },
-} as const;

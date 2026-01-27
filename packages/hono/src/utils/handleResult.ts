@@ -20,14 +20,19 @@ export function handleResult<
   result: Result<T, E>,
   successStatus: S,
   errorMap: Record<E, { statusCode: SE; responseMessage: string }>,
+
   onSuccess?: (result: T) => void,
   onError?: (error: E) => void,
+  errorTrans?: (error: E) => string,
 ) {
   if (!result.success) {
     const err = resultToErrorResponse(result.error, errorMap);
     onError?.(result.error);
     // ❗ critical: return directly from c.json
-    return c.json(err.body, err.status);
+    return c.json(
+      { ...err.body, message: errorTrans?.(result.error) || err.body.message },
+      err.status,
+    );
   }
   onSuccess?.(result.data);
 
