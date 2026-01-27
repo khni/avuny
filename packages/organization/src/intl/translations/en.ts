@@ -1,0 +1,7 @@
+export const en = {
+  errors: {
+    MODULE_NAME_CONFLICT: "Name is already in use",
+    MODULE_CREATION_LIMIT_EXCEEDED:
+      "You have reached the maximum number of creating more Organizations allowed in your plan. Please upgrade your plan to create more {thing}s.",
+  },
+};

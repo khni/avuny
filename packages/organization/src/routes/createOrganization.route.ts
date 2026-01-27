@@ -15,8 +15,9 @@ import {
 import { isAuthenticatedMiddleware } from "@avuny/auth/is-authenticated";
 import { OrganizationMutationService } from "../OrganizationMutationService.js";
 import { prisma } from "@avuny/db";
-import { handleResult } from "@avuny/hono";
+import { createIntlMiddleware, handleResult } from "@avuny/hono";
 import { app } from "./index.js";
+import { intlMiddleware } from "../middlewares/intlMiddleware.js";
 
 export const createOrganizationRoute = new OpenAPIHono();
 const route = createRoute({
@@ -24,7 +25,7 @@ const route = createRoute({
   path: "/organizations",
   operationId: "createOrganization",
   tags: ["organization"],
-  middleware: [isAuthenticatedMiddleware],
+  middleware: [isAuthenticatedMiddleware, intlMiddleware],
   request: {
     headers: AuthorizationHeaderSchema,
     body: {

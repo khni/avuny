@@ -1,17 +1,15 @@
 {
-  "name": "@avuny/hono",
+  "name": "@avuny/intl",
+  "private": true,
   "version": "0.1.0",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "private": true,
-  "author": {
-    "name": "Khaled Eleskandrany",
-    "email": "khaledeskandrany@gmail.com"
-  },
-  ".": {
-    "import": "./dist/index.js",
-    "types": "./dist/index.d.ts"
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
   },
   "scripts": {
     "test": "vitest run",
@@ -25,7 +23,8 @@
     "build": "tsc -p tsconfig.build.json",
     "dev": "tsc -p tsconfig.build.json --watch --preserveWatchOutput",
     "api:docs": "api-documenter markdown -i temp -o docs",
-    "api:extract": "api-extractor run --local"
+    "api:extract": "api-extractor run --local",
+    "seed": "node --loader ts-node/esm ./seed/index.ts"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.7",
@@ -34,13 +33,12 @@
     "@vitest/coverage-v8": "3.2.4",
     "@vitest/ui": "^3.2.3",
     "eslint": "^9.28.0",
+    "ts-node": "^10.9.2",
     "typescript": "~5.8.3",
     "vitest": "^3.2.3"
   },
   "dependencies": {
-    "@avuny/zod": "workspace:*",
-    "@avuny/intl": "workspace:*",
     "@avuny/utils": "workspace:*",
-    "@hono/zod-openapi": "^1.1.5"
+    "i18next": "^25.8.0"
   }
 }
