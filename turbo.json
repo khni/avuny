@@ -31,7 +31,7 @@
      * generate openapi in json file
      */
     "openapi:generate": {
-      "dependsOn": ["db:generate"],
+      "dependsOn": ["db:generate", "^build"],
       "outputs": ["openapi/openapi.json"],
       "env": [
         "DATABASE_URL",
@@ -74,7 +74,7 @@
      * Build task
      */
     "build": {
-      "dependsOn": ["^build", "db:generate", "api:generate"],
+      "dependsOn": ["^build", "db:generate"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [
         "dist/**",

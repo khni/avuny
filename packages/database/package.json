@@ -16,7 +16,8 @@
     "db:generate": "prisma generate",
     "db:deploy": "prisma migrate deploy",
     "build": "tsc -p tsconfig.build.json",
-    "dev": "pnpm db:generate && tsc -p tsconfig.build.json --watch --preserveWatchOutput"
+    "dev": "pnpm db:generate && tsc -p tsconfig.build.json --watch --preserveWatchOutput",
+    "clean:build": "rm -rf dist && rm -rf tsconfig.build.tsbuildinfo && rm -rf .turbo && rm -rf ./src/generated/prisma"
   },
   "dependencies": {
     "@prisma/adapter-neon": "^6.19.0",
