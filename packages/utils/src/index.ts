@@ -13,3 +13,6 @@ export * from "./schema/createPaginatedResponseSchema.js";
 export * from "./errors/module.errors.responses.js";
 export * from "./errors/module.errors.map.js";
 export * from "./errors/module.errors.js";
+
+//types
+export * from "./types.js";

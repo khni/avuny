@@ -1,10 +1,6 @@
 import { ClientErrorStatusCode, ContentfulStatusCode } from "./http-status.js";
 import { Result } from "./result.js";
-
-export type ErrorMeta = {
-  statusCode: ClientErrorStatusCode;
-  responseMessage: string;
-};
+import { ErrorMeta } from "./types.js";
 
 export function resultToResponse<T, E extends string>(
   result: Result<T, E>,
