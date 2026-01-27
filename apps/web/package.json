@@ -4,6 +4,7 @@
   "type": "module",
   "private": true,
   "scripts": {
+    "clean:build": "rm -rf dist && rm -rf .next && rm -rf .turbo && rm -rf ./src/api/model && rm -rf ./src/api/index.ts",
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",

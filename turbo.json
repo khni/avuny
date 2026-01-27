@@ -50,7 +50,7 @@
       ]
     },
     "api:generate": {
-      "dependsOn": ["openapi:generate"],
+      "dependsOn": ["openapi:generate", "^build"],
       "inputs": ["openapi/openapi.json", "orval.config.ts"],
       "outputs": ["../../apps/web/src/api/**"],
       "env": [
@@ -74,14 +74,9 @@
      * Build task
      */
     "build": {
-      "dependsOn": ["^build", "db:generate"],
+      "dependsOn": ["^build", "db:generate", "api:generate"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [
-        "dist/**",
-        ".next/**",
-        "!.next/cache/**",
-        "src/generated/prisma/**"
-      ],
+      "outputs": ["dist/**", ".next/**", "!.next/cache/**"],
       "env": [
         "JWT_SECRET",
 
