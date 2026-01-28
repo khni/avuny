@@ -1,10 +1,4 @@
-import {
-  createTypedT,
-  initIntl,
-  Locale,
-  TOptionsBase,
-  TypedT,
-} from "@avuny/intl";
+import { initIntl, Locale, TOptionsBase } from "@avuny/intl";
 import en from "./locales/en.json" with { type: "json" };
 import ar from "./locales/ar.json" with { type: "json" };
 import { Messages } from "./types.js";
@@ -22,6 +16,6 @@ export class OrganizationTrans {
   }
 
   errors = (code: keyof Messages["errors"], options?: TOptionsBase) => {
-    return this.t(`errors.MODULE_NAME_CONFLICT`);
+    return this.t(`errors.${code}`);
   };
 }

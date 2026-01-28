@@ -12,9 +12,12 @@ export const initIntl = ({ resources }: InitIntlParams) => {
   i18n.init({
     fallbackLng: "en",
     resources,
+    lng: "en",
     interpolation: {
       escapeValue: false,
     },
+    keySeparator: ".",
+    nsSeparator: false, //  disable namespace splitting
   });
 
   return i18n;

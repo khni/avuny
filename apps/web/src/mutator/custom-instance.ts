@@ -54,6 +54,9 @@ AXIOS_INSTANCE.interceptors.request.use((config: any) => {
 
   // 🏢 Attach organization id
   const organizationId = Cookies.get("selectedOrganizationId");
+  const lang = Cookies.get("locale");
+
+  config.headers["x-lang"] = lang || "en";
 
   if (organizationId) {
     config.headers["x-organization-id"] = organizationId;
@@ -69,8 +72,6 @@ AXIOS_INSTANCE.interceptors.response.use(
     const originalRequest = error.config as AxiosRequestConfig & {
       _retry?: boolean;
     };
-
-    console.log("@@@@@@ Error from custom instance", error.response.data);
 
     if (error.response?.data.status === statusCodeToRefreshToken) {
       // const errData = error.response.data as ErrorResponse<AuthErrorCodesType>;

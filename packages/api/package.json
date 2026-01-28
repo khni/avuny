@@ -52,6 +52,7 @@
     "@avuny/permission": "workspace:*",
     "@avuny/region": "workspace:*",
     "@avuny/role": "workspace:*",
+    "@avuny/hono": "workspace:*",
     "@hono/swagger-ui": "^0.5.2",
     "@hono/zod-openapi": "^1.1.5",
     "@khni/auth": "^3.0.0",

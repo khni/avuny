@@ -73,7 +73,8 @@ const route = createRoute({
 
 createOrganizationRoute.openapi(route, async (c) => {
   const service = new OrganizationMutationService(prisma);
-  const t = new OrganizationTrans("en");
+  const lang = c.get("lang");
+  const t = new OrganizationTrans(lang);
   const body = c.req.valid("json");
   const user = c.get("user");
 

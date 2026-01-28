@@ -7,13 +7,13 @@ import { OrganizationRoutes } from "@avuny/organization";
 
 import { PermissionRoutes } from "@avuny/permission";
 import { RoleRoutes } from "@avuny/role";
-
+import { resolveRequestLanguageMiddleware } from "@avuny/hono";
 // import { createHonoErrorHandler } from "@khni/error-handler";
 // const errorHandler = createHonoErrorHandler(console);
 // src/app.ts
 
 export const app = new OpenAPIHono().basePath("/api");
-
+app.use(resolveRequestLanguageMiddleware);
 app.route("/auth", AuthRoutes);
 app.route("/", OrganizationRoutes);
 app.route("/region", regionRoutes);

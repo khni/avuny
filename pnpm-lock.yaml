@@ -249,6 +249,9 @@ importers:
       '@avuny/auth':
         specifier: workspace:*
         version: link:../auth
+      '@avuny/hono':
+        specifier: workspace:*
+        version: link:../hono
       '@avuny/organization':
         specifier: workspace:*
         version: link:../organization
