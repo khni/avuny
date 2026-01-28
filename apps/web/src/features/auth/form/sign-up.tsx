@@ -10,12 +10,8 @@ import { useAuthSuccessHandler } from "@/src/features/auth/form/hooks/useAuthSuc
 import Link from "next/link";
 
 export const SignUpForm = () => {
-  const {
-    authLabels,
-    authErrorTranslations,
-    authHeaderTranslations,
-    authMsgsTranslations,
-  } = useAuthTranslations();
+  const { authLabels, authHeaderTranslations, authMsgsTranslations } =
+    useAuthTranslations();
 
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
@@ -31,7 +27,6 @@ export const SignUpForm = () => {
     <>
       <CustomForm
         error={error}
-        errorMap={authErrorTranslations}
         cardTitle={authHeaderTranslations("signUp")}
         fields={[
           {

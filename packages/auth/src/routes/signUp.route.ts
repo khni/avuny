@@ -19,6 +19,7 @@ import { AuthSignUpDomainErrorCodes } from "../lib/auth/errors/errors.js";
 import { refreshTokenCookieOpts } from "../constants.js";
 import { setCookie } from "hono/cookie";
 import { handleResult } from "@avuny/hono";
+import { Translation } from "../intl/Translation.js";
 
 export const signupRoute = new OpenAPIHono();
 const successStatus = 201;
@@ -62,6 +63,10 @@ const route = createRoute({
 });
 
 signupRoute.openapi(route, async (c) => {
+  const lang = c.get("lang");
+  const t = new Translation(lang);
+  const errorTrans = t.errors;
+
   const body = c.req.valid("json");
   const bodyWithIndentifierType =
     LocalRegisterWithTransformInputSchema.parse(body);
@@ -75,5 +80,6 @@ signupRoute.openapi(route, async (c) => {
       const { cookieName, ...rest } = refreshTokenCookieOpts;
       setCookie(c, cookieName, data.tokens.refreshToken, rest);
     },
+    errorTrans,
   });
 });

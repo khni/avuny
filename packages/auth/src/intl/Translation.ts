@@ -3,7 +3,7 @@ import en from "./locales/en.json" with { type: "json" };
 import ar from "./locales/ar.json" with { type: "json" };
 import { Messages } from "./types.js";
 
-export class OrganizationTrans {
+export class Translation {
   private t: ReturnType<ReturnType<typeof initIntl>["getFixedT"]>;
 
   constructor(lang: Locale) {

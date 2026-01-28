@@ -14,12 +14,8 @@ import { SocialButtons } from "@workspace/ui/blocks/buttons/social-buttons";
 import { FacebookOAuthURLStrategy } from "@workspace/ui/lib/social-login/url/FacebookOAuthURLStrategy";
 
 export const SignInForm = () => {
-  const {
-    authLabels,
-    authErrorTranslations,
-    authHeaderTranslations,
-    authMsgsTranslations,
-  } = useAuthTranslations();
+  const { authLabels, authHeaderTranslations, authMsgsTranslations } =
+    useAuthTranslations();
 
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
@@ -51,7 +47,6 @@ export const SignInForm = () => {
     <>
       <CustomForm
         error={error}
-        errorMap={authErrorTranslations}
         cardTitle={authHeaderTranslations("signIn")}
         fields={[
           {

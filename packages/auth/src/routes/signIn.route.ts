@@ -12,6 +12,7 @@ import {
   createResponseSchema,
   createDomainErrorResponseSchema,
 } from "@avuny/utils";
+import { Translation } from "../intl/Translation.js";
 
 export const signinRoute = new OpenAPIHono();
 const route = createApi({
@@ -44,6 +45,9 @@ const route = createApi({
 });
 
 signinRoute.openapi(route, async (c) => {
+  const lang = c.get("lang");
+  const t = new Translation(lang);
+  const errorTrans = t.errors;
   const body = c.req.valid("json");
   const result = await signIn(body);
   return handleResult({
@@ -55,5 +59,6 @@ signinRoute.openapi(route, async (c) => {
       const { cookieName, ...rest } = refreshTokenCookieOpts;
       setCookie(c, cookieName, data.tokens.refreshToken, rest);
     },
+    errorTrans,
   });
 });

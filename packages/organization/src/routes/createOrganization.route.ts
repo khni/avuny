@@ -15,10 +15,9 @@ import {
 import { isAuthenticatedMiddleware } from "@avuny/auth/is-authenticated";
 import { OrganizationMutationService } from "../OrganizationMutationService.js";
 import { prisma } from "@avuny/db";
-import { createIntlMiddleware, handleResult } from "@avuny/hono";
-import { app } from "./index.js";
+import { handleResult } from "@avuny/hono";
 
-import { OrganizationTrans } from "../intl/translate.js";
+import { Translation } from "../intl/Translation.js";
 
 export const createOrganizationRoute = new OpenAPIHono();
 const route = createRoute({
@@ -74,7 +73,9 @@ const route = createRoute({
 createOrganizationRoute.openapi(route, async (c) => {
   const service = new OrganizationMutationService(prisma);
   const lang = c.get("lang");
-  const t = new OrganizationTrans(lang);
+  const t = new Translation(lang);
+  const errorTrans = t.errors;
+
   const body = c.req.valid("json");
   const user = c.get("user");
 
@@ -87,7 +88,6 @@ createOrganizationRoute.openapi(route, async (c) => {
     result,
     successStatus: 201,
     errorMap: ModuleErrorResponseMap,
-
-    errorTrans: t.errors,
+    errorTrans,
   });
 });

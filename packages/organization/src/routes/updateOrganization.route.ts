@@ -18,6 +18,7 @@ import {
   organizationSchema,
   updateOrganizationBodySchema,
 } from "../schemas.js";
+import { Translation } from "../intl/Translation.js";
 
 export const updateOrganizationRoute = new OpenAPIHono();
 const route = createRoute({
@@ -62,6 +63,10 @@ const route = createRoute({
 });
 
 updateOrganizationRoute.openapi(route, async (c) => {
+  const lang = c.get("lang");
+  const t = new Translation(lang);
+  const errorTrans = t.errors;
+
   const { id } = c.req.valid("param");
   const service = new OrganizationMutationService(prisma);
   const body = c.req.valid("json");
@@ -79,5 +84,6 @@ updateOrganizationRoute.openapi(route, async (c) => {
     errorMap: {
       MODULE_NAME_CONFLICT: ModuleErrorResponseMap.MODULE_NAME_CONFLICT,
     },
+    errorTrans,
   });
 });

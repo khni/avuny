@@ -12,6 +12,7 @@ import { createRoleBodySchema, mutateRoleResponseSchema } from "../schemas.js";
 import { RoleMutationService } from "../RoleMutationService.js";
 import { handleResult } from "@avuny/hono";
 import { isAuthenticatedMiddleware } from "@avuny/auth/is-authenticated";
+import { Translation } from "../intl/Translation.js";
 
 export const createRoleRoute = new OpenAPIHono();
 const route = createRoute({
@@ -64,6 +65,10 @@ const route = createRoute({
 });
 
 createRoleRoute.openapi(route, async (c) => {
+  const lang = c.get("lang");
+  const t = new Translation(lang);
+  const errorTrans = t.errors;
+
   const service = new RoleMutationService();
   const body = c.req.valid("json");
   const userId = c.get("user").id;
@@ -83,5 +88,6 @@ createRoleRoute.openapi(route, async (c) => {
     result,
     successStatus: 201,
     errorMap: ModuleErrorResponseMap,
+    errorTrans,
   });
 });
