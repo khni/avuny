@@ -17,23 +17,18 @@ import {
 
 import React from "react";
 import { Form } from "@workspace/ui/components/form";
-import DynamicGrid, {
-  DynamicGridItem,
-} from "@workspace/ui/blocks/grid/dynamic-grid";
-import DynamicFields, {
-  DynamicField,
-} from "@workspace/ui/blocks/form/dynamic-fields";
+
 import SubmitButton from "@workspace/ui/blocks/form/submit-button";
-import { ErrorAlert } from "@workspace/ui/blocks/form/ErrorAlert";
-import { DynamicGridFields } from "@workspace/ui/blocks/form/fields";
+
+import {
+  DynamicGridFields,
+  DynamicGridFieldsProps,
+} from "@workspace/ui/blocks/form/fields";
 
 // ------------------
 // Props
 // ------------------
-export interface CustomFormProps<T extends FieldValues, E> {
-  form: UseFormReturn<T>;
-  fields?: DynamicGridItem<DynamicField<T, E>>[];
-  getLabel?: (name: Path<T>) => string;
+export type CustomFormProps<T extends FieldValues, E> = {
   cardTitle?: string;
   cardDescription?: string;
 
@@ -56,7 +51,7 @@ export interface CustomFormProps<T extends FieldValues, E> {
 
   submitButtonText?: string;
   isLoadingText: string;
-}
+} & DynamicGridFieldsProps<T, E>;
 
 // ------------------
 // Component

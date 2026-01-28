@@ -92,18 +92,7 @@ export default function RoleFormDetails<E, S extends string>({
           },
         }}
         form={form}
-        getLabel={
-          fieldTranslations as
-            | ((
-                name:
-                  | "name"
-                  | "description"
-                  | "permissions"
-                  | `permissions.${number}`
-                  | `permissions.${number}.permissionId`,
-              ) => string)
-            | undefined
-        }
+        getLabel={fieldTranslations}
         resourceName="role"
         actionName={role ? "update" : "create"}
         fields={[

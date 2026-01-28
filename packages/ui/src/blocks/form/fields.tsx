@@ -5,11 +5,12 @@ import DynamicGrid, {
   DynamicGridItem,
 } from "@workspace/ui/blocks/grid/dynamic-grid";
 import { FieldValues, Path, UseFormReturn } from "react-hook-form";
+type NonIndexedPath<T> = Exclude<Path<T>, `${string}.${number}${string}`>;
 
-type DynamicGridFieldsProps<T extends FieldValues, E> = {
+export type DynamicGridFieldsProps<T extends FieldValues, E> = {
   form: UseFormReturn<T>;
   fields?: DynamicGridItem<DynamicField<T, E>>[];
-  getLabel?: (name: Path<T>) => string;
+  getLabel?: (name: NonIndexedPath<T>) => string;
 };
 
 export function DynamicGridFields<T extends FieldValues, E>({
