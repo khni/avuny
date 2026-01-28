@@ -81,13 +81,12 @@ createOrganizationRoute.openapi(route, async (c) => {
     data: body,
     ownerId: user.id,
   });
-  return handleResult(
+  return handleResult({
     c,
     result,
-    201,
-    ModuleErrorResponseMap,
-    undefined,
-    undefined,
-    t.errors,
-  );
+    successStatus: 201,
+    errorMap: ModuleErrorResponseMap,
+
+    errorTrans: t.errors,
+  });
 });

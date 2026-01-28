@@ -74,7 +74,12 @@ updateRoleRoute.openapi(route, async (c) => {
     context,
     id,
   });
-  return handleResult(c, result, 200, {
-    MODULE_NAME_CONFLICT: ModuleErrorResponseMap.MODULE_NAME_CONFLICT,
+  return handleResult({
+    c,
+    result,
+    successStatus: 200,
+    errorMap: {
+      MODULE_NAME_CONFLICT: ModuleErrorResponseMap.MODULE_NAME_CONFLICT,
+    },
   });
 });

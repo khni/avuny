@@ -38,5 +38,10 @@ isAutenticatedRoute.openapi(route, async (c) => {
 
   const result = await getUser(user.id);
 
-  return handleResult(c, result, 200, authenticatedErrorMapping);
+  return handleResult({
+    c,
+    result,
+    successStatus: 200,
+    errorMap: authenticatedErrorMapping,
+  });
 });

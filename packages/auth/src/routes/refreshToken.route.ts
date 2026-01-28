@@ -42,16 +42,20 @@ const route = createApi({
 });
 
 refreshTokenRoute.openapi(route, async (c) => {
-  console.log("called refresh token route");
   const body = c.req.valid("json");
 
   const { cookieName, ...rest } = refreshTokenCookieOpts;
   const token = getCookie(c, cookieName) || body.token;
 
   const result = await refreshToken({ token });
-  console.log("@@RESULT--- api ", result);
 
-  return handleResult(c, result, 200, authenticatedErrorMapping, (data) => {
-    setCookie(c, cookieName, data.refreshToken, rest);
+  return handleResult({
+    c,
+    result,
+    successStatus: 200,
+    errorMap: authenticatedErrorMapping,
+    onSuccess: (data) => {
+      setCookie(c, cookieName, data.refreshToken, rest);
+    },
   });
 });

@@ -78,5 +78,10 @@ createRoleRoute.openapi(route, async (c) => {
     data: body,
     context,
   });
-  return handleResult(c, result, 201, ModuleErrorResponseMap);
+  return handleResult({
+    c,
+    result,
+    successStatus: 201,
+    errorMap: ModuleErrorResponseMap,
+  });
 });

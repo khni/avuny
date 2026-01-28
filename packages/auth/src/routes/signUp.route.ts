@@ -66,14 +66,14 @@ signupRoute.openapi(route, async (c) => {
   const bodyWithIndentifierType =
     LocalRegisterWithTransformInputSchema.parse(body);
   const result = await signUp(bodyWithIndentifierType);
-  return handleResult(
+  return handleResult({
     c,
     result,
     successStatus,
-    authSignUpErrorMapping,
-    (data) => {
+    errorMap: authSignUpErrorMapping,
+    onSuccess: (data) => {
       const { cookieName, ...rest } = refreshTokenCookieOpts;
       setCookie(c, cookieName, data.tokens.refreshToken, rest);
-    }
-  );
+    },
+  });
 });
