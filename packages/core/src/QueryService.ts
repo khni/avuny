@@ -3,13 +3,14 @@ import { ok } from "@avuny/utils";
 import { IBaseRepository } from "./IRepository.js";
 
 import { FilteredPaginatedList } from "./IQueryService.js";
+import { Resource } from "./types.js";
 
 export class QueryService<R extends IBaseRepository> {
   constructor(
     private repository: R,
 
     private config: {
-      moduleName: "role" | "user"; // for now
+      moduleName: Resource;
     },
   ) {}
 

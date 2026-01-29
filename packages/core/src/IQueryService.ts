@@ -9,6 +9,21 @@ export type FilteredPaginatedList<IFilters, TOrderBy> = {
   context: { userId: string; requestId: string; organizationId: string };
 };
 
+// <WIP>
+export type CursorPaginatedListByName<IFilters> = {
+  limit?: number;
+  cursor?: {
+    name: string;
+    id: string;
+  };
+  filters: IFilters;
+  context: {
+    userId: string;
+    requestId: string;
+    organizationId: string;
+  };
+};
+
 export interface IQueryService<R extends IBaseRepository> {
   filteredPaginatedList: <
     TFilter extends Parameters<R["findMany"]>[0]["where"],
