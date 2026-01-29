@@ -6,7 +6,8 @@
       "fields": {
         "name": "الاسم",
         "description": "الوصف",
-        "permissions": "الصلاحيات"
+        "permissions": "الصلاحيات",
+        "customPermissions": "الصلاحيات المخصصة"
       }
     },
     "headers": {

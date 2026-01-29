@@ -28,6 +28,7 @@ enum ResourceName {
 
 // NEW: System-defined custom permissions that don't fit CRUD patterns
 enum SystemCustomPermission {
+  FULL_ACCESS
   //example custom permissions
   // Financial permissions
   VIEW_FINANCIAL_REPORTS

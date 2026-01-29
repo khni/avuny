@@ -10,6 +10,8 @@
     "dev": "TURBO_UI=0  turbo dev --concurrency=20",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "db:generate": "turbo db:generate",
+    "db:push": "turbo db:push",
     "create-pkg": "node scripts/create-package.js",
     "create-feature": "tsx  scripts/create-web-feature/index.ts"
   },

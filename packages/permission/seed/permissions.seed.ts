@@ -102,6 +102,13 @@ async function main() {
       riskLevel: "LOW",
     },
     {
+      code: "FULL_ACCESS",
+      name: "Access All Records with all Permissions",
+      category: "DATA",
+      riskLevel: "CRITICAL",
+      requiresApproval: true,
+    },
+    {
       code: "PROCESS_BULK_PAYMENTS",
       name: "Process Bulk Payments",
       category: "FINANCIAL",

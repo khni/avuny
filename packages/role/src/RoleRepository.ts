@@ -1,5 +1,6 @@
 import { prisma, type Prisma, Tx, DB, PrismaTransaction } from "@avuny/db";
 import { IBaseRepository } from "@avuny/core";
+import { SystemCustomPermission } from "@avuny/db/types";
 // export type WhereUniqueInput =
 //   | { id: string }
 //   | { organizationId_name: { name: string; organizationId: string } };
@@ -32,18 +33,30 @@ export class RoleRepository
   async create(params: {
     data: Prisma.RoleCreateManyInput & {
       permissions: { permissionId: string }[];
+      customPermissions?: { code: SystemCustomPermission }[];
     };
     tx?: Tx;
   }) {
     const { data, tx } = params;
-    const { permissions, ...role } = data;
+    const { permissions, customPermissions, ...role } = data;
     const db = this.getDB(tx);
 
-    return db.role.create({
+    return await db.role.create({
       data: {
         ...role,
+
         rolePermissions: {
           create: permissions,
+        },
+
+        roleCustomPermissions: {
+          create: (customPermissions ?? []).map((cp) => ({
+            customPermission: {
+              connect: {
+                code: cp.code,
+              },
+            },
+          })),
         },
       },
     });
@@ -54,7 +67,7 @@ export class RoleRepository
     const { where, tx } = params;
     const db = this.getDB(tx);
 
-    return db.role.findUnique({
+    return await db.role.findUnique({
       where,
       select: {
         id: true,
@@ -80,7 +93,7 @@ export class RoleRepository
     const { tx, ...query } = params ?? {};
     const db = this.getDB(tx);
 
-    return db.role.findMany({
+    return await db.role.findMany({
       ...query,
     });
   }
@@ -114,7 +127,7 @@ export class RoleRepository
     const { where, tx } = params;
     const db = this.getDB(tx);
 
-    return db.role.delete({
+    return await db.role.delete({
       where,
       select: { id: true },
     });
@@ -125,7 +138,7 @@ export class RoleRepository
     const { tx, where } = params ?? {};
     const db = this.getDB(tx);
 
-    return db.role.count({ where });
+    return await db.role.count({ where });
   }
 
   /** Create many roles */
@@ -137,7 +150,7 @@ export class RoleRepository
     const { data, skipDuplicates, tx } = params;
     const db = this.getDB(tx);
 
-    return db.role.createMany({
+    return await db.role.createMany({
       data,
       skipDuplicates,
     });

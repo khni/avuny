@@ -5,3 +5,4 @@ export * from "./MutationService.js";
 export * from "./IQueryService.js";
 export * from "./QueryService.js";
 export * from "./types.js";
+export * from "./ServiceGuard/index.js";

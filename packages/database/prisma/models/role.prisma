@@ -95,7 +95,7 @@ model RoleCustomPermission {
   approvedBy       String? // User ID who approved this permission
   approvedAt       DateTime?
   grantedAt        DateTime  @default(now())
-  grantedBy        String
+  grantedBy        String?
 
   @@unique([roleId, customPermissionId])
   @@index([roleId])

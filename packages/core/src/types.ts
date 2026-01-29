@@ -5,5 +5,5 @@ export type Context = {
   requestId: string;
 };
 
-export type Resource = "rolo" | "user" | "invoice";
+export type Resource = "role" | "user" | "invoice";
 export type Action = "read" | "update" | "create" | "delete";

@@ -1,3 +1,4 @@
+import { SystemCustomPermission } from "@avuny/db/enums";
 import { z } from "@avuny/zod";
 
 export const roleSchema = z.object({
@@ -29,6 +30,12 @@ export const mutateRoleSchema = roleSchema
         permissionId: z.uuid(),
       })
       .array(),
+    customPermissions: z
+      .object({
+        code: z.enum(SystemCustomPermission),
+      })
+      .array()
+      .optional(),
   });
 export const createRoleBodySchema = mutateRoleSchema;
 

@@ -36,6 +36,7 @@ export class OrganizationMutationService {
           ownerId: ownerId,
         },
       },
+
       select: {
         id: true,
         name: true,
@@ -57,12 +58,34 @@ export class OrganizationMutationService {
       data: {
         ...data,
         ownerId,
+
+        roles: {
+          create: {
+            name: "Owner",
+            isSystem: true,
+            priority: 100,
+
+            roleCustomPermissions: {
+              create: {
+                grantedBy: ownerId,
+
+                customPermission: {
+                  connect: {
+                    code: "FULL_ACCESS",
+                  },
+                },
+              },
+            },
+          },
+        },
       },
+
       select: {
         id: true,
         name: true,
       },
     });
+
     return ok(
       organization,
       { ownerId, data },
