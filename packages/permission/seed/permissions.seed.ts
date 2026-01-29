@@ -7,7 +7,7 @@ async function main() {
   // 1️⃣ Seed Actions
   // -----------------------------
   // const actionNames = Object.values(ActionName);
-  const actionNames = ["CREATE", "READ", "UPDATE", "DELETE"] as const;
+  const actionNames = ["create", "read", "update", "delete"] as const;
 
   await prisma.action.createMany({
     data: actionNames.map((name) => ({
@@ -23,7 +23,7 @@ async function main() {
   // 2️⃣ Seed Resources
   // -----------------------------
   // const resourceNames = Object.values(ResourceName);
-  const resourceNames = ["USER", "ROLE"] as const;
+  const resourceNames = ["user", "role"] as const;
 
   await prisma.resource.createMany({
     data: resourceNames.map((name) => ({
@@ -41,9 +41,9 @@ async function main() {
 
   // Define valid action-resource combinations
   const validMatrix = {
-    USER: ["CREATE", "READ", "UPDATE", "DELETE"],
+    USER: ["create", "read", "update", "delete"],
 
-    ROLE: ["CREATE", "READ", "UPDATE", "DELETE"],
+    ROLE: ["create", "read", "update", "delete"],
     // ITEM: ["CREATE", "READ", "UPDATE", "DELETE", "EXPORT", "IMPORT"],
     // INVOICE: [
     //   "CREATE",
@@ -76,7 +76,7 @@ async function main() {
           resourceId: resource!.id,
           description: `${actionKey} ${resourceKey}`,
           category: "STANDARD",
-          isDangerous: actionKey === "DELETE" || actionKey === "APPROVE",
+          isDangerous: actionKey === "delte" || actionKey === "approve",
         };
       });
     },

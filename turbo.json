@@ -113,6 +113,10 @@
       "cache": false,
       "persistent": true
     },
+    "seed": {
+      "cache": false,
+      "persistent": true
+    },
     "db:push": {
       "cache": false,
       "persistent": true

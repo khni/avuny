@@ -1,30 +1,31 @@
 enum ActionName {
-  CREATE
-  READ
-  UPDATE
-  DELETE
-  APPROVE
-  REJECT
-  EXPORT
-  IMPORT
-  SHARE
-  ARCHIVE
-  RESTORE
+  create
+  read
+  update
+  delete
+  approve
+  reject
+  export
+  import
+  share
+  archive
+  restore
 }
 
 enum ResourceName {
-  USER
-  ROLE
-  ITEM
-  INVOICE
-  CUSTOMER
-  SUPPLIER
-  PURCHASE_ORDER
-  SALES_ORDER
-  WAREHOUSE
-  ORGANIZATION
-  REPORT
+  user
+  role
+  item
+  invoice
+  customer
+  supplier
+  purchase_order
+  sales_order
+  warehouse
+  organization
+  report
 }
+
 
 // NEW: System-defined custom permissions that don't fit CRUD patterns
 enum SystemCustomPermission {
