@@ -105,7 +105,7 @@ importers:
     dependencies:
       '@avuny/api':
         specifier: workspace:*
-        version: link:../../packages/api
+        version: link:../../packages/domain/api
       '@avuny/utils':
         specifier: workspace:*
         version: link:../../packages/utils
@@ -157,7 +157,7 @@ importers:
     devDependencies:
       '@avuny/db':
         specifier: workspace:^
-        version: link:../../packages/database
+        version: link:../../packages/domain/database
       '@tailwindcss/postcss':
         specifier: ^4.1.17
         version: 4.1.18
@@ -186,14 +186,11 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
 
-  packages/activity-log:
+  packages/core:
     dependencies:
-      '@avuny/auth':
+      '@avuny/activity-log':
         specifier: workspace:*
-        version: link:../auth
-      '@avuny/db':
-        specifier: workspace:*
-        version: link:../database
+        version: link:../domain/activity-log
       '@avuny/hono':
         specifier: workspace:*
         version: link:../hono
@@ -247,14 +244,75 @@ importers:
         specifier: ^4.0.5
         version: 4.3.6
 
-  packages/api:
+  packages/domain/activity-log:
+    dependencies:
+      '@avuny/auth':
+        specifier: workspace:*
+        version: link:../auth
+      '@avuny/db':
+        specifier: workspace:*
+        version: link:../database
+      '@avuny/hono':
+        specifier: workspace:*
+        version: link:../../hono
+      '@avuny/utils':
+        specifier: workspace:*
+        version: link:../../utils
+      '@avuny/zod':
+        specifier: workspace:*
+        version: link:../../zod
+      '@hono/swagger-ui':
+        specifier: ^0.5.2
+        version: 0.5.3(hono@4.11.5)
+      '@hono/zod-openapi':
+        specifier: ^1.2.0
+        version: 1.2.0(hono@4.11.5)(zod@4.3.6)
+      axios:
+        specifier: ^1.13.2
+        version: 1.13.2
+      hono:
+        specifier: ^4.10.7
+        version: 4.11.5
+    devDependencies:
+      '@changesets/cli':
+        specifier: ^2.29.7
+        version: 2.29.8(@types/node@22.19.7)
+      '@microsoft/api-documenter':
+        specifier: ^7.26.29
+        version: 7.28.2(@types/node@22.19.7)
+      '@microsoft/api-extractor':
+        specifier: ^7.52.8
+        version: 7.55.2(@types/node@22.19.7)
+      '@vitest/coverage-v8':
+        specifier: 3.2.4
+        version: 3.2.4(vitest@3.2.4)
+      '@vitest/ui':
+        specifier: ^3.2.3
+        version: 3.2.4(vitest@3.2.4)
+      eslint:
+        specifier: ^9.28.0
+        version: 9.39.2(jiti@2.6.1)
+      ts-node:
+        specifier: ^10.9.2
+        version: 10.9.2(@swc/core@1.15.10)(@types/node@22.19.7)(typescript@5.8.3)
+      typescript:
+        specifier: ~5.8.3
+        version: 5.8.3
+      vitest:
+        specifier: ^3.2.3
+        version: 3.2.4(@types/node@22.19.7)(@vitest/ui@3.2.4)(jiti@2.6.1)(lightningcss@1.31.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2)
+      zod:
+        specifier: ^4.0.5
+        version: 4.3.6
+
+  packages/domain/api:
     dependencies:
       '@avuny/auth':
         specifier: workspace:*
         version: link:../auth
       '@avuny/hono':
         specifier: workspace:*
-        version: link:../hono
+        version: link:../../hono
       '@avuny/organization':
         specifier: workspace:*
         version: link:../organization
@@ -332,23 +390,23 @@ importers:
         specifier: ^4.0.5
         version: 4.3.6
 
-  packages/auth:
+  packages/domain/auth:
     dependencies:
       '@avuny/db':
         specifier: workspace:*
         version: link:../database
       '@avuny/hono':
         specifier: workspace:*
-        version: link:../hono
+        version: link:../../hono
       '@avuny/intl':
         specifier: workspace:*
-        version: link:../intl
+        version: link:../../intl
       '@avuny/utils':
         specifier: workspace:*
-        version: link:../utils
+        version: link:../../utils
       '@avuny/zod':
         specifier: workspace:*
-        version: link:../zod
+        version: link:../../zod
       '@hono/swagger-ui':
         specifier: ^0.5.2
         version: 0.5.3(hono@4.11.5)
@@ -423,20 +481,121 @@ importers:
         specifier: ^4.0.5
         version: 4.3.6
 
-  packages/core:
+  packages/domain/database:
     dependencies:
-      '@avuny/activity-log':
+      '@prisma/adapter-neon':
+        specifier: ^6.19.0
+        version: 6.19.2
+      '@prisma/adapter-pg':
+        specifier: ^6.19.0
+        version: 6.19.2
+      '@prisma/client':
+        specifier: ^6.19.0
+        version: 6.19.2(prisma@6.19.2(magicast@0.3.5)(typescript@5.9.3))(typescript@5.9.3)
+      '@prisma/extension-accelerate':
+        specifier: ^2.0.2
+        version: 2.0.2(@prisma/client@6.19.2(prisma@6.19.2(magicast@0.3.5)(typescript@5.9.3))(typescript@5.9.3))
+      dotenv:
+        specifier: ^17.2.3
+        version: 17.2.3
+      zod:
+        specifier: ^4.0.5
+        version: 4.3.6
+    devDependencies:
+      '@types/node':
+        specifier: ^20.19.9
+        version: 20.19.30
+      prisma:
+        specifier: ^6.19.0
+        version: 6.19.2(magicast@0.3.5)(typescript@5.9.3)
+      typescript:
+        specifier: ^5.6.3
+        version: 5.9.3
+
+  packages/domain/organization:
+    dependencies:
+      '@avuny/auth':
         specifier: workspace:*
-        version: link:../activity-log
+        version: link:../auth
+      '@avuny/db':
+        specifier: workspace:*
+        version: link:../database
       '@avuny/hono':
         specifier: workspace:*
-        version: link:../hono
+        version: link:../../hono
+      '@avuny/intl':
+        specifier: workspace:*
+        version: link:../../intl
       '@avuny/utils':
         specifier: workspace:*
-        version: link:../utils
+        version: link:../../utils
       '@avuny/zod':
         specifier: workspace:*
-        version: link:../zod
+        version: link:../../zod
+      '@hono/swagger-ui':
+        specifier: ^0.5.2
+        version: 0.5.3(hono@4.11.5)
+      '@hono/zod-openapi':
+        specifier: ^1.2.0
+        version: 1.2.0(hono@4.11.5)(zod@4.3.6)
+      axios:
+        specifier: ^1.13.2
+        version: 1.13.2
+      hono:
+        specifier: ^4.10.7
+        version: 4.11.5
+    devDependencies:
+      '@changesets/cli':
+        specifier: ^2.29.7
+        version: 2.29.8(@types/node@22.19.7)
+      '@microsoft/api-documenter':
+        specifier: ^7.26.29
+        version: 7.28.2(@types/node@22.19.7)
+      '@microsoft/api-extractor':
+        specifier: ^7.52.8
+        version: 7.55.2(@types/node@22.19.7)
+      '@vitest/coverage-v8':
+        specifier: 3.2.4
+        version: 3.2.4(vitest@3.2.4)
+      '@vitest/ui':
+        specifier: ^3.2.3
+        version: 3.2.4(vitest@3.2.4)
+      eslint:
+        specifier: ^9.28.0
+        version: 9.39.2(jiti@2.6.1)
+      typescript:
+        specifier: ~5.8.3
+        version: 5.8.3
+      vitest:
+        specifier: ^3.2.3
+        version: 3.2.4(@types/node@22.19.7)(@vitest/ui@3.2.4)(jiti@2.6.1)(lightningcss@1.31.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2)
+      zod:
+        specifier: ^4.0.5
+        version: 4.3.6
+
+  packages/domain/organization-user:
+    dependencies:
+      '@avuny/auth':
+        specifier: workspace:*
+        version: link:../auth
+      '@avuny/core':
+        specifier: workspace:*
+        version: link:../../core
+      '@avuny/db':
+        specifier: workspace:*
+        version: link:../database
+      '@avuny/hono':
+        specifier: workspace:*
+        version: link:../../hono
+      '@avuny/intl':
+        specifier: workspace:*
+        version: link:../../intl
+      '@avuny/utils':
+        specifier: workspace:*
+        version: link:../../utils
+      '@avuny/zod':
+        specifier: workspace:*
+        version: link:../../zod
       '@hono/swagger-ui':
         specifier: ^0.5.2
         version: 0.5.3(hono@4.11.5)
@@ -481,36 +640,194 @@ importers:
         specifier: ^4.0.5
         version: 4.3.6
 
-  packages/database:
+  packages/domain/permission:
     dependencies:
-      '@prisma/adapter-neon':
-        specifier: ^6.19.0
-        version: 6.19.2
-      '@prisma/adapter-pg':
-        specifier: ^6.19.0
-        version: 6.19.2
-      '@prisma/client':
-        specifier: ^6.19.0
-        version: 6.19.2(prisma@6.19.2(magicast@0.3.5)(typescript@5.9.3))(typescript@5.9.3)
-      '@prisma/extension-accelerate':
-        specifier: ^2.0.2
-        version: 2.0.2(@prisma/client@6.19.2(prisma@6.19.2(magicast@0.3.5)(typescript@5.9.3))(typescript@5.9.3))
-      dotenv:
-        specifier: ^17.2.3
-        version: 17.2.3
+      '@avuny/auth':
+        specifier: workspace:*
+        version: link:../auth
+      '@avuny/db':
+        specifier: workspace:*
+        version: link:../database
+      '@avuny/hono':
+        specifier: workspace:*
+        version: link:../../hono
+      '@avuny/utils':
+        specifier: workspace:*
+        version: link:../../utils
+      '@avuny/zod':
+        specifier: workspace:*
+        version: link:../../zod
+      '@hono/swagger-ui':
+        specifier: ^0.5.2
+        version: 0.5.3(hono@4.11.5)
+      '@hono/zod-openapi':
+        specifier: ^1.2.0
+        version: 1.2.0(hono@4.11.5)(zod@4.3.6)
+      axios:
+        specifier: ^1.13.2
+        version: 1.13.2
+      hono:
+        specifier: ^4.10.7
+        version: 4.11.5
+    devDependencies:
+      '@changesets/cli':
+        specifier: ^2.29.7
+        version: 2.29.8(@types/node@22.19.7)
+      '@microsoft/api-documenter':
+        specifier: ^7.26.29
+        version: 7.28.2(@types/node@22.19.7)
+      '@microsoft/api-extractor':
+        specifier: ^7.52.8
+        version: 7.55.2(@types/node@22.19.7)
+      '@vitest/coverage-v8':
+        specifier: 3.2.4
+        version: 3.2.4(vitest@3.2.4)
+      '@vitest/ui':
+        specifier: ^3.2.3
+        version: 3.2.4(vitest@3.2.4)
+      eslint:
+        specifier: ^9.28.0
+        version: 9.39.2(jiti@2.6.1)
+      ts-node:
+        specifier: ^10.9.2
+        version: 10.9.2(@swc/core@1.15.10)(@types/node@22.19.7)(typescript@5.8.3)
+      typescript:
+        specifier: ~5.8.3
+        version: 5.8.3
+      vitest:
+        specifier: ^3.2.3
+        version: 3.2.4(@types/node@22.19.7)(@vitest/ui@3.2.4)(jiti@2.6.1)(lightningcss@1.31.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2)
       zod:
         specifier: ^4.0.5
         version: 4.3.6
+
+  packages/domain/region:
+    dependencies:
+      '@avuny/db':
+        specifier: workspace:*
+        version: link:../database
+      '@avuny/hono':
+        specifier: workspace:*
+        version: link:../../hono
+      '@avuny/utils':
+        specifier: workspace:*
+        version: link:../../utils
+      '@avuny/zod':
+        specifier: workspace:*
+        version: link:../../zod
+      '@hono/swagger-ui':
+        specifier: ^0.5.2
+        version: 0.5.3(hono@4.11.5)
+      '@hono/zod-openapi':
+        specifier: ^1.2.0
+        version: 1.2.0(hono@4.11.5)(zod@4.3.6)
+      axios:
+        specifier: ^1.13.2
+        version: 1.13.2
+      hono:
+        specifier: ^4.10.7
+        version: 4.11.5
     devDependencies:
-      '@types/node':
-        specifier: ^20.19.9
-        version: 20.19.30
-      prisma:
-        specifier: ^6.19.0
-        version: 6.19.2(magicast@0.3.5)(typescript@5.9.3)
+      '@changesets/cli':
+        specifier: ^2.29.7
+        version: 2.29.8(@types/node@22.19.7)
+      '@microsoft/api-documenter':
+        specifier: ^7.26.29
+        version: 7.28.2(@types/node@22.19.7)
+      '@microsoft/api-extractor':
+        specifier: ^7.52.8
+        version: 7.55.2(@types/node@22.19.7)
+      '@vitest/coverage-v8':
+        specifier: 3.2.4
+        version: 3.2.4(vitest@3.2.4)
+      '@vitest/ui':
+        specifier: ^3.2.3
+        version: 3.2.4(vitest@3.2.4)
+      eslint:
+        specifier: ^9.28.0
+        version: 9.39.2(jiti@2.6.1)
       typescript:
-        specifier: ^5.6.3
-        version: 5.9.3
+        specifier: ~5.8.3
+        version: 5.8.3
+      vitest:
+        specifier: ^3.2.3
+        version: 3.2.4(@types/node@22.19.7)(@vitest/ui@3.2.4)(jiti@2.6.1)(lightningcss@1.31.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2)
+      zod:
+        specifier: ^4.0.5
+        version: 4.3.6
+
+  packages/domain/role:
+    dependencies:
+      '@avuny/activity-log':
+        specifier: workspace:*
+        version: link:../activity-log
+      '@avuny/auth':
+        specifier: workspace:*
+        version: link:../auth
+      '@avuny/core':
+        specifier: workspace:*
+        version: link:../../core
+      '@avuny/db':
+        specifier: workspace:*
+        version: link:../database
+      '@avuny/hono':
+        specifier: workspace:*
+        version: link:../../hono
+      '@avuny/intl':
+        specifier: workspace:*
+        version: link:../../intl
+      '@avuny/utils':
+        specifier: workspace:*
+        version: link:../../utils
+      '@avuny/zod':
+        specifier: workspace:*
+        version: link:../../zod
+      '@hono/swagger-ui':
+        specifier: ^0.5.2
+        version: 0.5.3(hono@4.11.5)
+      '@hono/zod-openapi':
+        specifier: ^1.2.0
+        version: 1.2.0(hono@4.11.5)(zod@4.3.6)
+      axios:
+        specifier: ^1.13.2
+        version: 1.13.2
+      hono:
+        specifier: ^4.10.7
+        version: 4.11.5
+    devDependencies:
+      '@changesets/cli':
+        specifier: ^2.29.7
+        version: 2.29.8(@types/node@22.19.7)
+      '@microsoft/api-documenter':
+        specifier: ^7.26.29
+        version: 7.28.2(@types/node@22.19.7)
+      '@microsoft/api-extractor':
+        specifier: ^7.52.8
+        version: 7.55.2(@types/node@22.19.7)
+      '@vitest/coverage-v8':
+        specifier: 3.2.4
+        version: 3.2.4(vitest@3.2.4)
+      '@vitest/ui':
+        specifier: ^3.2.3
+        version: 3.2.4(vitest@3.2.4)
+      eslint:
+        specifier: ^9.28.0
+        version: 9.39.2(jiti@2.6.1)
+      ts-node:
+        specifier: ^10.9.2
+        version: 10.9.2(@swc/core@1.15.10)(@types/node@22.19.7)(typescript@5.8.3)
+      ts-to-zod:
+        specifier: ^5.1.0
+        version: 5.1.0
+      typescript:
+        specifier: ~5.8.3
+        version: 5.8.3
+      vitest:
+        specifier: ^3.2.3
+        version: 3.2.4(@types/node@22.19.7)(@vitest/ui@3.2.4)(jiti@2.6.1)(lightningcss@1.31.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2)
+      zod:
+        specifier: ^4.0.5
+        version: 4.3.6
 
   packages/eslint-config:
     devDependencies:
@@ -630,323 +947,6 @@ importers:
       vitest:
         specifier: ^3.2.3
         version: 3.2.4(@types/node@22.19.7)(@vitest/ui@3.2.4)(jiti@2.6.1)(lightningcss@1.31.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2)
-
-  packages/organization:
-    dependencies:
-      '@avuny/auth':
-        specifier: workspace:*
-        version: link:../auth
-      '@avuny/db':
-        specifier: workspace:*
-        version: link:../database
-      '@avuny/hono':
-        specifier: workspace:*
-        version: link:../hono
-      '@avuny/intl':
-        specifier: workspace:*
-        version: link:../intl
-      '@avuny/utils':
-        specifier: workspace:*
-        version: link:../utils
-      '@avuny/zod':
-        specifier: workspace:*
-        version: link:../zod
-      '@hono/swagger-ui':
-        specifier: ^0.5.2
-        version: 0.5.3(hono@4.11.5)
-      '@hono/zod-openapi':
-        specifier: ^1.2.0
-        version: 1.2.0(hono@4.11.5)(zod@4.3.6)
-      axios:
-        specifier: ^1.13.2
-        version: 1.13.2
-      hono:
-        specifier: ^4.10.7
-        version: 4.11.5
-    devDependencies:
-      '@changesets/cli':
-        specifier: ^2.29.7
-        version: 2.29.8(@types/node@22.19.7)
-      '@microsoft/api-documenter':
-        specifier: ^7.26.29
-        version: 7.28.2(@types/node@22.19.7)
-      '@microsoft/api-extractor':
-        specifier: ^7.52.8
-        version: 7.55.2(@types/node@22.19.7)
-      '@vitest/coverage-v8':
-        specifier: 3.2.4
-        version: 3.2.4(vitest@3.2.4)
-      '@vitest/ui':
-        specifier: ^3.2.3
-        version: 3.2.4(vitest@3.2.4)
-      eslint:
-        specifier: ^9.28.0
-        version: 9.39.2(jiti@2.6.1)
-      typescript:
-        specifier: ~5.8.3
-        version: 5.8.3
-      vitest:
-        specifier: ^3.2.3
-        version: 3.2.4(@types/node@22.19.7)(@vitest/ui@3.2.4)(jiti@2.6.1)(lightningcss@1.31.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2)
-      zod:
-        specifier: ^4.0.5
-        version: 4.3.6
-
-  packages/organization-user:
-    dependencies:
-      '@avuny/auth':
-        specifier: workspace:*
-        version: link:../auth
-      '@avuny/core':
-        specifier: workspace:*
-        version: link:../core
-      '@avuny/db':
-        specifier: workspace:*
-        version: link:../database
-      '@avuny/hono':
-        specifier: workspace:*
-        version: link:../hono
-      '@avuny/intl':
-        specifier: workspace:*
-        version: link:../intl
-      '@avuny/utils':
-        specifier: workspace:*
-        version: link:../utils
-      '@avuny/zod':
-        specifier: workspace:*
-        version: link:../zod
-      '@hono/swagger-ui':
-        specifier: ^0.5.2
-        version: 0.5.3(hono@4.11.5)
-      '@hono/zod-openapi':
-        specifier: ^1.2.0
-        version: 1.2.0(hono@4.11.5)(zod@4.3.6)
-      axios:
-        specifier: ^1.13.2
-        version: 1.13.2
-      hono:
-        specifier: ^4.10.7
-        version: 4.11.5
-    devDependencies:
-      '@changesets/cli':
-        specifier: ^2.29.7
-        version: 2.29.8(@types/node@22.19.7)
-      '@microsoft/api-documenter':
-        specifier: ^7.26.29
-        version: 7.28.2(@types/node@22.19.7)
-      '@microsoft/api-extractor':
-        specifier: ^7.52.8
-        version: 7.55.2(@types/node@22.19.7)
-      '@vitest/coverage-v8':
-        specifier: 3.2.4
-        version: 3.2.4(vitest@3.2.4)
-      '@vitest/ui':
-        specifier: ^3.2.3
-        version: 3.2.4(vitest@3.2.4)
-      eslint:
-        specifier: ^9.28.0
-        version: 9.39.2(jiti@2.6.1)
-      ts-node:
-        specifier: ^10.9.2
-        version: 10.9.2(@swc/core@1.15.10)(@types/node@22.19.7)(typescript@5.8.3)
-      typescript:
-        specifier: ~5.8.3
-        version: 5.8.3
-      vitest:
-        specifier: ^3.2.3
-        version: 3.2.4(@types/node@22.19.7)(@vitest/ui@3.2.4)(jiti@2.6.1)(lightningcss@1.31.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2)
-      zod:
-        specifier: ^4.0.5
-        version: 4.3.6
-
-  packages/permission:
-    dependencies:
-      '@avuny/auth':
-        specifier: workspace:*
-        version: link:../auth
-      '@avuny/db':
-        specifier: workspace:*
-        version: link:../database
-      '@avuny/hono':
-        specifier: workspace:*
-        version: link:../hono
-      '@avuny/utils':
-        specifier: workspace:*
-        version: link:../utils
-      '@avuny/zod':
-        specifier: workspace:*
-        version: link:../zod
-      '@hono/swagger-ui':
-        specifier: ^0.5.2
-        version: 0.5.3(hono@4.11.5)
-      '@hono/zod-openapi':
-        specifier: ^1.2.0
-        version: 1.2.0(hono@4.11.5)(zod@4.3.6)
-      axios:
-        specifier: ^1.13.2
-        version: 1.13.2
-      hono:
-        specifier: ^4.10.7
-        version: 4.11.5
-    devDependencies:
-      '@changesets/cli':
-        specifier: ^2.29.7
-        version: 2.29.8(@types/node@22.19.7)
-      '@microsoft/api-documenter':
-        specifier: ^7.26.29
-        version: 7.28.2(@types/node@22.19.7)
-      '@microsoft/api-extractor':
-        specifier: ^7.52.8
-        version: 7.55.2(@types/node@22.19.7)
-      '@vitest/coverage-v8':
-        specifier: 3.2.4
-        version: 3.2.4(vitest@3.2.4)
-      '@vitest/ui':
-        specifier: ^3.2.3
-        version: 3.2.4(vitest@3.2.4)
-      eslint:
-        specifier: ^9.28.0
-        version: 9.39.2(jiti@2.6.1)
-      ts-node:
-        specifier: ^10.9.2
-        version: 10.9.2(@swc/core@1.15.10)(@types/node@22.19.7)(typescript@5.8.3)
-      typescript:
-        specifier: ~5.8.3
-        version: 5.8.3
-      vitest:
-        specifier: ^3.2.3
-        version: 3.2.4(@types/node@22.19.7)(@vitest/ui@3.2.4)(jiti@2.6.1)(lightningcss@1.31.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2)
-      zod:
-        specifier: ^4.0.5
-        version: 4.3.6
-
-  packages/region:
-    dependencies:
-      '@avuny/db':
-        specifier: workspace:*
-        version: link:../database
-      '@avuny/hono':
-        specifier: workspace:*
-        version: link:../hono
-      '@avuny/utils':
-        specifier: workspace:*
-        version: link:../utils
-      '@avuny/zod':
-        specifier: workspace:*
-        version: link:../zod
-      '@hono/swagger-ui':
-        specifier: ^0.5.2
-        version: 0.5.3(hono@4.11.5)
-      '@hono/zod-openapi':
-        specifier: ^1.2.0
-        version: 1.2.0(hono@4.11.5)(zod@4.3.6)
-      axios:
-        specifier: ^1.13.2
-        version: 1.13.2
-      hono:
-        specifier: ^4.10.7
-        version: 4.11.5
-    devDependencies:
-      '@changesets/cli':
-        specifier: ^2.29.7
-        version: 2.29.8(@types/node@22.19.7)
-      '@microsoft/api-documenter':
-        specifier: ^7.26.29
-        version: 7.28.2(@types/node@22.19.7)
-      '@microsoft/api-extractor':
-        specifier: ^7.52.8
-        version: 7.55.2(@types/node@22.19.7)
-      '@vitest/coverage-v8':
-        specifier: 3.2.4
-        version: 3.2.4(vitest@3.2.4)
-      '@vitest/ui':
-        specifier: ^3.2.3
-        version: 3.2.4(vitest@3.2.4)
-      eslint:
-        specifier: ^9.28.0
-        version: 9.39.2(jiti@2.6.1)
-      typescript:
-        specifier: ~5.8.3
-        version: 5.8.3
-      vitest:
-        specifier: ^3.2.3
-        version: 3.2.4(@types/node@22.19.7)(@vitest/ui@3.2.4)(jiti@2.6.1)(lightningcss@1.31.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2)
-      zod:
-        specifier: ^4.0.5
-        version: 4.3.6
-
-  packages/role:
-    dependencies:
-      '@avuny/activity-log':
-        specifier: workspace:*
-        version: link:../activity-log
-      '@avuny/auth':
-        specifier: workspace:*
-        version: link:../auth
-      '@avuny/core':
-        specifier: workspace:*
-        version: link:../core
-      '@avuny/db':
-        specifier: workspace:*
-        version: link:../database
-      '@avuny/hono':
-        specifier: workspace:*
-        version: link:../hono
-      '@avuny/intl':
-        specifier: workspace:*
-        version: link:../intl
-      '@avuny/utils':
-        specifier: workspace:*
-        version: link:../utils
-      '@avuny/zod':
-        specifier: workspace:*
-        version: link:../zod
-      '@hono/swagger-ui':
-        specifier: ^0.5.2
-        version: 0.5.3(hono@4.11.5)
-      '@hono/zod-openapi':
-        specifier: ^1.2.0
-        version: 1.2.0(hono@4.11.5)(zod@4.3.6)
-      axios:
-        specifier: ^1.13.2
-        version: 1.13.2
-      hono:
-        specifier: ^4.10.7
-        version: 4.11.5
-    devDependencies:
-      '@changesets/cli':
-        specifier: ^2.29.7
-        version: 2.29.8(@types/node@22.19.7)
-      '@microsoft/api-documenter':
-        specifier: ^7.26.29
-        version: 7.28.2(@types/node@22.19.7)
-      '@microsoft/api-extractor':
-        specifier: ^7.52.8
-        version: 7.55.2(@types/node@22.19.7)
-      '@vitest/coverage-v8':
-        specifier: 3.2.4
-        version: 3.2.4(vitest@3.2.4)
-      '@vitest/ui':
-        specifier: ^3.2.3
-        version: 3.2.4(vitest@3.2.4)
-      eslint:
-        specifier: ^9.28.0
-        version: 9.39.2(jiti@2.6.1)
-      ts-node:
-        specifier: ^10.9.2
-        version: 10.9.2(@swc/core@1.15.10)(@types/node@22.19.7)(typescript@5.8.3)
-      ts-to-zod:
-        specifier: ^5.1.0
-        version: 5.1.0
-      typescript:
-        specifier: ~5.8.3
-        version: 5.8.3
-      vitest:
-        specifier: ^3.2.3
-        version: 3.2.4(@types/node@22.19.7)(@vitest/ui@3.2.4)(jiti@2.6.1)(lightningcss@1.31.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2)
-      zod:
-        specifier: ^4.0.5
-        version: 4.3.6
 
   packages/typescript-config: {}
 
@@ -12636,7 +12636,7 @@ snapshots:
     dependencies:
       '@stoplight/json': 3.21.7
       '@stoplight/path': 1.3.2
-      '@stoplight/types': 13.6.0
+      '@stoplight/types': 13.20.0
       '@types/urijs': 1.19.26
       dependency-graph: 0.11.0
       fast-memoize: 2.5.2
@@ -12649,7 +12649,7 @@ snapshots:
     dependencies:
       '@stoplight/ordered-object-literal': 1.0.5
       '@stoplight/path': 1.3.2
-      '@stoplight/types': 13.6.0
+      '@stoplight/types': 13.20.0
       jsonc-parser: 2.2.1
       lodash: 4.17.23
       safe-stable-stringify: 1.1.1
@@ -12750,7 +12750,7 @@ snapshots:
     dependencies:
       '@stoplight/json': 3.21.7
       '@stoplight/path': 1.3.2
-      '@stoplight/types': 13.6.0
+      '@stoplight/types': 13.20.0
       abort-controller: 3.0.0
       lodash: 4.17.23
       node-fetch: 2.7.0
@@ -14241,7 +14241,7 @@ snapshots:
 
   dotenv-expand@11.0.7:
     dependencies:
-      dotenv: 16.4.7
+      dotenv: 16.6.1
 
   dotenv@16.0.3: {}
 

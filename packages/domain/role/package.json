@@ -1,5 +1,5 @@
 {
-  "name": "@avuny/permission",
+  "name": "@avuny/role",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -32,7 +32,7 @@
     "dev": "tsc -p tsconfig.build.json --watch --preserveWatchOutput",
     "api:docs": "api-documenter markdown -i temp -o docs",
     "api:extract": "api-extractor run --local",
-    "seed": "tsx ./seed/permissions.seed.ts"
+    "seed": "tsx ./seed/index.ts"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.7",
@@ -42,6 +42,7 @@
     "@vitest/ui": "^3.2.3",
     "eslint": "^9.28.0",
     "ts-node": "^10.9.2",
+    "ts-to-zod": "^5.1.0",
     "typescript": "~5.8.3",
     "vitest": "^3.2.3",
     "zod": "^4.0.5"
@@ -52,6 +53,9 @@
     "@avuny/hono": "workspace:*",
     "@avuny/utils": "workspace:*",
     "@avuny/zod": "workspace:*",
+    "@avuny/activity-log": "workspace:*",
+    "@avuny/intl": "workspace:*",
+    "@avuny/core": "workspace:*",
     "@hono/swagger-ui": "^0.5.2",
     "@hono/zod-openapi": "^1.2.0",
     "axios": "^1.13.2",

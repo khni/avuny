@@ -41,9 +41,9 @@ async function main() {
 
   // Define valid action-resource combinations
   const validMatrix = {
-    USER: ["create", "read", "update", "delete"],
+    user: ["create", "read", "update", "delete"],
 
-    ROLE: ["create", "read", "update", "delete"],
+    role: ["create", "read", "update", "delete"],
     // ITEM: ["CREATE", "READ", "UPDATE", "DELETE", "EXPORT", "IMPORT"],
     // INVOICE: [
     //   "CREATE",
