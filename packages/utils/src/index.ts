@@ -13,3 +13,7 @@ export * from "./schema/createPaginatedResponseSchema.js";
 export * from "./errors/module.errors.responses.js";
 export * from "./errors/module.errors.map.js";
 export * from "./errors/module.errors.js";
+
+//utils
+export * from "./getEnum.js";
+export * from "./errors/defineErrorMapping.js";
