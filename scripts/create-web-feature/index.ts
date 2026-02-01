@@ -65,7 +65,7 @@ const toCamelCase = (input: unknown): string => {
 
   if (parts.length === 0) return "";
 
-  return parts[0].toLowerCase() + parts.slice(1).map(capitalize).join("");
+  return parts[0]!.toLowerCase() + parts.slice(1).map(capitalize).join("");
 };
 
 const toPascalCase = (input: unknown): string => {
@@ -192,10 +192,10 @@ function updateFormTemplate(featureCamel: string, featurePascal: string) {
 "use client";
 import React from "react";
 import { useUpdate${featurePascal} } from "@/src/api";
-import type { Get${featurePascal}ById200DataAnyOf } from "@/src/api/model";
+import { Get${featurePascal}ByIdResponse } from "@avuny/application/types";
 import ${featurePascal}DetailsForm from "./${featurePascal}DetailsForm";
 
-export const Update${featurePascal}Form: React.FC<{ ${featureCamel}: Get${featurePascal}ById200DataAnyOf }> = ({ ${featureCamel} }) => {
+export const Update${featurePascal}Form: React.FC<{ ${featureCamel}: Get${featurePascal}ByIdResponse }> = ({ ${featureCamel} }) => {
   const { mutateAsync, isPending, error } = useUpdate${featurePascal}();
 
   return (
@@ -220,11 +220,11 @@ import React, { useState } from "react";
 import { Modal } from "@workspace/ui/blocks/modal";
 import ActionButton from "@workspace/ui/blocks/buttons/action-btn";
 import { useCommonTranslations } from "@/messages/common";
-import type { Get${featurePascal}ById200DataAnyOf } from "@/src/api/model";
+import { Get${featurePascal}ByIdResponse } from "@avuny/application/types";
 import { Create${featurePascal}Form } from "./Create${featurePascal}Form";
 import { Update${featurePascal}Form } from "./Update${featurePascal}Form";
 
-export const ${featurePascal}FormButton: React.FC<{ ${featureCamel}?: Get${featurePascal}ById200DataAnyOf }> = ({ ${featureCamel} }) => {
+export const ${featurePascal}FormButton: React.FC<{ ${featureCamel}?: Get${featurePascal}ByIdResponse }> = ({ ${featureCamel} }) => {
   const [open, setOpen] = useState(false);
   const { actionTranslations } = useCommonTranslations();
   const add = actionTranslations("add");
