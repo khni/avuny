@@ -1,15 +1,11 @@
 import React, { useState } from "react";
 import { Modal } from "@workspace/ui/blocks/modal";
-import { GetRoleById200DataAnyOf } from "@/src/api/model";
+import { GetRoleByIdResponse } from "@avuny/api/types";
 import { UpdateRoleForm } from "@/src/features/role/forms/UpdateRoleForm";
 import { CreateRoleForm } from "@/src/features/role/forms/CreateRoleForm";
 import ActionButton from "@workspace/ui/blocks/buttons/action-btn";
 import { useCommonTranslations } from "@/messages/common";
-export const RoleFormButton = ({
-  role,
-}: {
-  role?: GetRoleById200DataAnyOf;
-}) => {
+export const RoleFormButton = ({ role }: { role?: GetRoleByIdResponse }) => {
   const [open, setOpen] = useState(false);
   const { actionTranslations } = useCommonTranslations();
   const add = actionTranslations("add");

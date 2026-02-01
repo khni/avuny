@@ -20,22 +20,22 @@ export type SelectedPermission = {
   permissionId: string;
 };
 
-type ItemOptionMatrixProps = {
+type ItemOptionMatrixProps<T extends SelectedPermission> = {
   resources: Resource[];
   actions: Action[];
   permissions: Permission[];
-  selectedPermissions: SelectedPermission[];
+  selectedPermissions: T[];
 
-  onChange: (next: SelectedPermission[]) => void;
+  onChange: (next: T[]) => void;
 };
 
-export const ItemOptionMatrix: React.FC<ItemOptionMatrixProps> = ({
+export const ItemOptionMatrix = <T extends SelectedPermission>({
   resources,
   actions,
   permissions,
   selectedPermissions,
   onChange,
-}) => {
+}: ItemOptionMatrixProps<T>) => {
   const selectedPermissionIds = new Set(
     selectedPermissions.map((sp) => sp.permissionId),
   );
@@ -53,7 +53,7 @@ export const ItemOptionMatrix: React.FC<ItemOptionMatrixProps> = ({
         {
           id: crypto.randomUUID(),
           permissionId,
-        },
+        } as T, // assert this is T
       ]);
     }
   };

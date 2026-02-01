@@ -9,16 +9,16 @@ import { createRoleBodySchema } from "@avuny/api/schemas";
 import { z } from "@avuny/zod";
 import { useTranslations } from "next-intl";
 import { useCommonTranslations } from "@/messages/common";
-import { GetRoleById200, GetRoleById200DataAnyOf } from "@/src/api/model";
 
 import { useGetPermissionsMatrix } from "@/src/api";
 import LoadingPage from "@workspace/ui/blocks/loading/loading-page";
 import { ItemOptionMatrix } from "@workspace/ui/blocks/item-option-matrix";
 
 import { useQueryClient } from "@tanstack/react-query";
+import { GetRoleByIdResponse } from "@avuny/api/types";
 const schema = createRoleBodySchema;
 export type RoleFormDetailsProps<E, S extends string> = {
-  role?: GetRoleById200DataAnyOf;
+  role?: GetRoleByIdResponse;
   customForm: Omit<FormProps<z.infer<typeof schema>, E, S>, "form" | "fields">;
 };
 
@@ -45,20 +45,19 @@ export default function RoleFormDetails<E, S extends string>({
   }, [role, form]);
   const { data, isPending } = useGetPermissionsMatrix();
 
-  const { actionTranslations } = useCommonTranslations();
   const fieldTranslations = useTranslations("role.form.fields");
-  const cardTitleTranslation = useTranslations("role.form");
 
   const [selectedPermissions, setSelectedPermissions] = useState(
     role?.rolePermissions || [],
   );
+
   useEffect(() => {
     form.setValue("permissions", selectedPermissions, {
       shouldValidate: true,
     });
   }, [selectedPermissions, form]);
   const setPermissions = (
-    permissions: GetRoleById200DataAnyOf["rolePermissions"],
+    permissions: GetRoleByIdResponse["rolePermissions"],
   ) => {
     setSelectedPermissions(permissions);
   };

@@ -76,7 +76,16 @@ export class RoleRepository
           select: {
             id: true,
             permissionId: true,
+            permission: {
+              select: {
+                resource: { select: { name: true } },
+                action: { select: { name: true } },
+              },
+            },
           },
+        },
+        roleCustomPermissions: {
+          select: { customPermission: { select: { code: true } } },
         },
       },
     });

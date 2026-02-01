@@ -1,4 +1,8 @@
-import { SystemCustomPermission } from "@avuny/db/enums";
+import {
+  ActionName,
+  ResourceName,
+  SystemCustomPermission,
+} from "@avuny/db/enums";
 import { z } from "@avuny/zod";
 
 export const roleSchema = z.object({
@@ -69,6 +73,22 @@ export const getRoleByIdResponseSchema = roleSchema
       z.object({
         id: z.uuid(),
         permissionId: z.uuid(),
+        permission: z.object({
+          action: z.object({
+            name: z.enum(ActionName),
+          }),
+          resource: z.object({
+            name: z.enum(ResourceName),
+          }),
+        }),
+      }),
+    ),
+
+    roleCustomPermissions: z.array(
+      z.object({
+        customPermission: z.object({
+          code: z.enum(SystemCustomPermission),
+        }),
       }),
     ),
   });
