@@ -123,7 +123,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "@avuny/zod";
 import { Form as CustomForm, FormProps } from "@/src/components/form";
-import { mutate${featurePascal}Schema as schema } from "@avuny/api/schemas";
+import { mutate${featurePascal}Schema as schema } from "@avuny/application/schemas";
 import { use${featurePascal}Translations } from "@/src/features/${featureCamel}/${DIRS.translations}/${DIRS.hooks}/use${featurePascal}Translations";
 
 export type ${featurePascal}FormDetailsProps<E, S extends string> = {

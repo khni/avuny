@@ -13,7 +13,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@avuny/api": "workspace:*",
+    "@avuny/application": "workspace:*",
     "@avuny/utils": "workspace:*",
     "@avuny/zod": "workspace:*",
     "@tanstack/react-query": "^5.90.16",

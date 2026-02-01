@@ -1,5 +1,5 @@
 import { handle } from "hono/vercel";
-import { app } from "@avuny/api";
+import { app } from "@avuny/application";
 import { swaggerUI } from "@hono/swagger-ui";
 // import { Hono } from "hono";
 
