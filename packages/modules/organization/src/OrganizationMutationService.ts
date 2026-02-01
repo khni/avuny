@@ -64,7 +64,6 @@ export class OrganizationMutationService {
             name: "Owner",
             isSystem: true,
             priority: 100,
-
             roleCustomPermissions: {
               create: {
                 grantedBy: ownerId,

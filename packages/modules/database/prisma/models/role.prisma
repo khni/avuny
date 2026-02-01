@@ -34,10 +34,13 @@ model Role {
 }
 
 // Role Assignment to Users within Organizations
+
+
 model OrganizationUser {
   id             String       @id @default(uuid())
-  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user           User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId         String
+  name           String
   role           Role         @relation(fields: [roleId], references: [id], onDelete: Cascade)
   roleId         String
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
@@ -46,7 +49,7 @@ model OrganizationUser {
   // Assignment context
   assignedBy String
   assignedAt DateTime       @default(now())
-  status     OrganizationUserStatus @default(ACTIVE)
+  status     OrganizationUserStatus @default(PENDING)
   expiresAt  DateTime?
 
   // Metadata
@@ -54,6 +57,7 @@ model OrganizationUser {
   updatedAt DateTime @updatedAt
 
   @@unique([userId,  organizationId])
+  @@unique([name,  organizationId])
   @@index([userId, status])
   @@index([roleId, status])
   @@map("organization_users")
