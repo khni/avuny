@@ -1,12 +1,12 @@
 import { fail } from "@avuny/utils";
-import { IBaseRepository } from "../IRepository.js";
+import { IRepository } from "../IRepository.js";
 import { Context, Resource } from "../types.js";
 import { IResourcePermission } from "./IResourcePermission.js";
 import { ServiceGuardErrorCodes } from "./errors/errors.js";
 import { FilteredPaginatedList, IQueryService } from "../IQueryService.js";
 
 export class QueryServiceGuard<
-  R extends IBaseRepository,
+  R extends IRepository,
   S extends IQueryService<R>,
 > {
   constructor(

@@ -1,5 +1,5 @@
 import { Ok } from "@avuny/utils";
-import { IBaseRepository } from "./IRepository.js";
+import { IRepository } from "./IRepository.js";
 
 export type FilteredPaginatedList<IFilters, TOrderBy> = {
   page?: number;
@@ -24,7 +24,7 @@ export type CursorPaginatedListByName<IFilters> = {
   };
 };
 
-export interface IQueryService<R extends IBaseRepository> {
+export interface IQueryService<R extends IRepository> {
   filteredPaginatedList: <
     TFilter extends Parameters<R["findMany"]>[0]["where"],
     TOrderBy extends Parameters<R["findMany"]>[0]["orderBy"],

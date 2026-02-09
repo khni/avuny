@@ -1,6 +1,14 @@
-import { prisma, type Prisma, Tx, DB, PrismaTransaction } from "@avuny/db";
-import { IBaseRepository } from "@avuny/core";
+import {
+  prisma,
+  type Prisma,
+  Tx,
+  DB,
+  PrismaTransaction,
+  Role,
+} from "@avuny/db";
+import { IRepository } from "@avuny/core";
 import { SystemCustomPermission } from "@avuny/db/types";
+import { MutateRoleBody, UpdateRoleBody } from "./types.js";
 // export type WhereUniqueInput =
 //   | { id: string }
 //   | { organizationId_name: { name: string; organizationId: string } };
@@ -17,12 +25,19 @@ import { SystemCustomPermission } from "@avuny/db/types";
 //     | Fail<"MODULE_CREATION_LIMIT_EXCEEDED">
 //     | Ok<Awaited<ReturnType<R["update"]>>>
 //   >
-export class RoleRepository
-  extends PrismaTransaction
-  implements IBaseRepository
-{
+export class RoleRepository extends PrismaTransaction implements IRepository {
   constructor(private readonly db: DB = prisma) {
     super();
+  }
+  async find({
+    where,
+    tx,
+  }: {
+    where: Partial<Role>;
+    tx?: Tx;
+  }): Promise<{ id: string } | null> {
+    const db = this.getDB(tx);
+    return await db.role.findFirst({ where });
   }
 
   private getDB(tx?: Tx): DB {
@@ -109,10 +124,8 @@ export class RoleRepository
 
   /** Update role*/
   async update(params: {
+    data: MutateRoleBody;
     where: { id: string };
-    data: Prisma.RoleUpdateInput & {
-      permissions?: { permissionId: string }[];
-    };
     tx?: Tx;
   }) {
     const { where, data, tx } = params;

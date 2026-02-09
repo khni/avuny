@@ -9,7 +9,7 @@ import {
 } from "@avuny/utils";
 import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
 import { createRoleBodySchema, mutateRoleResponseSchema } from "../schemas.js";
-import { RoleMutationService } from "../RoleMutationService.js";
+import { createRole } from "../RoleMutationService.js";
 import { handleResult } from "@avuny/hono";
 import { isAuthenticatedMiddleware } from "@avuny/auth/is-authenticated";
 import { Translation } from "../intl/Translation.js";
@@ -69,7 +69,6 @@ createRoleRoute.openapi(route, async (c) => {
   const t = new Translation(lang);
   const errorTrans = t.errors;
 
-  const service = new RoleMutationService();
   const body = c.req.valid("json");
   const userId = c.get("user").id;
   const requestId = c.get("requestId");
@@ -79,7 +78,7 @@ createRoleRoute.openapi(route, async (c) => {
     requestId,
     organizationId,
   });
-  const result = await service.create({
+  const result = await createRole.execute({
     data: body,
     context,
   });

@@ -26,33 +26,28 @@
 //   createTransaction<T>(callback: (tx: Tx) => Promise<T>): Promise<T>;
 // }
 
-export type FindManyRepoParams<TModel, S, IFilters> = {
-  offset: number;
-  limit: number;
-  orderBy?: Partial<Record<keyof TModel, "asc" | "desc">>;
-  filters?: IFilters;
-  selectFields?: S;
-};
-
-export interface IBaseRepository<
+export interface IRepository<
   Tx = unknown,
-  TEntity extends { id: string; name: string } = { id: string; name: string },
+  TEntity extends { id: string } = { id: string },
   TCreateInput = unknown,
+  TUpdateInput = unknown,
   TWhereUnique = unknown,
   TWhere = unknown,
-  TCreateReturnType extends { id: string; name: string } = {
+  TCreateReturnType extends { id: string } = {
     id: string;
-    name: string;
   },
-  TUpdateReturnType extends { id: string; name: string } = {
+  TUpdateReturnType extends { id: string } = {
     id: string;
-    name: string;
   },
   TFindManyReturnType = { id: string }[],
 > {
   create(params: { data: TCreateInput; tx?: Tx }): Promise<TCreateReturnType>;
 
   findUnique(params: { where: TWhereUnique; tx?: Tx }): Promise<TEntity | null>;
+  find(params: {
+    where: Partial<TCreateInput>;
+    tx?: Tx;
+  }): Promise<TEntity | null>;
   findMany(params: {
     where?: TWhere;
     orderBy?: Partial<Record<keyof TEntity, "asc" | "desc">>;
@@ -62,7 +57,7 @@ export interface IBaseRepository<
   }): Promise<TFindManyReturnType>;
 
   update(params: {
-    data: Partial<TCreateInput>;
+    data: TUpdateInput;
     where: TWhereUnique;
     tx?: Tx;
   }): Promise<TUpdateReturnType>;

@@ -2,11 +2,11 @@ import { IActivityLogService } from "@avuny/activity-log";
 
 import { creationLimitExceeded, nameConflict, ok } from "@avuny/utils";
 
-import { IBaseRepository } from "./IRepository.js";
+import { IRepository } from "./IRepository.js";
 import { IMutationService } from "./IMutationService.js";
 
 export class MutationService<
-  R extends IBaseRepository,
+  R extends IRepository,
 > implements IMutationService<R> {
   constructor(
     private repository: R,

@@ -7,6 +7,7 @@ import {
   getRoleByIdResponseSchema,
   mutateRoleResponseSchema,
   roleListResponseSchema,
+  mutateRoleSchema,
 } from "./schemas.js";
 
 /* =========================
@@ -18,6 +19,7 @@ export type Role = z.infer<typeof roleSchema>;
 /* =========================
    Request Bodies
 ========================= */
+export type MutateRoleBody = z.infer<typeof mutateRoleSchema>;
 
 export type CreateRoleBody = z.infer<typeof createRoleBodySchema>;
 

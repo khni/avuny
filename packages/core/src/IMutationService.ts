@@ -1,7 +1,7 @@
 import { Fail, Ok } from "@avuny/utils";
-import { IBaseRepository } from "./IRepository.js";
+import { IRepository } from "./IRepository.js";
 
-export interface IMutationService<R extends IBaseRepository> {
+export interface IMutationService<R extends IRepository> {
   create: <
     TCreateInput extends Omit<
       Parameters<R["create"]>[0]["data"],

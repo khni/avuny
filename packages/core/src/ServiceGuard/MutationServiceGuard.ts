@@ -1,12 +1,12 @@
 import { fail } from "@avuny/utils";
 import { IMutationService } from "../IMutationService.js";
-import { IBaseRepository } from "../IRepository.js";
+import { IRepository } from "../IRepository.js";
 import { Context, Resource } from "../types.js";
 import { IResourcePermission } from "./IResourcePermission.js";
 import { ServiceGuardErrorCodes } from "./errors/errors.js";
 
 export class MutationServiceGuard<
-  R extends IBaseRepository,
+  R extends IRepository,
   S extends IMutationService<R>,
 > {
   constructor(

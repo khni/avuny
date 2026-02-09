@@ -1,11 +1,11 @@
 import { ok } from "@avuny/utils";
 
-import { IBaseRepository } from "./IRepository.js";
+import { IRepository } from "./IRepository.js";
 
 import { FilteredPaginatedList } from "./IQueryService.js";
 import { Resource } from "./types.js";
 
-export class QueryService<R extends IBaseRepository> {
+export class QueryService<R extends IRepository> {
   constructor(
     private repository: R,
 
