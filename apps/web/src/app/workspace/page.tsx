@@ -39,7 +39,7 @@ export default function Page() {
     if (!organizations || organizations.length === 0) return;
 
     const found = organizations.find(
-      (org) => org.id === selectedOrganizationId
+      (org) => org.id === selectedOrganizationId,
     );
     if (found) {
       router.replace(ROUTES.app.index(selectedOrganizationId));

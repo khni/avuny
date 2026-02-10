@@ -39,7 +39,7 @@ export class CreateService<
     private activityLog: IActivityLogService,
     private config: {
       creationLimit: number;
-      moduleName: "role" | "user"; // for now
+      moduleName: "role" | "user" | "organization"; // for now
     },
     private uniqueChecker?: {
       keys: (keyof (TCreateInput & { organizationId: string }))[];

@@ -9,6 +9,19 @@ import { nameConflict, ok, creationLimitExceeded } from "@avuny/utils";
 
 type Tx = Prisma.TransactionClient;
 
+export type CreateOrganiationParams = {
+  data: CreateOrganizationBody;
+  ownerId: string;
+  tx?: Tx;
+};
+
+export type UpdateOrganizationParams = {
+  data: UpdateOrganizationBody;
+  where: GetOrganizationByIdParams;
+  ownerId: string;
+  tx?: Tx;
+};
+
 export class OrganizationMutationService {
   constructor(
     private readonly db: PrismaClient,
@@ -23,11 +36,7 @@ export class OrganizationMutationService {
     data,
     ownerId, // because it will be taken from authenticated user id
     tx,
-  }: {
-    data: CreateOrganizationBody;
-    ownerId: string;
-    tx?: Tx;
-  }) {
+  }: CreateOrganiationParams) {
     const _db = this.getDB(tx);
     let organization = await _db.organization.findUnique({
       where: {
@@ -92,17 +101,7 @@ export class OrganizationMutationService {
     );
   }
 
-  async update({
-    data,
-    where,
-    ownerId,
-    tx,
-  }: {
-    where: GetOrganizationByIdParams;
-    ownerId: string;
-    data: UpdateOrganizationBody;
-    tx?: Tx;
-  }) {
+  async update({ data, where, ownerId, tx }: UpdateOrganizationParams) {
     const _db = this.getDB(tx);
     let organization = await _db.organization.findFirst({
       where: {

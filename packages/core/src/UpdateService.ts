@@ -39,7 +39,7 @@ export class UpdateService<
     private repository: R,
     private activityLog: IActivityLogService,
     private config: {
-      moduleName: "role" | "user"; // for now
+      moduleName: "role" | "user" | "organization"; // for now
     },
     private uniqueChecker?: {
       keys: (keyof (TUpdateInput & { organizationId: string }))[];
