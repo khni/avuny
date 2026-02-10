@@ -23,7 +23,7 @@ function CreateOrganizationForm() {
     mutation: {
       onSuccess: (data) => {
         setSelectedOrganizationId(data.data.id);
-        return router.push(ROUTES.app.index(data.data.id));
+        location.reload();
       },
     },
   });
