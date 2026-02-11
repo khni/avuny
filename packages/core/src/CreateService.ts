@@ -8,7 +8,7 @@ import { IRepository } from "./IRepository.js";
  * Hooks
  *
  */
-type ServiceContext = {
+export type ServiceContext = {
   userId: string;
   requestId: string;
   organizationId: string;
@@ -46,8 +46,11 @@ export class CreateService<
       errorKey: E;
     }[],
     private hooks?: {
-      beforeCreate?: BeforeCreateHook<TCreateInput, any>;
-      afterCreate?: AfterCreateHook<any, any>;
+      beforeCreate?: BeforeCreateHook<
+        TCreateInput,
+        Parameters<R["create"]>[0]["tx"]
+      >;
+      afterCreate?: AfterCreateHook<unknown, Parameters<R["create"]>[0]["tx"]>;
     },
   ) {}
   private async checkUnique<T extends Record<string, any>, E>(params: {
@@ -89,7 +92,11 @@ export class CreateService<
     return null;
   }
 
-  execute = async (params: { data: TCreateInput; context: ServiceContext }) => {
+  execute = async <Tx>(params: {
+    data: TCreateInput;
+    context: ServiceContext;
+    tx?: Tx;
+  }) => {
     const { data, context } = params;
 
     const recordsCount = await this.repository.count({
@@ -111,42 +118,45 @@ export class CreateService<
 
     if (uniqueError) return uniqueError;
 
-    const record = await this.repository.createTransaction(async (tx) => {
-      let finalData = { ...data, organizationId: context.organizationId };
+    const record = await this.repository.createTransaction(
+      async (transaction) => {
+        let finalData = { ...data, organizationId: context.organizationId };
 
-      // 🔵 beforeCreate
-      if (this.hooks?.beforeCreate) {
-        const modified = await this.hooks.beforeCreate({
+        const tx = params.tx ?? transaction;
+        // 🔵 beforeCreate
+        if (this.hooks?.beforeCreate) {
+          const modified = await this.hooks.beforeCreate({
+            data: finalData,
+            tx,
+            context,
+          });
+          if (modified)
+            finalData = { ...modified, organizationId: context.organizationId };
+        }
+
+        const record = await this.repository.create({
           data: finalData,
           tx,
-          context,
         });
-        if (modified)
-          finalData = { ...modified, organizationId: context.organizationId };
-      }
 
-      const record = await this.repository.create({
-        data: finalData,
-        tx,
-      });
+        await this.activityLog.create({
+          tx,
+          data: {
+            event: "create",
+            organizationId: context.organizationId,
+            resourceId: record.id,
+            resourceType: this.config.moduleName,
+          },
+        });
 
-      await this.activityLog.create({
-        tx,
-        data: {
-          event: "create",
-          organizationId: context.organizationId,
-          resourceId: record.id,
-          resourceType: this.config.moduleName,
-        },
-      });
+        // 🟢 afterCreate
+        if (this.hooks?.afterCreate) {
+          await this.hooks.afterCreate({ record, tx, context });
+        }
 
-      // 🟢 afterCreate
-      if (this.hooks?.afterCreate) {
-        await this.hooks.afterCreate({ record, tx, context });
-      }
-
-      return record as Awaited<ReturnType<R["create"]>>;
-    });
+        return record as Awaited<ReturnType<R["create"]>>;
+      },
+    );
 
     return ok(record, context, `${this.config.moduleName}CreateService.create`);
   };

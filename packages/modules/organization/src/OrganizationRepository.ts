@@ -30,7 +30,7 @@ export class OrganizationRepository
 
     return db.organization.create({
       data,
-      select: { id: true },
+      select: { id: true, name: true },
     });
   }
 

@@ -8,6 +8,7 @@ import {
   OrganizationRepository,
   UpdateOrganizationParams,
 } from "@avuny/organization";
+import { createOwnerRole, createRole } from "../role/RoleMutationService.js";
 
 const organizationRepository = new OrganizationRepository();
 const activityLog = new ActivityLogService();
@@ -18,7 +19,12 @@ export const createOrganization = new CreateService(
     creationLimit: 3,
     moduleName: "organization",
   },
-  [{ keys: ["name", "ownerId"], errorKey: "MODULE_NAME_CONFLICT" }],
+  [{ keys: ["name", "ownerId"], errorKey: "MODULE_NAME_CONFLICT" as const }],
+  {
+    afterCreate: async ({ record, ...params }) => {
+      const role = await createOwnerRole({ ...params });
+    },
+  },
 );
 
 export const updateOrganization = new UpdateService(
@@ -27,5 +33,5 @@ export const updateOrganization = new UpdateService(
   {
     moduleName: "organization",
   },
-  [{ keys: ["name", "ownerId"], errorKey: "MODULE_NAME_CONFLICT" }],
+  [{ keys: ["name", "ownerId"], errorKey: "MODULE_NAME_CONFLICT" as const }],
 );
