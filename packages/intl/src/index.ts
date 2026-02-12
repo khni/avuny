@@ -17,7 +17,6 @@ export const initIntl = ({ resources }: InitIntlParams) => {
       escapeValue: false,
     },
     keySeparator: ".",
-    nsSeparator: false, //  disable namespace splitting
   });
 
   return i18n;

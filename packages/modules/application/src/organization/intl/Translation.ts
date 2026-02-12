@@ -1,18 +1,14 @@
-import { initIntl, Locale, TOptionsBase } from "@avuny/intl";
-import en from "./locales/en.json" with { type: "json" };
-import ar from "./locales/ar.json" with { type: "json" };
+import { Locale, TOptionsBase } from "@avuny/intl";
+
 import { Messages } from "./types.js";
+import { Namespace, TFunction } from "i18next";
+import { trans } from "../../Translation.js";
 
 export class Translation {
-  private t: ReturnType<ReturnType<typeof initIntl>["getFixedT"]>;
+  private t: TFunction<Namespace, undefined>;
 
   constructor(lang: Locale) {
-    this.t = initIntl({
-      resources: {
-        en: { translation: en },
-        ar: { translation: ar },
-      },
-    }).getFixedT(lang);
+    this.t = trans({ lang });
   }
 
   errors = (code: keyof Messages["errors"], options?: TOptionsBase) => {
