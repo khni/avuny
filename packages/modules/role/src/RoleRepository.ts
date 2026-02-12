@@ -29,16 +29,6 @@ export class RoleRepository extends PrismaTransaction implements IRepository {
   constructor(private readonly db: DB = prisma) {
     super();
   }
-  async find({
-    where,
-    tx,
-  }: {
-    where: Partial<Role>;
-    tx?: Tx;
-  }): Promise<{ id: string } | null> {
-    const db = this.getDB(tx);
-    return await db.role.findFirst({ where });
-  }
 
   private getDB(tx?: Tx): DB {
     return tx ?? this.db;
@@ -104,6 +94,16 @@ export class RoleRepository extends PrismaTransaction implements IRepository {
         },
       },
     });
+  }
+  async find({
+    where,
+    tx,
+  }: {
+    where: Partial<Role>;
+    tx?: Tx;
+  }): Promise<{ id: string } | null> {
+    const db = this.getDB(tx);
+    return await db.role.findFirst({ where });
   }
 
   /** Find many roles */

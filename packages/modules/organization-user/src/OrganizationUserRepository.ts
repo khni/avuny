@@ -1,8 +1,21 @@
-import { prisma, type Prisma, Tx, DB } from "@avuny/db";
+import {
+  prisma,
+  type Prisma,
+  Tx,
+  DB,
+  PrismaTransaction,
+  OrganizationUser,
+} from "@avuny/db";
 import { CreateOrganizationUserBody } from "./types.js";
+import { IRepository } from "@avuny/core";
 
-export class OrganizationUserRepository {
-  constructor(private readonly db: DB = prisma) {}
+export class OrganizationUserRepository
+  extends PrismaTransaction
+  implements IRepository
+{
+  constructor(private readonly db: DB = prisma) {
+    super();
+  }
 
   private getDB(tx?: Tx): DB {
     return tx ?? this.db;
@@ -20,6 +33,29 @@ export class OrganizationUserRepository {
       data,
       select: { id: true },
     });
+  }
+
+  async findUnique(params: {
+    where: Prisma.OrganizationUserWhereUniqueInput;
+    tx?: Tx;
+  }) {
+    const { where, tx } = params;
+    const db = this.getDB(tx);
+
+    return await db.organizationUser.findUnique({
+      where,
+      select: { id: true, name: true },
+    });
+  }
+  async find({
+    where,
+    tx,
+  }: {
+    where: Partial<OrganizationUser>;
+    tx?: Tx;
+  }): Promise<{ id: string } | null> {
+    const db = this.getDB(tx);
+    return await db.organizationUser.findFirst({ where });
   }
 
   /** Find organization user by ID */
@@ -78,7 +114,7 @@ export class OrganizationUserRepository {
   }
 
   /** Find many organization users */
-  async findMany(params?: {
+  async findMany(params: {
     where?: Prisma.OrganizationUserWhereInput;
     orderBy?: Prisma.OrganizationUserOrderByWithRelationInput;
     skip?: number;

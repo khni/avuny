@@ -49,6 +49,7 @@
   "dependencies": {
     "@avuny/auth": "workspace:*",
     "@avuny/organization": "workspace:*",
+    "@avuny/organization-user": "workspace:*",
     "@avuny/permission": "workspace:*",
     "@avuny/region": "workspace:*",
     "@avuny/role": "workspace:*",

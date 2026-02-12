@@ -444,6 +444,9 @@ importers:
       '@avuny/organization':
         specifier: workspace:*
         version: link:../organization
+      '@avuny/organization-user':
+        specifier: workspace:*
+        version: link:../organization-user
       '@avuny/permission':
         specifier: workspace:*
         version: link:../permission
