@@ -42,6 +42,7 @@ export const createOwnerRole = async (params: {
   return await createRole.execute({
     data: {
       name: "Owner",
+      description: "Owner role with full permissions",
       permissions: [],
       customPermissions: [{ code: "FULL_ACCESS" }],
     },

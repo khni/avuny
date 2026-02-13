@@ -9,6 +9,7 @@ import {
   UpdateOrganizationParams,
 } from "@avuny/organization";
 import { createOwnerRole, createRole } from "../role/RoleMutationService.js";
+import { createOwnerOrganizationUser } from "../organization-user/factory.js";
 
 const organizationRepository = new OrganizationRepository();
 const activityLog = new ActivityLogService();
@@ -23,6 +24,12 @@ export const createOrganization = new CreateService(
   {
     afterCreate: async ({ record, ...params }) => {
       const role = await createOwnerRole({ ...params });
+      if (role.success) {
+        await createOwnerOrganizationUser({
+          roleId: role.data.id,
+          ...params,
+        });
+      }
     },
   },
 );

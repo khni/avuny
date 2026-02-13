@@ -1,7 +1,7 @@
 import { OrganizationUserRepository } from "@avuny/organization-user";
 
 import { ActivityLogService } from "@avuny/activity-log";
-import { CreateService, UpdateService } from "@avuny/core";
+import { CreateService, ServiceContext, UpdateService } from "@avuny/core";
 import { OrganizationUserErrorCode } from "./errors/errorCode.js";
 
 const organizationUserRepository = new OrganizationUserRepository();
@@ -34,3 +34,20 @@ export const updateOrganizationUser = new UpdateService(
     },
   ],
 );
+
+export const createOwnerOrganizationUser = async (params: {
+  context: ServiceContext;
+  tx: unknown;
+  roleId: string;
+}) => {
+  const user = await createOrganizationUser.execute({
+    context: params.context,
+    tx: params.tx,
+    data: {
+      name: "Owner",
+      userId: params.context.userId,
+      status: "ACTIVE",
+      roleId: params.roleId,
+    },
+  });
+};
