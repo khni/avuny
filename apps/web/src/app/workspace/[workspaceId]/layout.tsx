@@ -21,6 +21,7 @@ import { useSelectedOrganizationContext } from "@/src/providers/selected-org-pro
 import { ROUTES } from "@/src/features/routes";
 import { useRouter } from "next/navigation";
 import LoadingPage from "@workspace/ui/blocks/loading/loading-page";
+import useOrganizationListHandler from "@/src/features/organization/list/hooks/useOrganizationListHandler";
 export default function WorkSpaceLayout({
   children,
   params,
@@ -37,10 +38,10 @@ export default function WorkSpaceLayout({
     },
   });
   const router = useRouter();
-  const { data: orgData, isPending } = useOrganizationList();
-  const { placeholderTranslations } = useCommonTranslations();
-  const organizationTranslations = useTranslations("organization");
-  const organizations = orgData?.data || [];
+  const { organizationList, isPending } = useOrganizationListHandler({
+    workspaceId,
+  });
+
   const { selectedOrganizationId, setSelectedOrganizationId } =
     useSelectedOrganizationContext();
   if (isPending) {
@@ -63,17 +64,17 @@ export default function WorkSpaceLayout({
       sidebarHeader={
         <Switcher
           onItemSelect={(id) => {
-            const found = organizations?.find((org) => org.id === id);
+            const found = organizationList?.find((org) => org.id === id);
             if (found) {
               router.replace(ROUTES.app.index(id));
             }
             setSelectedOrganizationId(id);
           }}
-          initialSelectedItem={organizations?.find(
+          initialSelectedItem={organizationList?.find(
             (org) => org.id === selectedOrganizationId,
           )}
           items={
-            organizations?.map((org) => ({
+            organizationList?.map((org) => ({
               name: org.name,
               description: org.description || "Admin",
               //  logo: HomeIcon,
