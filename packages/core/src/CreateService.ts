@@ -1,14 +1,12 @@
 import { IActivityLogService } from "@avuny/activity-log";
-
-import { creationLimitExceeded, fail, ok } from "@avuny/utils";
+import { creationLimitExceeded, ok } from "@avuny/utils";
 import { IRepository } from "./IRepository.js";
+import { checkUnique } from "./checkUnique.js";
 
 /**
- *
- * Hooks
- *
+ * Context
  */
-export type ServiceContext = {
+type ServiceContext = {
   userId: string;
   requestId: string;
   organizationId: string;
@@ -32,106 +30,73 @@ export class CreateService<
     Parameters<R["create"]>[0]["data"],
     "organizationId" | "id"
   >,
-  E,
 > {
   constructor(
     private repository: R,
-    private activityLog: IActivityLogService,
     private config: {
       creationLimit: number;
-      moduleName: "role" | "user" | "organization"; // for now
-    },
-    private uniqueChecker?: {
-      keys: (keyof (TCreateInput & { organizationId: string }))[];
-      errorKey: E;
-    }[],
-    private hooks?: {
-      beforeCreate?: BeforeCreateHook<
-        TCreateInput,
-        Parameters<R["create"]>[0]["tx"]
-      >;
-      afterCreate?: AfterCreateHook<unknown, Parameters<R["create"]>[0]["tx"]>;
+      moduleName: "role" | "user" | "organization";
     },
   ) {}
-  private async checkUnique<T extends Record<string, any>, E>(params: {
-    data: T;
-    id?: string;
-    uniqueChecker?: {
-      keys: (keyof (T & { organizationId: string }))[];
-      errorKey: E;
-    }[];
-    context: { userId: string; requestId: string; organizationId: string };
-  }) {
-    const { data, uniqueChecker, id, context } = params;
 
-    if (!uniqueChecker?.length) return null;
+  execute =
+    <E>(options?: {
+      uniqueChecker?: {
+        keys: (keyof (TCreateInput & { organizationId: string }))[];
+        errorKey: E;
+      }[];
+      hooks?: {
+        beforeCreate?: BeforeCreateHook<TCreateInput, any>;
+        afterCreate?: AfterCreateHook<any, any>;
+      };
+      activityLog?: IActivityLogService;
+    }) =>
+    async (params: { data: TCreateInput; context: ServiceContext }) => {
+      const { data, context } = params;
+      const { uniqueChecker, hooks } = options ?? {};
 
-    for (const rule of uniqueChecker) {
-      const where: Record<string, any> = {};
+      // 🔴 Creation limit check
+      const recordsCount = await this.repository.count({
+        where: { organizationId: context.organizationId },
+      });
 
-      for (const key of rule.keys) {
-        const k = key as string; // safe cast
-        where[k] = data[k];
+      if (recordsCount >= this.config.creationLimit) {
+        return creationLimitExceeded(
+          context,
+          `${this.config.moduleName}CreateService.create`,
+        );
       }
 
-      const hasAll = rule.keys.every((k) => data[k] !== undefined);
-      if (!hasAll) continue;
-
-      const existing = await this.repository.find({ where });
-
-      if (!existing) continue;
-      if (id && existing.id === id) continue;
-
-      return fail(
-        rule.errorKey,
+      // 🔴 Unique check
+      const uniqueError = await checkUnique<TCreateInput, E>({
+        data: { ...data, organizationId: context.organizationId },
+        uniqueChecker,
         context,
-        `${this.config.moduleName}CreateService.unique`,
-      );
-    }
+        repository: this.repository,
+        config: {
+          moduleName: this.config.moduleName,
+          action: "create",
+        },
+      });
 
-    return null;
-  }
+      if (uniqueError) return uniqueError;
 
-  execute = async <Tx>(params: {
-    data: TCreateInput;
-    context: ServiceContext;
-    tx?: Tx;
-  }) => {
-    const { data, context } = params;
-
-    const recordsCount = await this.repository.count({
-      where: { organizationId: context.organizationId },
-    });
-
-    if (recordsCount >= this.config.creationLimit) {
-      return creationLimitExceeded(
-        context,
-        `${this.config.moduleName}CreateService.create`,
-      );
-    }
-
-    const uniqueError = await this.checkUnique<TCreateInput, E>({
-      data: { ...data, organizationId: context.organizationId },
-      uniqueChecker: this.uniqueChecker,
-      context,
-    });
-
-    if (uniqueError) return uniqueError;
-
-    const record = await this.repository.createTransaction(
-      async (transaction) => {
+      const record = await this.repository.createTransaction(async (tx) => {
         let finalData = { ...data, organizationId: context.organizationId };
 
-        const tx = params.tx ?? transaction;
         // 🔵 beforeCreate
-        if (this.hooks?.beforeCreate) {
-          const modified = await this.hooks.beforeCreate({
+        if (hooks?.beforeCreate) {
+          const modified = await hooks.beforeCreate({
             data: finalData,
             tx,
             context,
           });
-          if (modified)
-            finalData = { ...modified, organizationId: context.organizationId };
+          if (modified) {
+            finalData = {
+              ...modified,
+              organizationId: context.organizationId,
+            };
+          }
         }
 
         const record = await this.repository.create({
@@ -139,7 +104,7 @@ export class CreateService<
           tx,
         });
 
-        await this.activityLog.create({
+        await options?.activityLog?.create({
           tx,
           data: {
             event: "create",
@@ -150,14 +115,17 @@ export class CreateService<
         });
 
         // 🟢 afterCreate
-        if (this.hooks?.afterCreate) {
-          await this.hooks.afterCreate({ record, tx, context });
+        if (hooks?.afterCreate) {
+          await hooks.afterCreate({ record, tx, context });
         }
 
         return record as Awaited<ReturnType<R["create"]>>;
-      },
-    );
+      });
 
-    return ok(record, context, `${this.config.moduleName}CreateService.create`);
-  };
+      return ok(
+        record,
+        context,
+        `${this.config.moduleName}CreateService.create`,
+      );
+    };
 }

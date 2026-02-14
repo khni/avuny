@@ -36,9 +36,13 @@ export const createOrganization = new CreateService(
 
 export const updateOrganization = new UpdateService(
   organizationRepository,
-  activityLog,
+
   {
     moduleName: "organization",
   },
-  [{ keys: ["name", "ownerId"], errorKey: "MODULE_NAME_CONFLICT" as const }],
-);
+).execute({
+  uniqueChecker: [
+    { keys: ["name", "ownerId"], errorKey: "MODULE_NAME_CONFLICT" as const },
+  ],
+  activityLog: activityLog,
+});

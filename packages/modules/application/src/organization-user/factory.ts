@@ -1,46 +1,49 @@
 import { OrganizationUserRepository } from "@avuny/organization-user";
 
 import { ActivityLogService } from "@avuny/activity-log";
-import { CreateService, ServiceContext, UpdateService } from "@avuny/core";
+import { Context, CreateService, UpdateService } from "@avuny/core";
 import { OrganizationUserErrorCode } from "./errors/errorCode.js";
 
 const organizationUserRepository = new OrganizationUserRepository();
 const activityLog = new ActivityLogService();
 export const createOrganizationUser = new CreateService(
   organizationUserRepository,
-  activityLog,
+
   {
     creationLimit: 3,
     moduleName: "organization",
   },
-  [
-    {
-      keys: ["name", "organizationId"],
-      errorKey: OrganizationUserErrorCode.USER_EXISTS,
-    },
-  ],
-);
-
-export const updateOrganizationUser = new UpdateService(
-  organizationUserRepository,
-  activityLog,
-  {
-    moduleName: "organization",
-  },
-  [
+).execute({
+  uniqueChecker: [
     {
       keys: ["organizationId", "userId"],
       errorKey: OrganizationUserErrorCode.USER_EXISTS,
     },
   ],
-);
+  activityLog: activityLog,
+});
+
+export const updateOrganizationUser = new UpdateService(
+  organizationUserRepository,
+  {
+    moduleName: "organization",
+  },
+).execute({
+  uniqueChecker: [
+    {
+      keys: ["organizationId", "userId"],
+      errorKey: OrganizationUserErrorCode.USER_EXISTS,
+    },
+  ],
+  activityLog: activityLog,
+});
 
 export const createOwnerOrganizationUser = async (params: {
-  context: ServiceContext;
+  context: Context;
   tx: unknown;
   roleId: string;
 }) => {
-  const user = await createOrganizationUser.execute({
+  const user = await createOrganizationUser({
     context: params.context,
     tx: params.tx,
     data: {
