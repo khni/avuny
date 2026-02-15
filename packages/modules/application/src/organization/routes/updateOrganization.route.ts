@@ -1,12 +1,14 @@
-import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
+import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
 
 import {
   AuthorizationHeaderSchema,
   createDomainErrorResponseSchema,
   createResponseSchema,
+  getResourceByIdParamsSchema,
   globalErrorResponses,
   ModuleErrorCodes,
   ModuleErrorResponseMap,
+  requestContextSchema,
 } from "@avuny/utils";
 import { isAuthenticatedMiddleware } from "@avuny/auth/is-authenticated";
 
@@ -14,36 +16,34 @@ import { handleResult } from "@avuny/hono";
 
 import { Translation } from "../intl/Translation.js";
 import {
-  createOrganizationBodySchema,
+  updateOrganizationBodySchema,
   mutateOrganizationResponseSchema,
+  mutateOrganizationSchema,
 } from "@avuny/organization/schemas";
-import { createOrganization } from "../factory.js";
-export const requestContextSchema = z.object({
-  userId: z.string(),
-  requestId: z.string(),
-});
+import { updateOrganization } from "../factory.js";
 
-export const createOrganizationRoute = new OpenAPIHono();
+export const updateOrganizationRoute = new OpenAPIHono();
 const route = createRoute({
-  method: "post",
-  path: "/organizations",
-  operationId: "createOrganization",
+  method: "put",
+  path: "/organizations/{id}",
+  operationId: "updateOrganization",
   tags: ["organization"],
   middleware: [isAuthenticatedMiddleware],
   request: {
     headers: AuthorizationHeaderSchema,
+    params: getResourceByIdParamsSchema,
     body: {
       content: {
         "application/json": {
-          schema: createOrganizationBodySchema,
+          schema: mutateOrganizationSchema,
         },
       },
     },
   },
 
   responses: {
-    [201]: {
-      description: "Organization have been created successfully",
+    [200]: {
+      description: "Organization have been updated successfully",
       content: {
         "application/json": {
           schema: createResponseSchema(mutateOrganizationResponseSchema),
@@ -74,7 +74,7 @@ const route = createRoute({
   },
 });
 
-createOrganizationRoute.openapi(route, async (c) => {
+updateOrganizationRoute.openapi(route, async (c) => {
   const lang = c.get("lang");
   const t = new Translation(lang);
   const errorTrans = t.errors;
@@ -88,16 +88,19 @@ createOrganizationRoute.openapi(route, async (c) => {
   const context = requestContextSchema.parse({
     userId,
     requestId,
+    organizationId,
   });
+  const { id } = c.req.valid("param");
 
-  const result = await createOrganization({
+  const result = await updateOrganization({
     data: { ...body, ownerId: user.id },
     context,
+    id,
   });
   return handleResult({
     c,
     result,
-    successStatus: 201,
+    successStatus: 200,
     errorMap: ModuleErrorResponseMap,
     errorTrans,
   });

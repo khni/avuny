@@ -30,7 +30,7 @@ enum ResourceType {
 model ActivityLog {
   id               String   @id @default(uuid())
 
-  organizationId   String
+  organizationId   String?
   resourceId       String
   resourceType     ResourceType
 

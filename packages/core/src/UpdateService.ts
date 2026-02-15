@@ -3,29 +3,25 @@ import { IActivityLogService } from "@avuny/activity-log";
 import { creationLimitExceeded, fail, ok } from "@avuny/utils";
 import { IRepository } from "./IRepository.js";
 import { checkUnique } from "./checkUnique.js";
+import { ServiceContext as Context } from "./types.js";
 
 /**
  *
  * Hooks
  *
  */
-type ServiceContext = {
-  userId: string;
-  requestId: string;
-  organizationId: string;
-};
 
 type BeforeUpdateHook<T, Tx> = (params: {
   data: T;
   id: string;
   tx: Tx;
-  context: ServiceContext;
+  context: Context;
 }) => Promise<T | void>;
 
 type AfterUpdateHook<T, Tx> = (params: {
   record: T;
   tx: Tx;
-  context: ServiceContext;
+  context: Context;
 }) => Promise<void>;
 
 export class UpdateService<
@@ -43,7 +39,7 @@ export class UpdateService<
     },
   ) {}
 
-  execute =
+  update =
     <E>(options?: {
       uniqueChecker?: {
         keys: (keyof (TUpdateInput & { organizationId: string }))[];
@@ -55,10 +51,11 @@ export class UpdateService<
       };
       activityLog?: IActivityLogService;
     }) =>
-    async (params: {
+    async <Tx>(params: {
       data: TUpdateInput;
       id: string;
-      context: ServiceContext;
+      context: Context;
+      tx?: Tx;
     }) => {
       const { data, context, id } = params;
       const { uniqueChecker, hooks } = options ?? {};
@@ -78,43 +75,45 @@ export class UpdateService<
 
       if (uniqueError) return uniqueError;
 
-      const record = await this.repository.createTransaction(async (tx) => {
-        let finalData = { ...data };
+      const record = await this.repository.createTransaction(
+        async (transaction) => {
+          let finalData = { ...data };
+          const tx = params.tx ?? transaction;
+          // 🔵 beforeUpdate
+          if (hooks?.beforeUpdate) {
+            const modified = await hooks.beforeUpdate({
+              data: finalData,
+              id,
+              tx,
+              context,
+            });
+            if (modified) finalData = modified;
+          }
 
-        // 🔵 beforeUpdate
-        if (hooks?.beforeUpdate) {
-          const modified = await hooks.beforeUpdate({
+          const record = await this.repository.update({
             data: finalData,
-            id,
+            where: { id },
             tx,
-            context,
           });
-          if (modified) finalData = modified;
-        }
 
-        const record = await this.repository.update({
-          data: finalData,
-          where: { id },
-          tx,
-        });
+          await options?.activityLog?.create({
+            tx,
+            data: {
+              event: "update",
+              organizationId: context.organizationId,
+              resourceId: record.id,
+              resourceType: this.config.moduleName,
+            },
+          });
 
-        await options?.activityLog?.create({
-          tx,
-          data: {
-            event: "update",
-            organizationId: context.organizationId,
-            resourceId: record.id,
-            resourceType: this.config.moduleName,
-          },
-        });
+          // 🟢 afterUpdate
+          if (hooks?.afterUpdate) {
+            await hooks.afterUpdate({ record, tx, context });
+          }
 
-        // 🟢 afterUpdate
-        if (hooks?.afterUpdate) {
-          await hooks.afterUpdate({ record, tx, context });
-        }
-
-        return record as Awaited<ReturnType<R["update"]>>;
-      });
+          return record as Awaited<ReturnType<R["update"]>>;
+        },
+      );
 
       return ok(
         record,

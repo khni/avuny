@@ -1,27 +1,20 @@
 import { IActivityLogService } from "@avuny/activity-log";
-import { creationLimitExceeded, ok } from "@avuny/utils";
+import { creationLimitExceeded, fail, ok } from "@avuny/utils";
 import { IRepository } from "./IRepository.js";
 import { checkUnique } from "./checkUnique.js";
-
-/**
- * Context
- */
-type ServiceContext = {
-  userId: string;
-  requestId: string;
-  organizationId: string;
-};
+import { ServiceContext as Context } from "./types.js";
+import { IResourcePermission } from "./ServiceGuard/IResourcePermission.js";
 
 type BeforeCreateHook<T, Tx> = (params: {
   data: T;
   tx: Tx;
-  context: ServiceContext;
+  context: Context;
 }) => Promise<T | void>;
 
 type AfterCreateHook<T, Tx> = (params: {
   record: T;
   tx: Tx;
-  context: ServiceContext;
+  context: Context;
 }) => Promise<void>;
 
 export class CreateService<
@@ -39,7 +32,7 @@ export class CreateService<
     },
   ) {}
 
-  execute =
+  create =
     <E>(options?: {
       uniqueChecker?: {
         keys: (keyof (TCreateInput & { organizationId: string }))[];
@@ -50,8 +43,24 @@ export class CreateService<
         afterCreate?: AfterCreateHook<any, any>;
       };
       activityLog?: IActivityLogService;
+      reourcePermission?: IResourcePermission;
     }) =>
-    async (params: { data: TCreateInput; context: ServiceContext }) => {
+    async <Tx>(params: { data: TCreateInput; context: Context; tx?: Tx }) => {
+      if (options?.reourcePermission) {
+        const canCreate = await options.reourcePermission.check({
+          action: "create",
+          organizationId: params.context.organizationId,
+          userId: params.context.userId,
+          resource: this.config.moduleName,
+        });
+        if (!canCreate) {
+          return fail(
+            "ACCESS_DENIED",
+            params.context,
+            `${this.config.moduleName}CreateService.create`,
+          );
+        }
+      }
       const { data, context } = params;
       const { uniqueChecker, hooks } = options ?? {};
 
@@ -81,46 +90,48 @@ export class CreateService<
 
       if (uniqueError) return uniqueError;
 
-      const record = await this.repository.createTransaction(async (tx) => {
-        let finalData = { ...data, organizationId: context.organizationId };
+      const record = await this.repository.createTransaction(
+        async (transaction) => {
+          let finalData = { ...data, organizationId: context.organizationId };
+          const tx = params.tx ?? transaction;
+          // 🔵 beforeCreate
+          if (hooks?.beforeCreate) {
+            const modified = await hooks.beforeCreate({
+              data: finalData,
+              tx,
+              context,
+            });
+            if (modified) {
+              finalData = {
+                ...modified,
+                organizationId: context.organizationId,
+              };
+            }
+          }
 
-        // 🔵 beforeCreate
-        if (hooks?.beforeCreate) {
-          const modified = await hooks.beforeCreate({
+          const record = await this.repository.create({
             data: finalData,
             tx,
-            context,
           });
-          if (modified) {
-            finalData = {
-              ...modified,
+
+          await options?.activityLog?.create({
+            tx,
+            data: {
+              event: "create",
               organizationId: context.organizationId,
-            };
+              resourceId: record.id,
+              resourceType: this.config.moduleName,
+            },
+          });
+
+          // 🟢 afterCreate
+          if (hooks?.afterCreate) {
+            await hooks.afterCreate({ record, tx, context });
           }
-        }
 
-        const record = await this.repository.create({
-          data: finalData,
-          tx,
-        });
-
-        await options?.activityLog?.create({
-          tx,
-          data: {
-            event: "create",
-            organizationId: context.organizationId,
-            resourceId: record.id,
-            resourceType: this.config.moduleName,
-          },
-        });
-
-        // 🟢 afterCreate
-        if (hooks?.afterCreate) {
-          await hooks.afterCreate({ record, tx, context });
-        }
-
-        return record as Awaited<ReturnType<R["create"]>>;
-      });
+          return record as Awaited<ReturnType<R["create"]>>;
+        },
+      );
 
       return ok(
         record,

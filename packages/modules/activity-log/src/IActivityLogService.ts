@@ -7,7 +7,7 @@ import {
 export interface IActivityLogService<Tx = unknown> {
   create(params: {
     data: {
-      organizationId: string;
+      organizationId?: string;
       resourceId: string;
       resourceType: ResourceType;
       event: ActivityEventType;

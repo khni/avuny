@@ -7,7 +7,7 @@ export const checkUnique = async <T extends Record<string, any>, E>(params: {
     keys: (keyof (T & { organizationId: string }))[];
     errorKey: E;
   }[];
-  context: { userId: string; requestId: string; organizationId: string };
+  context: { userId: string; requestId: string };
   repository: {
     find: (params: {
       where: Record<string, any>;

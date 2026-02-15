@@ -1,7 +1,7 @@
 import { OrganizationUserRepository } from "@avuny/organization-user";
 
 import { ActivityLogService } from "@avuny/activity-log";
-import { Context, CreateService, UpdateService } from "@avuny/core";
+import { ServiceContext, CreateService, UpdateService } from "@avuny/core";
 import { OrganizationUserErrorCode } from "./errors/errorCode.js";
 
 const organizationUserRepository = new OrganizationUserRepository();
@@ -13,7 +13,7 @@ export const createOrganizationUser = new CreateService(
     creationLimit: 3,
     moduleName: "organization",
   },
-).execute({
+).create({
   uniqueChecker: [
     {
       keys: ["organizationId", "userId"],
@@ -28,7 +28,7 @@ export const updateOrganizationUser = new UpdateService(
   {
     moduleName: "organization",
   },
-).execute({
+).update({
   uniqueChecker: [
     {
       keys: ["organizationId", "userId"],
@@ -39,7 +39,7 @@ export const updateOrganizationUser = new UpdateService(
 });
 
 export const createOwnerOrganizationUser = async (params: {
-  context: Context;
+  context: ServiceContext;
   tx: unknown;
   roleId: string;
 }) => {

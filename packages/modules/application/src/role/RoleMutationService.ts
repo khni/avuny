@@ -1,4 +1,4 @@
-import { UpdateService, CreateService, Context } from "@avuny/core";
+import { UpdateService, CreateService, ServiceContext } from "@avuny/core";
 
 import { ActivityLogService } from "@avuny/activity-log";
 import { RoleRepository } from "@avuny/role";
@@ -7,7 +7,7 @@ export const updateRole = new UpdateService(
   new RoleRepository(),
 
   { moduleName: "role" },
-).execute({
+).update({
   uniqueChecker: [
     {
       keys: ["name", "organizationId"],
@@ -24,7 +24,7 @@ export const createRole = new CreateService(
     creationLimit: 6,
     moduleName: "role",
   },
-).execute({
+).create({
   uniqueChecker: [
     {
       keys: ["name", "organizationId"],
@@ -35,7 +35,7 @@ export const createRole = new CreateService(
 });
 
 export const createOwnerRole = async (params: {
-  context: Context;
+  context: ServiceContext;
   tx: unknown;
 }) => {
   return await createRole({
